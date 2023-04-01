@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+#PBS -l nodes=1:ppn=36
+#PBS -l walltime=00:00:30:00
+#PBS -l pmem=1gb
+#PBS -A default_project
+
+cd $PBS_O_WORKDIR
+
+module purge
+module load R
+
+export OMP_NUM_THREADS=2
+Rscript sim_parallel_15.R
