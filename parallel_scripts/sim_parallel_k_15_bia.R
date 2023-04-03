@@ -18,7 +18,7 @@ set.seed(9)
 ##############################################################
 fun1 <- function(idx){
   # Read csv with conditions
-  conditions <- read_csv(file = 'pb_no_orb_mod_0.2_15_0.1_0.1.csv')
+  conditions <- read_csv(file = 'conditions/test_pb_mod_orb_no_k_70.csv')
 
   # Each processor gets a chunck of conditions and idx is one row of this chunck
   local_condition = conditions[idx,]
@@ -40,7 +40,7 @@ fun1 <- function(idx){
 
 }
 
-sink("dumper")
+# sink("dumper")
 ##############################################################
 # gets the number of cores and creates a cluster
 num_cores <- detectCores()
