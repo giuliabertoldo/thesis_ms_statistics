@@ -15,11 +15,22 @@ orb <- function(df, bias_type){
 
     # No publication bias, Moderate ORB
     if (bias_type == "pb_no_orb_mod") {
-
       # Calculate probability of inclusion
       df$prob_incl[i] <- bias_moderate(df$pval_t[i])
 
     } else if (bias_type == "pb_no_orb_str") {
+      df$prob_incl[i] <- bias_strong(df$pval_t[i])
+
+    } else if (bias_type == "pb_mod_orb_mod"){
+      df$prob_incl[i] <- bias_moderate(df$pval_t[i])
+
+    } else if (bias_type == "pb_str_orb_mod") {
+      df$prob_incl[i] <- bias_moderate(df$pval_t[i])
+
+    } else if (bias_type == "pb_mod_orb_str"){
+      df$prob_incl[i] <- bias_strong(df$pval_t[i])
+
+    } else if (bias_type == "pb_str_orb_str") {
       df$prob_incl[i] <- bias_strong(df$pval_t[i])
     }
 

@@ -1,7 +1,7 @@
 source("prob_inclusion.R")
 # debugSource("prob_inclusion.R")
 
-pb <- function(df, bias_type){
+pb <- function(df, k, bias_type){
   # Create new dataframe
   col_names <- c("nmeta_id", "out_id", "study_id", "ss", "n_e", "n_c", "delta_00", "sigma2_u", "u_ok", "d_k", "sigma2_v", "d_hat_jk", "t", "pval_t","sigma2_r_est", "h_jk", "sigma2_h_jk" )
   df_grouped <- as.data.frame(matrix(nrow = k, ncol = length(col_names)))
@@ -81,11 +81,22 @@ pb <- function(df, bias_type){
   for (i in seq(1:dim(df_grouped)[1])) {
 
     if (bias_type == "pb_mod_orb_no") {
-
       # Calculate probability of inclusion
       df_grouped$prob_incl[i] <- bias_moderate(df_grouped$pval_t[i])
 
     } else if (bias_type == "pb_str_orb_no") {
+      df_grouped$prob_incl[i] <- bias_strong(df_grouped$pval_t[i])
+
+    } else if (bias_type == "pb_mod_orb_mod") {
+      df_grouped$prob_incl[i] <- bias_moderate(df_grouped$pval_t[i])
+
+    } else if (bias_type == "pb_str_orb_mod") {
+      df_grouped$prob_incl[i] <- bias_strong(df_grouped$pval_t[i])
+
+    } else if (bias_type == "pb_mod_orb_str") {
+      df_grouped$prob_incl[i] <- bias_moderate(df_grouped$pval_t[i])
+
+    } else if (bias_type == "pb_str_orb_str") {
       df_grouped$prob_incl[i] <- bias_strong(df_grouped$pval_t[i])
     }
 
