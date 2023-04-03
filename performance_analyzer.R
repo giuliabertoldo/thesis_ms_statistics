@@ -27,15 +27,19 @@ convert_h_to_d <- function(h, avg_n_e, avg_n_c){
 
 
 # Main performance analyzer -----
-performance_analyzer <- function(delta_00,sigma2_u, sigma2_v, psss, o, k, nmeta, verbose){ # tol, iter,
+performance_analyzer <- function(bias_type, delta_00,sigma2_u, sigma2_v, psss, o, k, nmeta, verbose){ # tol, iter,
 
   # Create directories
   if (!file.exists("data")) { save_path <- dir.create("data") }
 
+  if (!file.exists(sprintf("data/%s",bias_type))) {
+    dir.create(file.path("data", sprintf("data/%s",bias_type)))
+  }
+
   for (num in k) {
 
-    if (!file.exists(sprintf("data/k_%d",num))) {
-      dir.create(file.path("data", sprintf("k_%d", num)))
+    if (!file.exists(sprintf("data/%s/k_%d",bias_type, num))) {
+      dir.create(file.path("data", sprintf("%s",bias_type), sprintf("k_%d", num)))
     }
 
     for (d in delta_00) {
@@ -47,8 +51,8 @@ performance_analyzer <- function(delta_00,sigma2_u, sigma2_v, psss, o, k, nmeta,
           for (p in psss) {
             file_name <- sprintf("d%0.2f_su%0.2f_sv%0.2f_%s", d, su, sv, p)
 
-            if (!file.exists(file.path(sprintf("data/k_%d",num), file_name))) {
-              dir.create(file.path(sprintf("data/k_%d",num), file_name))
+            if (!file.exists(file.path(sprintf("data/%s/k_%d", bias_type, num), file_name))) {
+              dir.create(file.path(sprintf("data/%s/k_%d",bias_type, num), file_name))
 
             }
           }
@@ -59,9 +63,10 @@ performance_analyzer <- function(delta_00,sigma2_u, sigma2_v, psss, o, k, nmeta,
 
   ###############################
 
+  temp0 <- sprintf("%s", bias_type)
   temp1 <- sprintf("k_%d",k)
   temp2 <- sprintf("d%0.2f_su%0.2f_sv%0.2f_%s", delta_00, sigma2_u, sigma2_v, psss)
-  save_path <- file.path("data", temp1, temp2)
+  save_path <- file.path("data", temp0, temp1, temp2)
 
   # Call metas_gen_with_pets to create the studies data and return the pets results
   metas_pets <- metas_gen_with_pets(o = o, k = k, nmeta = nmeta, delta_00 = delta_00, sigma2_v = sigma2_v, sigma2_u = sigma2_u, verbose=verbose, save_path=save_path,  psss=psss) # tol=tol, iter=iter,
