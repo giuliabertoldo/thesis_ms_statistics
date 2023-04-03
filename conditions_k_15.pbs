@@ -2,7 +2,6 @@
 
 #PBS -l nodes=1:ppn=9
 #PBS -l walltime=00:00:05:00
-#PBS -l qos=debugging
 #PBS -l pmem=1gb
 #PBS -A default_project
 
