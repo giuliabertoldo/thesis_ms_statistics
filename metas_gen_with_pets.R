@@ -97,9 +97,3 @@ metas_gen_with_pets <- function(o, k, nmeta, delta_00, sigma2_v, sigma2_u, verbo
 
 }
 
-
-
-# Example: generate 5 times a meta with 4 studies and 3 outcomes, and other parameters
-# output1 <- metas_gen_with_pets(o = 3, k = 15, nmeta = 2, delta_00 = 0.8, sigma2_v = 0.11, sigma2_u = 0.11,  verbose = FALSE, psss = "large") # tol = 1e-3, iter = 50,
-# View(output1)
-
