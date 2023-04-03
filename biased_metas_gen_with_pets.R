@@ -1,11 +1,15 @@
 source('list_to_dataframe.R')
 # debugSource('list_to_dataframe.R')
+
 source('pets.R')
 # debugSource('pets.R')
+
 source('orb.R')
 # debugSource('orb.R')
+
 source('pb.R')
 # debugSource('pb.R')
+
 source('pb_orb.R')
 # debugSource('pb_orb.R')
 
@@ -52,7 +56,7 @@ biased_metas_gen_with_pets <- function(o, k, nmeta, delta_00, sigma2_v, sigma2_u
         save(df_biased, file=file.path(save_path,sprintf("biased_meta%d.Rdata", m)))
 
       } else if (bias_type == "pb_mod_orb_no") {
-        out <- pb(df = df_indicator_bias, bias_type = "pb_mod_orb_no")
+        out <- pb(df = df_indicator_bias, k = k, bias_type = "pb_mod_orb_no")
         df_grouped <- out$df_grouped
         df_biased <- out$df_biased
 
@@ -61,7 +65,7 @@ biased_metas_gen_with_pets <- function(o, k, nmeta, delta_00, sigma2_v, sigma2_u
         save(df_biased, file=file.path(save_path,sprintf("biased_meta%d.Rdata", m)))
 
       } else if (bias_type == "pb_str_orb_no") {
-        out <- pb(df = df_indicator_bias, bias_type = "pb_str_orb_no")
+        out <- pb(df = df_indicator_bias, k = k, bias_type = "pb_str_orb_no")
         df_grouped <- out$df_grouped
         df_biased <- out$df_biased
 
@@ -70,25 +74,25 @@ biased_metas_gen_with_pets <- function(o, k, nmeta, delta_00, sigma2_v, sigma2_u
         save(df_biased, file=file.path(save_path,sprintf("biased_meta%d.Rdata", m)))
 
       } else if (bias_type == "pb_mod_orb_mod") {
-        df_biased <- pb_orb(df = df_indicator_bias, bias_type = "pb_mod_orb_mod")
+        df_biased <- pb_orb(df = df_indicator_bias, k = k, bias_type = "pb_mod_orb_mod")
 
         # Save dataset
         save(df_biased, file=file.path(save_path,sprintf("biased_meta%d.Rdata", m)))
 
       } else if (bias_type == "pb_str_orb_str") {
-        df_biased <- pb_orb(df = df_indicator_bias, bias_type = "pb_str_orb_str")
+        df_biased <- pb_orb(df = df_indicator_bias, k = k,  bias_type = "pb_str_orb_str")
 
         # Save dataset
         save(df_biased, file=file.path(save_path,sprintf("biased_meta%d.Rdata", m)))
 
       } else if (bias_type == "pb_str_orb_mod") {
-        df_biased <- pb_orb(df = df_indicator_bias, bias_type = "pb_str_orb_mod")
+        df_biased <- pb_orb(df = df_indicator_bias, k = k, bias_type = "pb_str_orb_mod")
 
         # Save dataset
         save(df_biased, file=file.path(save_path,sprintf("biased_meta%d.Rdata", m)))
 
       } else if (bias_type == "pb_mod_orb_str") {
-        df_biased <- pb_orb(df = df_indicator_bias, bias_type = "pb_mod_orb_str")
+        df_biased <- pb_orb(df = df_indicator_bias, k = k, bias_type = "pb_mod_orb_str")
 
         # Save dataset
         save(df_biased, file=file.path(save_path,sprintf("biased_meta%d.Rdata", m)))
