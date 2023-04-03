@@ -138,7 +138,7 @@ performance_analyzer <- function(bias_type, delta_00,sigma2_u, sigma2_v, psss, o
 
   bias_corrected_st_smd <- mean(convert_h_to_d(metas_pets$corrected_st_smd, metas_pets$avg_n_e, metas_pets$avg_n_c), na.rm = TRUE) - metas_pets$delta_00[1]
 
-  mse_corrected_st_smd <- bias_corrected_smd^2 + var(convert_h_to_d(metas_pets$corrected_st_smd, metas_pets$avg_n_e, metas_pets$avg_n_c), na.rm = TRUE)
+  mse_corrected_st_smd <- bias_corrected_st_smd^2 + var(convert_h_to_d(metas_pets$corrected_st_smd, metas_pets$avg_n_e, metas_pets$avg_n_c), na.rm = TRUE)
 
   ## Bias and mse of corrected estimate, only for those pets where pvalue(slope) is less than 5%
   ## indicating small_study effect
