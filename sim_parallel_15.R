@@ -21,7 +21,7 @@ set.seed(9)
 ##############################################################
 fun1 <- function(idx){
   # Read csv with conditions
-  conditions <- read_csv(file = 'conditions_0.2_15_0.1_0.1.csv')
+  conditions <- read_csv(file = 'pb_no_orb_no_0.2_15_0.1_0.1.csv')
 
   # Each processor gets a chunck of conditions and idx is one row of this chunck
   local_condition = conditions[idx,]

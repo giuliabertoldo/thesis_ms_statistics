@@ -1,3 +1,5 @@
+source('biased_metas_gen_with_pets.R')
+# debugSource('biased_metas_gen_with_pets.R')
 source('metas_gen_with_pets.R')
 # debugSource('metas_gen_with_pets.R')
 source("utilities.R")
@@ -68,8 +70,16 @@ performance_analyzer <- function(bias_type, delta_00,sigma2_u, sigma2_v, psss, o
   temp2 <- sprintf("d%0.2f_su%0.2f_sv%0.2f_%s", delta_00, sigma2_u, sigma2_v, psss)
   save_path <- file.path("data", temp0, temp1, temp2)
 
-  # Call metas_gen_with_pets to create the studies data and return the pets results
-  metas_pets <- metas_gen_with_pets(o = o, k = k, nmeta = nmeta, delta_00 = delta_00, sigma2_v = sigma2_v, sigma2_u = sigma2_u, verbose=verbose, save_path=save_path,  psss=psss) # tol=tol, iter=iter,
+
+  if (bias_type == "pb_no_orb_no"){
+    # Call metas_gen_with_pets to create the studies data and return the pets results
+    metas_pets <- metas_gen_with_pets(o = o, k = k, nmeta = nmeta, delta_00 = delta_00, sigma2_v = sigma2_v, sigma2_u = sigma2_u, verbose=verbose, save_path=save_path,  psss=psss) # tol=tol, iter=iter,
+
+  } else {
+    # Call biased_metas_gen_with_pets
+    metas_pets <- biased_metas_gen_with_pets(o = o, k = k, nmeta = nmeta, delta_00 = delta_00, sigma2_v = sigma2_v, sigma2_u = sigma2_u, verbose=verbose, save_path=save_path, psss=psss, bias_type = bias_type) # tol=tol, iter=iter,
+  }
+
 
   # Convert list to dataframe
   metas_pets <- data.frame(t(sapply(metas_pets,c)))
