@@ -6,17 +6,10 @@ source('list_to_dataframe.R')
 # debugSource('list_to_dataframe.R')
 
 metas_gen_with_pets <- function(o, k, nmeta, delta_00, sigma2_v, sigma2_u, verbose, save_path,  psss){ # tol, iter,
+  # Initialize lists
   outcomes = vector(mode = "list", length = o)
   studies = vector(mode = "list", length = k)
   pets_results = vector(mode = "list", length = nmeta)
-
-  ## Create list with 0/1 indicating if error no or yes
-  mylist_names <- c("pet1", "peese1", "pet_var_stab1", "peese_var_stab1")
-  pets_errors <- vector(mode = "list", length = length(mylist_names))
-  names(pets_errors) <- mylist_names
-
-  ## Create list to hold the lists with 0/1 code
-  ## to indicate if that pets returned an error or not
   errors <- vector(mode = "list", length = nmeta)
 
   for(m in 1:nmeta) {   # loop for the number of times we simulate the same condition meta
