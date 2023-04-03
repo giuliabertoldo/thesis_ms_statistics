@@ -3,10 +3,6 @@ library("readr")
 
 source("performance_analyzer.R")
 # debugSource("performance_analyzer.R")
-source("utilities.R")
-# debugSource("utilities.R")
-source('metas_gen_with_pets.R')
-# debugSource('metas_gen_with_pets.R')
 
 ##############################################################
 # Parameters

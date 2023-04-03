@@ -2,8 +2,6 @@ source('biased_metas_gen_with_pets.R')
 # debugSource('biased_metas_gen_with_pets.R')
 source('metas_gen_with_pets.R')
 # debugSource('metas_gen_with_pets.R')
-source("utilities.R")
-# debugSource("utilities.R")
 
 # Rejection rate
 rejection_rate <- function(data, pval_column, nmeta) {
