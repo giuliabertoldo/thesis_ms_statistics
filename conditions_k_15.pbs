@@ -3,7 +3,7 @@
 #SBATCH --time=00:10:00
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=9
-#SBATCH --account=default_project
+#SBATCH --account=intro_vsc35419
 
 cd $PBS_O_WORKDIR
 
