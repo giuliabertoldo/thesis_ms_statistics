@@ -1,10 +1,10 @@
-#!/usr/bin/env bash
+#!/bin/bash -l
 
-#PBS -l nodes=1:ppn=9
-#PBS -l walltime=00:00:05:00
-#PBS -l pmem=1gb
-#PBS -A default_project
-
+#SBATCH --cluster=wice
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=9
+#SBATCH --time= 00:00:05:00
+#SBATCH --account=default_project
 
 cd $PBS_O_WORKDIR
 
