@@ -1,9 +1,9 @@
-source('outcome_gen.R')
-# debugSource('outcome_gen.R')
-source('pets.R')
-# debugSource('pets.R')
-source('list_to_dataframe.R')
-# debugSource('list_to_dataframe.R')
+source('r_scripts/outcome_gen.R')
+# debugSource('r_scripts/outcome_gen.R')
+source('r_scripts/pets.R')
+# debugSource('r_scripts/pets.R')
+source('r_scripts/list_to_dataframe.R')
+# debugSource('r_scripts/list_to_dataframe.R')
 
 metas_gen_with_pets <- function(o, k, nmeta, delta_00, sigma2_v, sigma2_u, verbose, save_path,  psss){ # tol, iter,
   # Initialize lists

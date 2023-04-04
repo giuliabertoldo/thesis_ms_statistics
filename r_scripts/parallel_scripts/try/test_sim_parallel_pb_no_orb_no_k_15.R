@@ -1,9 +1,8 @@
 library(parallel)
 library("readr")
 
-source("performance_analyzer.R")
-# debugSource("performance_analyzer.R")
-
+source("r_scripts/performance_analyzer.R")
+# debugSource("r_scripts/performance_analyzer.R")
 
 ##############################################################
 # Parameters
@@ -18,7 +17,7 @@ set.seed(9)
 ##############################################################
 fun1 <- function(idx){
   # Read csv with conditions
-  conditions <- read_csv(file = 'conditions/test_pb_mod_orb_no_k_70.csv')
+  conditions <- read_csv(file = 'conditions/try/test_pb_no_orb_no_k_15.csv')
 
   # Each processor gets a chunck of conditions and idx is one row of this chunck
   local_condition = conditions[idx,]
@@ -36,11 +35,11 @@ fun1 <- function(idx){
   # output <- c(delta_00, num_studies, sigma2_u, sigma2_v, psss, o )
   # write.csv(output, file=sprintf('p_%d.csv',Sys.getpid()))
 
-  performance_analyzer(bias_type = bias_type, delta_00 = delta_00,sigma2_u = sigma2_u, sigma2_v = sigma2_v, psss = psss, o = o, k = num_studies, nmeta = 10, verbose = FALSE) # tol = 1e-3, iter = 50,
+  performance_analyzer(bias_type = bias_type, delta_00 = delta_00,sigma2_u = sigma2_u, sigma2_v = sigma2_v, psss = psss, o = o, k = num_studies, nmeta = 1000, verbose = FALSE) # tol = 1e-3, iter = 50,
 
 }
 
-# sink("dumper")
+sink("dumper")
 ##############################################################
 # gets the number of cores and creates a cluster
 num_cores <- detectCores()
@@ -49,15 +48,12 @@ print(num_cores)
 
 cl <- makeCluster(num_cores)
 clusterEvalQ(cl, library("readr"))
+clusterEvalQ(cl, source("r_scripts/metas_gen_with_pets.R"))
+clusterEvalQ(cl, source("r_scripts/performance_analyzer.R"))
+clusterEvalQ(cl, source("r_scripts/outcome_gen.R"))
+clusterEvalQ(cl, source("r_scripts/list_to_dataframe.R"))
+clusterEvalQ(cl, source("r_scripts/pets.R"))
 clusterEvalQ(cl, library("metafor"))
-clusterEvalQ(cl, source("biased_metas_gen_with_pets.R"))
-clusterEvalQ(cl, source("performance_analyzer.R"))
-clusterEvalQ(cl, source("list_to_dataframe.R"))
-clusterEvalQ(cl, source("pets.R"))
-clusterEvalQ(cl, source("orb.R"))
-clusterEvalQ(cl, source("pb.R"))
-clusterEvalQ(cl, source("pb_orb.R"))
-clusterEvalQ(cl, source("prob_inclusion.R"))
 
 performances <- parLapply(cl, input_idx, fun1, chunk.size = 1)
 

@@ -1,5 +1,5 @@
-source('prob_inclusion.R')
-# debugSource('prob_inclusion.R')
+source('r_scripts/prob_inclusion.R')
+# debugSource('r_scripts/prob_inclusion.R')
 
 orb <- function(df, bias_type){
   ## Create new column which indicates if observation should be included or not

@@ -82,3 +82,31 @@ for (k in num_studies){
   testing_conditions_csv(bias_type = "pb_mod_orb_no", k = k)
   conditions_csv(bias_type = "pb_mod_orb_no", k = k)
 }
+
+# MODERATE PB - MODERATE ORB
+num_studies <- c(15, 30, 70)
+for (k in num_studies){
+  testing_conditions_csv(bias_type = "pb_mod_orb_mod", k = k)
+  conditions_csv(bias_type = "pb_mod_orb_mod", k = k)
+}
+
+# STRONG PB - STRONG ORB
+num_studies <- c(15, 30, 70)
+for (k in num_studies){
+  testing_conditions_csv(bias_type = "pb_str_orb_str", k = k)
+  conditions_csv(bias_type = "pb_str_orb_str", k = k)
+}
+
+# MODERATE PB -STRONG ORB
+num_studies <- c(15, 30, 70)
+for (k in num_studies){
+  testing_conditions_csv(bias_type = "pb_mod_orb_str", k = k)
+  conditions_csv(bias_type = "pb_mod_orb_str", k = k)
+}
+
+# STRONG PB - MODERATE ORB
+num_studies <- c(15, 30, 70)
+for (k in num_studies){
+  testing_conditions_csv(bias_type = "pb_str_orb_mod", k = k)
+  conditions_csv(bias_type = "pb_str_orb_mod", k = k)
+}
