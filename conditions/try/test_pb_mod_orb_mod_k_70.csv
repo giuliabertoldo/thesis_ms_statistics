@@ -1,0 +1,4 @@
+"bias_type","delta_00","num_studies","sigma2u","sigma2v","psss","o"
+"pb_mod_orb_mod","0.2","70","0.01","0.01","small","3"
+"pb_mod_orb_mod","0.2","70","0.01","0.01","medium","3"
+"pb_mod_orb_mod","0.2","70","0.01","0.01","large","3"
