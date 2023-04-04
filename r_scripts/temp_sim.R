@@ -1,7 +1,7 @@
 library("readr")
 
-source("performance_analyzer.R")
-# debugSource("performance_analyzer.R")
+# source("r_scripts/performance_analyzer.R")
+debugSource("r_scripts/performance_analyzer.R")
 
 ##############################################################
 # Parameters
@@ -11,7 +11,7 @@ source("performance_analyzer.R")
 set.seed(9)
 
 # Read csv with conditions
-conditions <- read_csv(file = 'test_pb_mod_orb_mod_k_15.csv')
+conditions <- read_csv(file = 'conditions/test_pb_mod_orb_mod_k_15.csv')
 
 # Get 1 condition
 # Each processor gets a chunck of conditions and idx is one row of this chunck

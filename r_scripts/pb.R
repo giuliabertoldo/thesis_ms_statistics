@@ -1,15 +1,18 @@
-source("prob_inclusion.R")
-# debugSource("prob_inclusion.R")
+source("r_scripts/prob_inclusion.R")
+# debugSource("r_scripts/prob_inclusion.R")
 
 pb <- function(df, k, bias_type){
+  # Count how many unique studies there are in the input dataframe
+  num_uniq_studies <- length(unique(df$study_id))
+
   # Create new dataframe
   col_names <- c("nmeta_id", "out_id", "study_id", "ss", "n_e", "n_c", "delta_00", "sigma2_u", "u_ok", "d_k", "sigma2_v", "d_hat_jk", "t", "pval_t","sigma2_r_est", "h_jk", "sigma2_h_jk" )
-  df_grouped <- as.data.frame(matrix(nrow = k, ncol = length(col_names)))
+  df_grouped <- as.data.frame(matrix(nrow = num_uniq_studies, ncol = length(col_names)))
   colnames(df_grouped) <- col_names
 
   # Add
   i <- 1
-  for (j in 1:k){
+  for (j in unique(df$study_id)){
 
     # Group by study
     temp <- df[df['study_id']==j, ]
