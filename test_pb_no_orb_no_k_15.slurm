@@ -4,7 +4,7 @@
 #SBATCH --time=00:20:00   # walltime
 #SBATCH --ntasks=9   # number of processor cores (i.e. tasks)
 #SBATCH --nodes=1   # number of nodes
-#SBATCH --mem-per-cpu=1G   # memory per CPU core
+#SBATCH --mem-per-cpu=2G   # memory per CPU core
 #SBATCH --account=intro_vsc35419
 #SBATCH --mail-user=giulia.bertoldo@student.kuleuven.be   # email address
 #SBATCH --mail-type=BEGIN
