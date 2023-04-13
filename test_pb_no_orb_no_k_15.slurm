@@ -10,7 +10,6 @@
 #SBATCH --mail-type=BEGIN
 #SBATCH --mail-type=END
 #SBATCH --mail-type=FAIL
-#SBATCH --qos=debug
 
 
 #Submit this script with: sbatch thefilename
