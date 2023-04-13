@@ -20,4 +20,4 @@ module purge
 module load R
 
 export OMP_NUM_THREADS=2
-Rscript /r_scripts/parallel_scripts/try/test_sim_parallel_pb_no_orb_no_k_15.R
+Rscript test_sim_parallel_pb_no_orb_no_k_15.R
