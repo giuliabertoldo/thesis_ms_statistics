@@ -35,7 +35,7 @@ fun1 <- function(idx){
   # output <- c(delta_00, num_studies, sigma2_u, sigma2_v, psss, o )
   # write.csv(output, file=sprintf('p_%d.csv',Sys.getpid()))
 
-  performance_analyzer(bias_type = bias_type, delta_00 = delta_00,sigma2_u = sigma2_u, sigma2_v = sigma2_v, psss = psss, o = o, k = num_studies, nmeta = 1000, verbose = FALSE) # tol = 1e-3, iter = 50,
+  performance_analyzer(bias_type = bias_type, delta_00 = delta_00,sigma2_u = sigma2_u, sigma2_v = sigma2_v, psss = psss, o = o, k = num_studies, nmeta = 10, verbose = FALSE) # tol = 1e-3, iter = 50,
 
 }
 
