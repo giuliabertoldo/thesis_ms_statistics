@@ -1,9 +1,7 @@
 #!/bin/bash
 
-#SBATCH --time=00:45:00   # walltime
-#SBATCH --ntasks=324   # number of processor cores (i.e. tasks)
-#SBATCH --nodes=9   # number of nodes
-#SBATCH --mem-per-cpu=2G   # memory per CPU core
+#SBATCH --time=00:05:00   # walltime
+#SBATCH --ntasks=9 --cpus-per-task=36 --mem=2g
 #SBATCH --account=intro_vsc35419
 #SBATCH --mail-user=giulia.bertoldo@student.kuleuven.be   # email address
 #SBATCH --mail-type=BEGIN
