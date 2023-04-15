@@ -21,8 +21,8 @@ su = 0.01
 sv = 0.01
 ss = c("small", "medium", "large")
 # Visualization
-viz_pb_no_orb_no_small_su_sv <- viz_rejection_rate(df = df, num_studies = num_studies, bias_type = bias_type, d = d, su = su, sv = sv, ss = ss, across = "k")
-viz_pb_no_orb_no_small_su_sv
+viz_rr_pb_no_orb_no_small_su_sv <- viz_rejection_rate(df = df, num_studies = num_studies, bias_type = bias_type, d = d, su = su, sv = sv, ss = ss, across = "k")
+viz_rr_pb_no_orb_no_small_su_sv
 
 ## Rejection rate: across su_sv, small k -------------------------------------
 # Parameters
@@ -33,8 +33,8 @@ su = c(0.01, 0.06, 0.11)
 sv = c(0.01, 0.06, 0.11)
 ss = c("small", "medium", "large")
 # Visualization
-viz_pb_no_orb_no_small_k <- viz_rejection_rate(df = df, num_studies = num_studies, bias_type = bias_type, d = d, su = su, sv = sv, ss = ss, across = "su_sv")
-viz_pb_no_orb_no_small_k
+viz_rr_pb_no_orb_no_small_k <- viz_rejection_rate(df = df, num_studies = num_studies, bias_type = bias_type, d = d, su = su, sv = sv, ss = ss, across = "su_sv")
+viz_rr_pb_no_orb_no_small_k
 
 # Rejection rate: across su_sv, medium k --------------------------------------
 # Parameters
@@ -45,8 +45,8 @@ su = c(0.01, 0.06, 0.11)
 sv = c(0.01, 0.06, 0.11)
 ss = c("small", "medium", "large")
 # Visualization
-viz_pb_no_orb_no_medium_k <- viz_rejection_rate(df = df, num_studies = num_studies, bias_type = bias_type, d = d, su = su, sv = sv, ss = ss, across = "su_sv")
-viz_pb_no_orb_no_medium_k
+viz_rr_pb_no_orb_no_medium_k <- viz_rejection_rate(df = df, num_studies = num_studies, bias_type = bias_type, d = d, su = su, sv = sv, ss = ss, across = "su_sv")
+viz_rr_pb_no_orb_no_medium_k
 
 # Rejection rate: across su_sv, large k ----------------------------------------
 # Parameters
@@ -57,8 +57,8 @@ su = c(0.01, 0.06, 0.11)
 sv = c(0.01, 0.06, 0.11)
 ss = c("small", "medium", "large")
 # Visualization
-viz_pb_no_orb_no_large_k <- viz_rejection_rate(df = df, num_studies = num_studies, bias_type = bias_type, d = d, su = su, sv = sv, ss = ss, across = "su_sv")
-viz_pb_no_orb_no_large_k
+viz_rr_pb_no_orb_no_large_k <- viz_rejection_rate(df = df, num_studies = num_studies, bias_type = bias_type, d = d, su = su, sv = sv, ss = ss, across = "su_sv")
+viz_rr_pb_no_orb_no_large_k
 
 
 # ------------------------------- pb_no_orb_str ---------------------------------------------
@@ -71,8 +71,8 @@ su = 0.01
 sv = 0.01
 ss = c("small", "medium", "large")
 # Visualization
-viz_pb_no_orb_str_small_su_sv <- viz_rejection_rate(df = df, num_studies = num_studies, bias_type = bias_type, d = d, su = su, sv = sv, ss = ss, across = "k")
-viz_pb_no_orb_str_small_su_sv
+viz_rr_pb_no_orb_str_small_su_sv <- viz_rejection_rate(df = df, num_studies = num_studies, bias_type = bias_type, d = d, su = su, sv = sv, ss = ss, across = "k")
+viz_rr_pb_no_orb_str_small_su_sv
 
 ## Rejection rate: across su_sv, small k -------------------------------------
 # Parameters
@@ -83,8 +83,8 @@ su = c(0.01, 0.06, 0.11)
 sv = c(0.01, 0.06, 0.11)
 ss = c("small", "medium", "large")
 # Visualization
-viz_pb_no_orb_str_small_k <- viz_rejection_rate(df = df, num_studies = num_studies, bias_type = bias_type, d = d, su = su, sv = sv, ss = ss, across = "su_sv")
-viz_pb_no_orb_str_small_k
+viz_rr_pb_no_orb_str_small_k <- viz_rejection_rate(df = df, num_studies = num_studies, bias_type = bias_type, d = d, su = su, sv = sv, ss = ss, across = "su_sv")
+viz_rr_pb_no_orb_str_small_k
 
 # Rejection rate: across su_sv, medium k --------------------------------------
 # Parameters
@@ -95,8 +95,8 @@ su = c(0.01, 0.06, 0.11)
 sv = c(0.01, 0.06, 0.11)
 ss = c("small", "medium", "large")
 # Visualization
-viz_pb_no_orb_str_medium_k <- viz_rejection_rate(df = df, num_studies = num_studies, bias_type = bias_type, d = d, su = su, sv = sv, ss = ss, across = "su_sv")
-viz_pb_no_orb_str_medium_k
+viz_rr_pb_no_orb_str_medium_k <- viz_rejection_rate(df = df, num_studies = num_studies, bias_type = bias_type, d = d, su = su, sv = sv, ss = ss, across = "su_sv")
+viz_rr_pb_no_orb_str_medium_k
 
 # Rejection rate: across su_sv, large k ----------------------------------------
 # Parameters
@@ -107,6 +107,54 @@ su = c(0.01, 0.06, 0.11)
 sv = c(0.01, 0.06, 0.11)
 ss = c("small", "medium", "large")
 # Visualization
-viz_pb_no_orb_str_large_k <- viz_rejection_rate(df = df, num_studies = num_studies, bias_type = bias_type, d = d, su = su, sv = sv, ss = ss, across = "su_sv")
-viz_pb_no_orb_str_large_k
+viz_rr_pb_no_orb_str_large_k <- viz_rejection_rate(df = df, num_studies = num_studies, bias_type = bias_type, d = d, su = su, sv = sv, ss = ss, across = "su_sv")
+viz_rr_pb_no_orb_str_large_k
 
+## Bias: across k, small su=sv ---------------
+# Parameters
+num_studies = c(15, 30, 70)
+bias_type = "pb_no_orb_str"
+d = c(0.2)
+su = 0.01
+sv = 0.01
+ss = c("small", "medium", "large")
+# Visualization
+viz_bias_pb_no_orb_str_small_su_sv <- viz_bias(df = df, num_studies = num_studies, bias_type = bias_type, d = d, su = su, sv = sv, ss = ss, across = "k")
+viz_bias_pb_no_orb_str_small_su_sv
+
+## Bias: across su_sv, small k -------------------------------------
+# Parameters
+num_studies = 15
+bias_type = "pb_no_orb_str"
+d = c(0.2)
+su = c(0.01, 0.06, 0.11)
+sv = c(0.01, 0.06, 0.11)
+ss = c("small", "medium", "large")
+# Visualization
+viz_bias_pb_no_orb_str_small_k <- viz_bias(df = df, num_studies = num_studies, bias_type = bias_type, d = d, su = su, sv = sv, ss = ss, across = "su_sv")
+viz_bias_pb_no_orb_str_small_k
+
+
+## MSE: across k, small su=sv ---------------
+# Parameters
+num_studies = c(15, 30, 70)
+bias_type = "pb_no_orb_str"
+d = c(0.2)
+su = 0.01
+sv = 0.01
+ss = c("small", "medium", "large")
+# Visualization
+viz_mse_pb_no_orb_str_small_su_sv <- viz_mse(df = df, num_studies = num_studies, bias_type = bias_type, d = d, su = su, sv = sv, ss = ss, across = "k")
+viz_mse_pb_no_orb_str_small_su_sv
+
+## MSE: across su_sv, small k -------------------------------------
+# Parameters
+num_studies = 15
+bias_type = "pb_no_orb_str"
+d = c(0.2)
+su = c(0.01, 0.06, 0.11)
+sv = c(0.01, 0.06, 0.11)
+ss = c("small", "medium", "large")
+# Visualization
+viz_mse_pb_no_orb_str_small_k <- viz_mse(df = df, num_studies = num_studies, bias_type = bias_type, d = d, su = su, sv = sv, ss = ss, across = "su_sv")
+viz_mse_pb_no_orb_str_small_k
