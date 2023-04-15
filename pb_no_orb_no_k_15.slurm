@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/bin/bash -l
 
-#SBATCH --time=00:05:00   # walltime
-#SBATCH --ntasks=9 --cpus-per-task=36 --mem=2g
+#SBATCH --time=00:45:00   # walltime
+#SBATCH --ntasks=1 --cpus-per-task=4 --mem=2g
 #SBATCH --account=intro_vsc35419
 #SBATCH --mail-user=giulia.bertoldo@student.kuleuven.be   # email address
 #SBATCH --mail-type=BEGIN
@@ -15,5 +15,4 @@ cd $SLURM_SUBMIT_DIR
 module purge
 module load R
 
-export OMP_NUM_THREADS=2
-Rscript sim_parallel_pb_no_orb_no_k_15.R
+Rscript sim_parallel_pb_no_orb_no_k_15.R ${SLURM_ARRAY_TASK_ID}
