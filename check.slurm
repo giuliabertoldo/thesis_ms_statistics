@@ -16,4 +16,4 @@ module purge
 module load R
 
 export OMP_NUM_THREADS=2
-check.R
+Rscript check.R
