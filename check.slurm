@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #SBATCH --time=00:20:00   # walltime
-#SBATCH --ntasks=2 --cpus-per-task=3 --mem=2g
+#SBATCH --ntasks=108 --cpus-per-task=3 --mem=2g
 #SBATCH --account=intro_vsc35419
 #SBATCH --mail-user=giulia.bertoldo@student.kuleuven.be   # email address
 #SBATCH --mail-type=BEGIN
