@@ -15,4 +15,4 @@ cd $SLURM_SUBMIT_DIR
 module purge
 module load R
 
-Rscript sim_parallel_pb_no_orb_str_k_70.R ${SLURM_ARRAY_TASK_ID}
+Rscript sim_parallel_pb_str_orb_no_k_70.R ${SLURM_ARRAY_TASK_ID}
