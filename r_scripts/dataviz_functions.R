@@ -13,7 +13,7 @@ df_viz <- function(num_studies, delta_00, psss, sigma2_u, sigma2_v, bias_type){
               temp0 <- sprintf("%s", bt)
               temp1 <- sprintf("k_%d",k)
               temp2 <- sprintf("d%0.2f_su%0.2f_sv%0.2f_%s", d, su, sv, p)
-              file_path <- file.path("data_from_supercomp","data",temp0, temp1, temp2, "performances.Rdata")
+              file_path <- file.path("data",temp0, temp1, temp2, "performances.Rdata")
 
               if(file.exists(file_path)){
                 load(file_path)

@@ -10,7 +10,7 @@ bt = c("pb_no_orb_no", "pb_no_orb_str", "pb_no_orb_mod", "pb_str_orb_no", "pb_mo
 
 # Create one dataframe with all performance measures across all conditions
 df <- df_viz(num_studies = k, delta_00 = d, psss = p, sigma2_u = su, sigma2_v = sv, bias_type = bt)
-write.csv("performances_data", row.names = FALSE)
+write.csv("/vsc-hard-mounts/leuven-data/354/vsc35419/thesis_ms_statistics/performances_data.csv", row.names = FALSE)
 
 # ------------------------------- pb_no_orb_no -----------------------------------
 ## Rejection rate: across k, small su=sv  ----------------------------------------
