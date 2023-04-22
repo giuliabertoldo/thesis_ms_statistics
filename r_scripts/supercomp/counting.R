@@ -46,7 +46,11 @@ for(bt in bias_type){
               out_df[n, 'k_origin'] <- k
               
               # Original total number of outcomes in the meta
-              out_df[n, 'tot_num_out_original'] <- k*o
+              if(bt == "pb_no_orb_str" | bt == "pb_no_orb_mod") {
+                out_df[n, 'tot_num_out_original'] <- k*o
+              } else {
+                out_df[n, 'tot_num_out_original'] <- k
+              }
               
               # Real number of studies in the meta
               out_df[n, 'k_real'] <- length(unique(df_biased$study_id))
