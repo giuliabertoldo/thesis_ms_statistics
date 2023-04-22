@@ -28,16 +28,16 @@ convert_h_to_d <- function(h, avg_n_e, avg_n_c){
 performance_analyzer <- function(bias_type, delta_00,sigma2_u, sigma2_v, psss, o, k, nmeta, verbose){ # tol, iter,
 
   # Create directories
-  if (!file.exists("data")) { save_path <- dir.create("data") }
+  if (!file.exists("data_puste")) { save_path <- dir.create("data_puste") }
 
-  if (!file.exists(sprintf("data/%s",bias_type))) {
-    dir.create(file.path("data", sprintf("%s",bias_type)))
+  if (!file.exists(sprintf("data_puste/%s",bias_type))) {
+    dir.create(file.path("data_puste", sprintf("%s",bias_type)))
   }
 
   for (num in k) {
 
-    if (!file.exists(sprintf("data/%s/k_%d",bias_type, num))) {
-      dir.create(file.path("data", sprintf("%s",bias_type), sprintf("k_%d", num)))
+    if (!file.exists(sprintf("data_puste/%s/k_%d",bias_type, num))) {
+      dir.create(file.path("data_puste", sprintf("%s",bias_type), sprintf("k_%d", num)))
     }
 
     for (d in delta_00) {
@@ -64,7 +64,7 @@ performance_analyzer <- function(bias_type, delta_00,sigma2_u, sigma2_v, psss, o
   temp0 <- sprintf("%s", bias_type)
   temp1 <- sprintf("k_%d",k)
   temp2 <- sprintf("d%0.2f_su%0.2f_sv%0.2f_%s", delta_00, sigma2_u, sigma2_v, psss)
-  save_path <- file.path("data", temp0, temp1, temp2)
+  save_path <- file.path("data_puste", temp0, temp1, temp2)
 
 
 
