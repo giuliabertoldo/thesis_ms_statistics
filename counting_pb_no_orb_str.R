@@ -2,7 +2,7 @@ args <- commandArgs(TRUE)
 idx <- args[1]
 
 # Read csv with conditions
-conditions <- read_csv(file = 'conditions/condition_pb_no_orb_str.csv')
+conditions <- read.csv(file = 'conditions/condition_pb_no_orb_str.csv')
 
 # Each processor gets a chunck of conditions and idx is one row of this chunck
 local_condition = conditions[idx,]
