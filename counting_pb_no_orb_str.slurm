@@ -1,6 +1,6 @@
 #!/bin/bash -l
 
-#SBATCH --time=00:01:00   # walltime
+#SBATCH --time=01:00:00   # walltime
 #SBATCH --ntasks=1 --cpus-per-task=3
 #SBATCH --account=intro_vsc35419
 #SBATCH --mail-user=giulia.bertoldo@student.kuleuven.be   # email address
