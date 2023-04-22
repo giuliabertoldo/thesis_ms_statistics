@@ -11,7 +11,7 @@ local_condition = conditions[idx,]
 # Decompose the row to retrieve the condition's values
 bias_type <- local_condition[[1]]
 delta_00 <- local_condition[[2]]
-num_studies <- local_condition[[3]]
+num_stud <- local_condition[[3]]
 sigma2_u <- local_condition[[4]]
 sigma2_v <- local_condition[[5]]
 psss <- local_condition[[6]]
