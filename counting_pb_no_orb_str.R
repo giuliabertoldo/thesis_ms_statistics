@@ -116,4 +116,4 @@ for(bt in bias_type){
   }
 }
 
-write.csv(df_merged, "/vsc-hard-mounts/leuven-data/354/vsc35419/thesis_ms_statistics/counts.csv", row.names = FALSE)
+write.csv(df_merged, "counts.csv", row.names = FALSE)

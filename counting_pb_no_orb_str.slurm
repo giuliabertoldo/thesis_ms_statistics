@@ -15,4 +15,4 @@ cd $SLURM_SUBMIT_DIR
 module purge
 module load R
 
-Rscript counting_parallel.R ${SLURM_ARRAY_TASK_ID}
+Rscript counting_pb_no_orb_str.R ${SLURM_ARRAY_TASK_ID}
