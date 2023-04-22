@@ -1,23 +1,11 @@
-args <- commandArgs(TRUE)
-idx <- args[1]
-
-# Read csv with conditions
-conditions <- read.csv(file = 'conditions/condition_pb_no_orb_str.csv')
-
-# Each processor gets a chunck of conditions and idx is one row of this chunck
-local_condition = conditions[idx,]
-
-
-# Decompose the row to retrieve the condition's values
-bias_type <- local_condition[[1]]
-delta_00 <- local_condition[[2]]
-num_stud <- local_condition[[3]]
-sigma2_u <- local_condition[[4]]
-sigma2_v <- local_condition[[5]]
-psss <- local_condition[[6]]
-o <- local_condition[[7]]
+bias_type = c("pb_no_orb_str")
+num_stud = c(15,30, 70)
+delta_00 = c(0,0.2, 0.5, 0.8)
+sigma2_u = c(0.01, 0.06, 0.11)
+sigma2_v = c(0.01, 0.06, 0.11)
+psss = c("small", "medium","large")
+o = 3
 nmeta = 1000
-
 
 # Code to execute
 # Initialize dataframes
@@ -116,4 +104,4 @@ for(bt in bias_type){
   }
 }
 
-write.csv(df_merged, "counts.csv", row.names = FALSE)
+write.csv(df_merged, "counts_pb_no_orb_str.csv", row.names = FALSE)
