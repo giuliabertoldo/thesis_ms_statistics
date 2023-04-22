@@ -36,7 +36,7 @@ orb <- function(df, bias_type){
 
     df$random_num[i] <- runif(n = 1, min = 0, max = 1)
 
-    if (df$prob_incl[i] > df$random_num[i]) {
+    if (df$prob_incl[i] < df$random_num[i]) {
       df$included[i] <- 1
     } else {
       df$included[i] <- 0
