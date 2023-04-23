@@ -1,5 +1,6 @@
 source("r_scripts/dataviz_functions.R")
 
+## Create one csv with performances ----------------
 # List all conditions
 k = c(15, 30, 70)
 d = c(0, 0.2, 0.5, 0.8)
@@ -8,9 +9,22 @@ su = c(0.01, 0.06, 0.11)
 sv = c(0.01, 0.06, 0.11)
 bt = c("pb_no_orb_no", "pb_no_orb_str", "pb_no_orb_mod", "pb_str_orb_no", "pb_mod_orb_no", "pb_str_orb_str", "pb_mod_orb_mod", "pb_str_orb_mod", "pb_mod_orb_str")
 
-# Create one dataframe with all performance measures across all conditions
+# Create df
 df <- df_viz(num_studies = k, delta_00 = d, psss = p, sigma2_u = su, sigma2_v = sv, bias_type = bt)
 write.csv(df, "/vsc-hard-mounts/leuven-data/354/vsc35419/thesis_ms_statistics/performances_data.csv", row.names = FALSE)
+
+## Create one csv with performances puste----------------
+# List all conditions
+k = c(15, 30, 70)
+d = c(0, 0.2, 0.5, 0.8)
+p = c("small", "medium", "large")
+su = c(0.01, 0.06, 0.11)
+sv = c(0.01, 0.06, 0.11)
+bt = c("orb_0", "orb_2", "orb_4", "orb_6", "orb_8")
+# Create df
+df_puste <- df_viz_puste(num_studies = k, delta_00 = d, psss = p, sigma2_u = su, sigma2_v = sv, bias_type = bt)
+write.csv(df, "/vsc-hard-mounts/leuven-data/354/vsc35419/thesis_ms_statistics/performances_puste.csv", row.names = FALSE)
+
 
 # Merge performances with counts -------------
 df <- read.csv("performances_all_no_counts.csv")

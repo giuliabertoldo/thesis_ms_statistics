@@ -1,5 +1,5 @@
 library(tidyverse)
-# Create dataframe with performance data for all conditions to be visualized
+# Extract all performance data to be visualized
 df_viz <- function(num_studies, delta_00, psss, sigma2_u, sigma2_v, bias_type){
   df = data.frame()
 
@@ -14,6 +14,70 @@ df_viz <- function(num_studies, delta_00, psss, sigma2_u, sigma2_v, bias_type){
               temp1 <- sprintf("k_%d",k)
               temp2 <- sprintf("d%0.2f_su%0.2f_sv%0.2f_%s", d, su, sv, p)
               file_path <- file.path("data",temp0, temp1, temp2, "performances.Rdata")
+
+              if(file.exists(file_path)){
+                load(file_path)
+
+                # Create condition ID to the vector
+                id <- sprintf("%s_k_%d_d%0.2f_su%0.2f_sv%0.2f_%s", bt, k, d, su, sv, p)
+
+                # Create ID grouping by psss
+                id_rollup_psss <- sprintf("%s_k_%d_d%0.2f_su%0.2f_sv%0.2f", bt, k, d, su, sv)
+
+                # Add bias_type & condition ID to the vector
+                vec <- cbind(id, id_rollup_psss, bt, as.data.frame(t(performances)))
+
+                # Add performances to dataframe
+                df <- rbind(df,vec)
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  # Add k as character
+  df$k_cat <- as.factor(x = df$k)
+  levels(df$k_cat) <- c("small", "medium", "large")
+  df$k_cat <- as.character(df$k_cat)
+
+  # Add su as character
+  df$sigma2_u_cat <- as.factor(df$sigma2_u)
+  levels(df$sigma2_u_cat) <- c("small", "medium", "large")
+  df$sigma2_u_cat <- as.character(df$sigma2_u_cat)
+
+  # Add sv as character
+  df$sigma2_v_cat <- as.factor(df$sigma2_v)
+  levels(df$sigma2_v_cat) <- c("small", "medium", "large")
+  df$sigma2_v_cat <- as.character(df$sigma2_v_cat)
+
+  # Convert some columns to numeric
+  for (i in 1:dim(df)[2]) {
+    if(!names(df)[i] %in% c("psss","bt", "id", "id_rollup_psss", "k_cat", "sigma2_u_cat", "sigma2_v_cat")) {
+      df[,i] <- as.numeric(df[,i])
+      # df[,i] <- round(df[,i], 4) Round to 4 decimal points
+    }
+  }
+
+  return(df)
+}
+
+# Extract all performance data to be visualized: Puste selection
+df_viz_puste <- function(num_studies, delta_00, psss, sigma2_u, sigma2_v, bias_type){
+  df = data.frame()
+
+  for(bt in bias_type){
+    for (k in num_studies) {
+      for(d in delta_00) {
+        for(p in psss) {
+          for(su in sigma2_u) {
+            for(sv in sigma2_v) {
+
+              temp0 <- sprintf("%s", bt)
+              temp1 <- sprintf("k_%d",k)
+              temp2 <- sprintf("d%0.2f_su%0.2f_sv%0.2f_%s", d, su, sv, p)
+              file_path <- file.path("data_puste",temp0, temp1, temp2, "performances.Rdata")
 
               if(file.exists(file_path)){
                 load(file_path)
