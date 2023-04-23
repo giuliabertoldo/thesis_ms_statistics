@@ -63,17 +63,44 @@ df_viz <- function(num_studies, delta_00, psss, sigma2_u, sigma2_v, bias_type){
   return(df)
 }
 
-# CHECK
-df <- read.csv("performances_data.csv")
-d = c(0, 0.2, 0.5, 0.8)
-ss = c("small", "medium", "large")
-num_studies = c(15)
-su = c(0.01, 0.06, 0.11)
-sv = c(0.01, 0.06, 0.11)
-bias_type = "pb_no_orb_no"
-
 # Visualize rejection rates
-viz_rejection_rate <- function(df, num_studies, bias_type, d, su, sv, ss, across){
+viz_rejection_rate <- function(df, num_studies, bias_type){
+
+  d <- c(0, 0.2, 0.5, 0.8)
+  su <- c(0.01, 0.06, 0.11)
+  sv <- c(0.01, 0.06, 0.11)
+  ss <- c("small", "medium", "large")
+
+  # Convert inputs
+
+  if(bias_type == "PB No, ORB Strong"){
+    bias_type <- "pb_no_orb_str"
+    dataset <- "PB No, ORB Strong"
+  } else if (bias_type == "PB No, ORB Moderate") {
+    bias_type <- "pb_no_orb_mod"
+    dataset <- "PB No, ORB Moderate"
+  } else if (bias_type == "PB Strong, ORB No"){
+    bias_type <- "pb_str_orb_no"
+    dataset <- "PB Strong, ORB No"
+  } else if(bias_type == "PB Moderate, ORB No"){
+    bias_type <- "pb_mod_orb_no"
+    dataset <- "PB Moderate, ORB No"
+  } else if(bias_type == "PB Strong, ORB Strong" ){
+    bias_type <- "pb_str_orb_str"
+    dataset <- "PB Strong, ORB Strong"
+  } else if(bias_type == "PB Moderate, ORB Moderate"){
+    bias_type <- "pb_mod_orb_mod"
+    dataset <- "PB Moderate, ORB Moderate"
+  } else if(bias_type == "PB Strong, ORB Moderate") {
+    bias_type <- "pb_str_orb_mod"
+    dataset <- "PB Strong, ORB Moderate"
+  } else if(bias_type == "PB Moderate, ORB Strong"){
+    bias_type <- "pb_mod_orb_str"
+    dataset <- "PB Moderate, ORB Strong"
+  } else if(bias_type == "None"){
+    bias_type <- "pb_no_orb_no"
+    dataset <- "PB No, ORB No"
+  }
 
   # Is rejection rate Type I error or power?
   if(bias_type =="pb_no_orb_no"){
@@ -83,15 +110,6 @@ viz_rejection_rate <- function(df, num_studies, bias_type, d, su, sv, ss, across
   }
 
   # Select from dataframe only the observations of interest
-  if(across == "k") {
-    df1 <- df %>%
-      filter(k %in% num_studies,
-             bt %in% bias_type,
-             delta_00 %in% d,
-             sigma2_u %in% su,
-             sigma2_v %in% sv,
-             psss %in% ss)
-  } else if(across == "su_sv") {
     df1 <- df %>%
       filter(k %in% num_studies,
              bt %in% bias_type,
@@ -100,7 +118,6 @@ viz_rejection_rate <- function(df, num_studies, bias_type, d, su, sv, ss, across
              sigma2_v %in% sv,
              psss %in% ss) %>%
       filter(sigma2_u == sigma2_v)
-  }
 
   # Set the correct parameters for the plot
   if(bias_type == "pb_no_orb_no"){
@@ -110,47 +127,6 @@ viz_rejection_rate <- function(df, num_studies, bias_type, d, su, sv, ss, across
     hline = 0.80
     limits_bounds = c(0, 1)
   }
-
-  # Set correct naming for caption
-  if(bias_type == "pb_no_orb_no"){
-    dataset = "No PB, No ORB"
-  } else if(bias_type == "pb_str_orb_no") {
-    dataset = "Strong PB, No ORB"
-  } else if(bias_type == "pb_mod_orb_no") {
-    dataset = "Moderate PB, No ORB"
-  } else if(bias_type == "pb_no_orb_str") {
-    dataset = "No PB, Strong ORB"
-  } else if(bias_type == "pb_no_orb_mod") {
-    dataset = "No PB, Moderate ORB"
-  } else if(bias_type == "pb_str_orb_str") {
-    dataset = "Strong PB, Strong ORB"
-  } else if(bias_type == "pb_mod_orb_mod") {
-    dataset = "Moderate PB, Moderate ORB"
-  } else if (bias_type == "pb_mod_orb_str") {
-    dataset = "Moderate PB, Strong ORB"
-  } else if (bias_type == "pb_str_orb_mod") {
-    dataset = "Strong PB, Moderate ORB"
-  }
-
-  if(across == "k") {
-    # Make plot
-    viz <- df1 %>%
-      ggplot(aes(x = delta_00)) +
-      geom_point(aes(y = rej_pet_slope,  color = "SMD")) +
-      geom_line(aes(y = rej_pet_slope, color ="SMD", linetype = "SMD")) +
-      geom_point(aes(y = rej_pet_st_slope, color = "Transformed SMD")) +
-      geom_line(aes(y = rej_pet_st_slope, color = "Transformed SMD", linetype = "Transformed SMD")) +
-      facet_grid(k_cat ~ fct_rev(psss)) +
-      geom_hline(yintercept = hline, linetype = "dashed") +
-      scale_x_continuous(breaks = c(0, 0.20, 0.50, 0.80), sec.axis = sec_axis(~ . , name = "Primary Studies Sample Size", breaks = NULL, labels = NULL)) +
-      scale_y_continuous(limits = limits_bounds,sec.axis = sec_axis(~ . , name = "Meta-analytic dataset size", breaks = NULL, labels = NULL)) +
-      scale_color_manual(name = "Effect Size", values = c("SMD" = "#E69F00", "Transformed SMD" = "#0072B2")) +
-      scale_linetype_manual(name = "Effect Size", values=c("SMD"="solid", "Transformed SMD"="dotted")) +
-      labs(y = type_of_rejection_rate,
-           x = "Population SMD",
-           caption = sprintf("Between-study variance: %s. Within-study variance: %s. Bias type: %s.", df1$sigma2_u_cat, df1$sigma2_v_cat, dataset)) +
-      theme_bw()
-  } else if(across == "su_sv"){
     viz <- df1 %>%
       ggplot(aes(x = delta_00)) +
       geom_point(aes(y = rej_pet_slope,  color = "SMD")) +
@@ -167,10 +143,68 @@ viz_rejection_rate <- function(df, num_studies, bias_type, d, su, sv, ss, across
            x = "Population SMD",
            caption = sprintf("Meta-analytic dataset size: %s. Bias type: %s.", df1$k_cat, dataset)) +
       theme_bw()
+
+  return (viz)
+}
+
+# Visualize percentage of outcomes selected
+viz_per_out_selected <- function(df, num_studies, bias_type){
+
+  d <- c(0, 0.2, 0.5, 0.8)
+  su <- c(0.01, 0.06, 0.11)
+  sv <- c(0.01, 0.06, 0.11)
+  ss <- c("small", "medium", "large")
+
+  # Convert inputs
+  if(bias_type == "PB No, ORB Strong"){
+    bias_type <- "pb_no_orb_str"
+    dataset <- "PB No, ORB Strong"
+  } else if (bias_type == "PB No, ORB Moderate") {
+    bias_type <- "pb_no_orb_mod"
+    dataset <- "PB No, ORB Moderate"
+  } else if (bias_type == "PB Strong, ORB No"){
+    bias_type <- "pb_str_orb_no"
+    dataset <- "PB Strong, ORB No"
+  } else if(bias_type == "PB Moderate, ORB No"){
+    bias_type <- "pb_mod_orb_no"
+    dataset <- "PB Moderate, ORB No"
+  } else if(bias_type == "PB Strong, ORB Strong" ){
+    bias_type <- "pb_str_orb_str"
+    dataset <- "PB Strong, ORB Strong"
+  } else if(bias_type == "PB Moderate, ORB Moderate"){
+    bias_type <- "pb_mod_orb_mod"
+    dataset <- "PB Moderate, ORB Moderate"
+  } else if(bias_type == "PB Strong, ORB Moderate") {
+    bias_type <- "pb_str_orb_mod"
+    dataset <- "PB Strong, ORB Moderate"
+  } else if(bias_type == "PB Moderate, ORB Strong"){
+    bias_type <- "pb_mod_orb_str"
+    dataset <- "PB Moderate, ORB Strong"
+  } else if(bias_type == "None"){
+    bias_type <- "pb_no_orb_no"
+    dataset <- "PB No, ORB No"
   }
 
+  # Select from dataframe only the observations of interest
+  df1 <- df %>%
+    filter(k %in% num_studies,
+           bt %in% bias_type,
+           delta_00 %in% d,
+           sigma2_u %in% su,
+           sigma2_v %in% sv,
+           psss %in% ss) %>%
+    filter(sigma2_u == sigma2_v)
 
-
+  viz <- df1 %>%
+    ggplot(aes(x = delta_00)) +
+    geom_point(aes(y = avg_perc_out_selected)) +
+    facet_grid(sigma2_u_cat ~ fct_rev(psss)) +
+    scale_x_continuous( breaks = c(0, 0.20, 0.50, 0.80), sec.axis = sec_axis(~ . , name = "Primary Studies Sample Size", breaks = NULL, labels = NULL)) +
+    scale_y_continuous(limits=c(0, 100),sec.axis = sec_axis(~ . , name = "Between & within study variance", breaks = NULL, labels = NULL)) +
+    labs(y = "Average % Outcomes Selected",
+         x = "Population SMD",
+         caption = sprintf("Meta-analytic dataset size: %s. Bias type: %s.", df1$k_cat, dataset)) +
+    theme_bw()
   return (viz)
 }
 
@@ -349,6 +383,7 @@ viz_mse <- function(df, num_studies, bias_type, d, su, sv, ss, across){
   return (viz)
 }
 
+# Visualize rejection_rate pet_int
 viz_rejection_rate_pet_int <- function(df, num_studies, bias_type, d, su, sv, ss, across){
 
   if(delta_00 == 0){
@@ -451,72 +486,3 @@ viz_rejection_rate_pet_int <- function(df, num_studies, bias_type, d, su, sv, ss
 
 }
 
-# Visualize percentage of outcomes selected
-viz_per_out_selected <- function(df, num_studies, bias_type, d, su, sv, ss, across){
-  # Select from dataframe only the observations of interest
-  if(across == "k") {
-    df1 <- df %>%
-      filter(k %in% num_studies,
-             bt %in% bias_type,
-             delta_00 %in% d,
-             sigma2_u %in% su,
-             sigma2_v %in% sv,
-             psss %in% ss)
-  } else if(across == "su_sv") {
-    df1 <- df %>%
-      filter(k %in% num_studies,
-             bt %in% bias_type,
-             delta_00 %in% d,
-             sigma2_u %in% su,
-             sigma2_v %in% sv,
-             psss %in% ss) %>%
-      filter(sigma2_u == sigma2_v)
-  }
-
-  # Set correct naming for caption
-  if(bias_type == "pb_no_orb_no"){
-    dataset = "No PB, No ORB"
-  } else if(bias_type == "pb_str_orb_no") {
-    dataset = "Strong PB, No ORB"
-  } else if(bias_type == "pb_mod_orb_no") {
-    dataset = "Moderate PB, No ORB"
-  } else if(bias_type == "pb_no_orb_str") {
-    dataset = "No PB, Strong ORB"
-  } else if(bias_type == "pb_no_orb_mod") {
-    dataset = "No PB, Moderate ORB"
-  } else if(bias_type == "pb_str_orb_str") {
-    dataset = "Strong PB, Strong ORB"
-  } else if(bias_type == "pb_mod_orb_mod") {
-    dataset = "Moderate PB, Moderate ORB"
-  } else if (bias_type == "pb_mod_orb_str") {
-    dataset = "Moderate PB, Strong ORB"
-  } else if (bias_type == "pb_str_orb_mod") {
-    dataset = "Strong PB, Moderate ORB"
-  }
-
-  if(across == "k") {
-    # Make plot
-    viz <- df1 %>%
-      ggplot(aes(x = delta_00)) +
-      geom_point(aes(y = avg_perc_out_selected)) +
-      facet_grid(k_cat ~ fct_rev(psss)) +
-      scale_x_continuous(breaks = c(0, 0.20, 0.50, 0.80), sec.axis = sec_axis(~ . , name = "Primary Studies Sample Size", breaks = NULL, labels = NULL)) +
-      scale_y_continuous(sec.axis = sec_axis(~ . , name = "Meta-analytic dataset size", breaks = NULL, labels = NULL)) +
-      labs(y = "Average % Outcomes Selected",
-           x = "Population SMD",
-           caption = sprintf("Between-study variance: %s. Within-study variance: %s. Bias type: %s.", df1$sigma2_u_cat, df1$sigma2_v_cat, dataset)) +
-      theme_bw()
-  } else if(across == "su_sv"){
-    viz <- df1 %>%
-      ggplot(aes(x = delta_00)) +
-      geom_point(aes(y = avg_perc_out_selected)) +
-      facet_grid(sigma2_u_cat ~ fct_rev(psss)) +
-      scale_x_continuous(breaks = c(0, 0.20, 0.50, 0.80), sec.axis = sec_axis(~ . , name = "Primary Studies Sample Size", breaks = NULL, labels = NULL)) +
-      scale_y_continuous(sec.axis = sec_axis(~ . , name = "Between & within study variance", breaks = NULL, labels = NULL)) +
-      labs(y = "Average % Outcomes Selected",
-           x = "Population SMD",
-           caption = sprintf("Meta-analytic dataset size: %s. Bias type: %s.", df1$k_cat, dataset)) +
-      theme_bw()
-  }
-  return (viz)
-}

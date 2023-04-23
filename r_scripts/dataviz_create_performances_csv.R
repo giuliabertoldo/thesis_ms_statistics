@@ -12,3 +12,63 @@ bt = c("pb_no_orb_no", "pb_no_orb_str", "pb_no_orb_mod", "pb_str_orb_no", "pb_mo
 df <- df_viz(num_studies = k, delta_00 = d, psss = p, sigma2_u = su, sigma2_v = sv, bias_type = bt)
 write.csv(df, "/vsc-hard-mounts/leuven-data/354/vsc35419/thesis_ms_statistics/performances_data.csv", row.names = FALSE)
 
+# Merge performances with counts -------------
+df <- read.csv("performances_all_no_counts.csv")
+counts_pb_no_orb_str <- read.csv("slurm_counts/counts_pb_no_orb_str.csv")
+counts_pb_no_orb_mod <- read.csv("slurm_counts/counts_pb_no_orb_mod.csv")
+counts_pb_str_orb_no <- read.csv("slurm_counts/counts_pb_str_orb_no.csv")
+counts_pb_mod_orb_no <- read.csv("slurm_counts/counts_pb_mod_orb_no.csv")
+counts_pb_str_orb_str <- read.csv("slurm_counts/counts_pb_str_orb_str.csv")
+counts_pb_mod_orb_mod <- read.csv("slurm_counts/counts_pb_mod_orb_mod.csv")
+counts_pb_str_orb_mod <- read.csv("slurm_counts/counts_pb_str_orb_mod.csv")
+counts_pb_mod_orb_str <- read.csv("slurm_counts/counts_pb_mod_orb_str.csv")
+
+counts <- rbind(counts_pb_no_orb_str, counts_pb_no_orb_mod,
+                counts_pb_str_orb_no, counts_pb_mod_orb_no,
+                counts_pb_str_orb_str, counts_pb_mod_orb_mod,
+                counts_pb_str_orb_mod, counts_pb_mod_orb_str)
+
+# Complete biased
+df_biased_complete <- merge(x = df, y = counts, by = "id")
+
+# Complete unbiased
+df1 <- df %>%
+  filter(bt == "pb_no_orb_no")
+
+# Add info to df1
+for (i in 1:dim(df1)[1]){
+  if (df1$bt[i] == "pb_no_orb_no"){
+    df1$avg_perc_out_selected[i] <- 100
+
+    if(df1$k[i] == 15){
+      df1$avg_num_out_selected[i] <- 15*3
+    } else if (df1$k[i]  ==  30){
+      df1$avg_num_out_selected[i] <- 30*3
+    } else if (df1$k[i] ==  70){
+      df1$avg_num_out_selected[i] <- 70*3
+    }
+    df1$avg_perc_stud_selected[i] <- 100
+
+    if(df1$k[i]  ==  15){
+      df1$avg_num_study_selected[i] <- 15
+    } else if (df1$k[i] == 30){
+      df1$avg_num_study_selected[i] <- 30
+    } else if (df1$k[i] == 70){
+      df1$avg_num_study_selected[i] <- 70
+    }
+
+    df1$avg_avg_n_out_per_study[i] <- 3
+
+    df1$avg_min_n_out_per_study[i] <- 3
+
+    df1$avg_max_n_out_per_study[i] <- 3
+  }
+}
+
+# Give meaningful name
+df_unbiased_complete <- df1
+
+# Row bind
+performances <- rbind(df_unbiased_complete, df_biased_complete)
+
+write.csv(performances, "performances.csv", row.names = FALSE)
