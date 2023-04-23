@@ -167,7 +167,7 @@ biased_metas_gen_with_pets <- function(o, k, nmeta, delta_00, sigma2_v, sigma2_u
 
       # Group in a vector
       temp5 <- c(perc_out_selected, tot_num_out_real, perc_stud_selected, k_real, avg_n_out_per_study, min_n_out_per_study, max_n_out_per_study)
-      temp5 <- setNames(temp3, c("perc_out_selected", "tot_num_out_real", "perc_stud_selected", "k_real", "avg_n_out_per_study", "min_n_out_per_study", "max_n_out_per_study"))
+      temp5 <- setNames(temp5, c("perc_out_selected", "tot_num_out_real", "perc_stud_selected", "k_real", "avg_n_out_per_study", "min_n_out_per_study", "max_n_out_per_study"))
 
       # Concatenate
       temp6 <- c(temp4, temp5)
