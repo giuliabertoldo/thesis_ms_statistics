@@ -25,7 +25,7 @@ testing_conditions_csv <- function(bias_type, k){
 }
 
 conditions_csv <- function(bias_type, k){
-  # Simulation parameters ----
+  # Simulation parameters
   bias_type <- bias_type
   delta_00 <- c(0, 0.2, 0.5, 0.8)
   num_studies <- k
@@ -44,6 +44,7 @@ conditions_csv <- function(bias_type, k){
 
 }
 
+# CSV for original parallel scripts -------------------
 # UNBIASED
 num_studies <- c(15, 30, 70)
 conditions_csv(bias_type = bias_type, k = num_studies)
@@ -108,8 +109,8 @@ for (k in num_studies){
   conditions_csv(bias_type = "pb_str_orb_mod", k = k)
 }
 
-# FULL BIASED
-# Function ----
+# CSV only for biased for counting scripts -------------------
+
 biased_conditions_csv <- function(bias_type){
   bias_type <- bias_type
   delta_00 <- c(0, 0.2, 0.5, 0.8)
@@ -127,7 +128,7 @@ biased_conditions_csv <- function(bias_type){
   name <- sprintf("condition_%s.csv", bias_type)
   write.csv(conditions, name, row.names = FALSE)
 }
-# Generate csvs ----
+# Generate csvs
 biased_conditions_csv("pb_no_orb_str")
 biased_conditions_csv("pb_no_orb_mod")
 biased_conditions_csv("pb_str_orb_no")
@@ -136,6 +137,20 @@ biased_conditions_csv("pb_str_orb_str")
 biased_conditions_csv("pb_mod_orb_mod")
 biased_conditions_csv("pb_str_orb_mod")
 biased_conditions_csv("pb_mod_orb_str")
+
+
+
+
+# CSV for puste parallel scripts -----
+bt = c("orb_8", "orb_6", "orb_4", "orb_2", "orb_0")
+num_studies = c(15, 30, 70)
+
+for (bias_type in bt){
+  for (k in num_studies) {
+    conditions_csv(bias_type = bias_type, k = k)
+  }
+}
+
 
 
 

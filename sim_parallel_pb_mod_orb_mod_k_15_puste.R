@@ -23,7 +23,7 @@ set.seed(9)
 ##############################################################
 
 # Read csv with conditions
-conditions <- read_csv(file = 'conditions/pb_mod_orb_mod_k_15.csv')
+conditions <- read_csv(file = 'conditions/orb_8_k_15.csv')
 
 # Each processor gets a chunck of conditions and idx is one row of this chunck
 local_condition = conditions[idx,]
