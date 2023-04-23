@@ -49,8 +49,8 @@ performance_analyzer <- function(bias_type, delta_00,sigma2_u, sigma2_v, psss, o
           for (p in psss) {
             file_name <- sprintf("d%0.2f_su%0.2f_sv%0.2f_%s", d, su, sv, p)
 
-            if (!file.exists(file.path(sprintf("data/%s/k_%d", bias_type, num), file_name))) {
-              dir.create(file.path(sprintf("data/%s/k_%d",bias_type, num), file_name))
+            if (!file.exists(file.path(sprintf("data_puste/%s/k_%d", bias_type, num), file_name))) {
+              dir.create(file.path(sprintf("data_puste/%s/k_%d",bias_type, num), file_name))
 
             }
           }
