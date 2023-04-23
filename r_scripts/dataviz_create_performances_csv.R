@@ -1,4 +1,4 @@
-source("r_scripts/dataviz_functions.R")
+source("r_scripts/dataviz_functions_app.R")
 
 ## Create one csv with performances ----------------
 # List all conditions
