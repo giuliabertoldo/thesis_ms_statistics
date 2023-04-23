@@ -142,15 +142,15 @@ biased_metas_gen_with_pets <- function(o, k, nmeta, delta_00, sigma2_v, sigma2_u
                                      FUN = NROW)
 
         # Average, min, max number of outcomes per study in the meta
-        avg_n_out_per_study <- sum(n_out_per_study$num_out)/out_df$k_real[n]
+        avg_n_out_per_study <- sum(n_out_per_study$num_out)/k_real
         min_n_out_per_study <- min(n_out_per_study$num_out)
         max_n_out_per_study <- max(n_out_per_study$num_out)
 
         # Percentage selected outcomes
-        perc_out_selected <- (out_df$tot_num_out_real[n]/out_df$tot_num_out_original[n] ) * 100
+        perc_out_selected <- (tot_num_out_real/tot_num_out_original) * 100
 
         # Percentage selected studies
-        perc_stud_selected <- (out_df$k_real[n]/out_df$k_origin[n]) * 100
+        perc_stud_selected <- (k_real/k) * 100
       } else {
 
         # Average, min, max number of outcomes per study in the meta
