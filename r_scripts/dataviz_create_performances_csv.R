@@ -25,6 +25,28 @@ bt = c("orb_0", "orb_2", "orb_4", "orb_6", "orb_8")
 df_puste <- df_viz_puste(num_studies = k, delta_00 = d, psss = p, sigma2_u = su, sigma2_v = sv, bias_type = bt)
 write.csv(df, "/vsc-hard-mounts/leuven-data/354/vsc35419/thesis_ms_statistics/performances_puste.csv", row.names = FALSE)
 
+## Update performances puste with column probability of censoring----------------
+df <- read.csv("performances_puste.csv")
+# Add column to specify probability of censoring a non-significant result
+for(i in 1:dim(df)[1]){
+  if(df$bt[i] == "orb_0"){
+    df[i,'prob_censoring'] <- 1
+  } else if (df$bt[i] == "orb_2"){
+    df[i,'prob_censoring'] <- 0.8
+  } else if (df$bt[i] == "orb_4"){
+    df[i,'prob_censoring'] <- 0.6
+  } else if (df$bt[i] == "orb_6"){
+    df[i,'prob_censoring'] <- 0.4
+  } else if (df$bt[i] == "orb_8"){
+    df[i,'prob_censoring'] <- 0.2
+  }
+}
+
+write.csv(df, "performances_puste.csv", row.names = FALSE)
+
+
+
+
 
 # Merge performances with counts -------------
 df <- read.csv("performances_all_no_counts.csv")
