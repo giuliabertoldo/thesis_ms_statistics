@@ -127,6 +127,7 @@ df_viz_puste <- function(num_studies, delta_00, psss, sigma2_u, sigma2_v, bias_t
   return(df)
 }
 
+
 # Visualize rejection rates
 viz_rejection_rate <- function(df, num_studies, bias_type){
 
@@ -548,5 +549,217 @@ viz_rejection_rate_pet_int <- function(df, num_studies, bias_type, d, su, sv, ss
 
   return (viz)
 
+}
+
+# Visualize rejection rate using puste selection
+viz_rejection_rate_puste <- function(df, num_studies, ss){
+
+  d <- c(0, 0.2, 0.5, 0.8)
+  su <- c(0.01, 0.06, 0.11)
+  sv <- c(0.01, 0.06, 0.11)
+
+  # Select from dataframe only the observations of interest
+  df1 <- df %>%
+    filter(k %in% num_studies,
+           delta_00 %in% d,
+           sigma2_u %in% su,
+           sigma2_v %in% sv,
+           psss %in% ss) %>%
+    filter(sigma2_u == sigma2_v)
+
+  # Set the correct parameters for the plot
+  hline = 0.80
+  limits_bounds = c(0, 1)
+
+
+  viz <- df1 %>%
+    ggplot(aes(x = prob_censoring)) +
+    geom_point(aes(y = rej_pet_slope,  color = "SMD")) +
+    geom_line(aes(y = rej_pet_slope, color ="SMD", linetype = "SMD")) +
+    geom_point(aes(y = rej_pet_st_slope, color = "Transformed SMD")) +
+    geom_line(aes(y = rej_pet_st_slope, color = "Transformed SMD", linetype = "Transformed SMD")) +
+    facet_grid(sigma2_u_cat ~ factor(delta_00)) +
+    geom_hline(yintercept = hline, linetype = "dashed") +
+    scale_x_continuous(breaks = c(0, 0.20, 0.40, 0.60, 0.80, 1), sec.axis = sec_axis(~ . , name = "True population SMD", breaks = NULL, labels = NULL)) +
+    scale_y_continuous(limits = limits_bounds,sec.axis = sec_axis(~ . , name = "Between & within study variance", breaks = NULL, labels = NULL)) +
+    scale_color_manual(name = "Effect Size", values = c("SMD" = "#E69F00", "Transformed SMD" = "#0072B2")) +
+    scale_linetype_manual(name = "Effect Size", values=c("SMD"="solid", "Transformed SMD"="dotted")) +
+    labs(y = "Power",
+         x = "Probability of censoring non-significant result",
+         caption = sprintf("Meta-analytic dataset size: %s. Primary studies sample size: %s.", df1$k_cat, df1$psss)) +
+    theme_bw()
+
+return(viz)
+
+
+}
+
+# Visualize power per percentage fernandez
+df <- read.csv("performances.csv")
+num_studies = 15
+ss = "small"
+bias_type = "PB No, ORB Strong"
+viz_power_perc_selected <- function(df, num_studies, ss, bias_type){
+
+  d <- c(0, 0.2, 0.5, 0.8)
+  su <- c(0.01, 0.06, 0.11)
+  sv <- c(0.01, 0.06, 0.11)
+
+  # Convert inputs
+
+  if(bias_type == "PB No, ORB Strong"){
+    bias_type <- "pb_no_orb_str"
+    dataset <- "PB No, ORB Strong"
+  } else if (bias_type == "PB No, ORB Moderate") {
+    bias_type <- "pb_no_orb_mod"
+    dataset <- "PB No, ORB Moderate"
+  } else if (bias_type == "PB Strong, ORB No"){
+    bias_type <- "pb_str_orb_no"
+    dataset <- "PB Strong, ORB No"
+  } else if(bias_type == "PB Moderate, ORB No"){
+    bias_type <- "pb_mod_orb_no"
+    dataset <- "PB Moderate, ORB No"
+  } else if(bias_type == "PB Strong, ORB Strong" ){
+    bias_type <- "pb_str_orb_str"
+    dataset <- "PB Strong, ORB Strong"
+  } else if(bias_type == "PB Moderate, ORB Moderate"){
+    bias_type <- "pb_mod_orb_mod"
+    dataset <- "PB Moderate, ORB Moderate"
+  } else if(bias_type == "PB Strong, ORB Moderate") {
+    bias_type <- "pb_str_orb_mod"
+    dataset <- "PB Strong, ORB Moderate"
+  } else if(bias_type == "PB Moderate, ORB Strong"){
+    bias_type <- "pb_mod_orb_str"
+    dataset <- "PB Moderate, ORB Strong"
+  } else if(bias_type == "None"){
+    bias_type <- "pb_no_orb_no"
+    dataset <- "PB No, ORB No"
+  }
+
+  # Select from dataframe only the observations of interest
+  df1 <- df %>%
+    filter(k == num_studies,
+           bt == bias_type,
+           delta_00 %in% d,
+           sigma2_u %in% su,
+           sigma2_v %in% sv,
+           psss == ss) %>%
+    filter(sigma2_u == sigma2_v)
+
+  # Set the correct parameters for the plot
+  hline = 0.80
+  limits_bounds = c(0, 1)
+
+
+  viz <- df1 %>%
+    ggplot(aes(x = avg_perc_out_selected)) +
+    geom_point(aes(y = rej_pet_slope,  color = "SMD")) +
+    geom_line(aes(y = rej_pet_slope, color ="SMD", linetype = "SMD")) +
+    geom_point(aes(y = rej_pet_st_slope, color = "Transformed SMD")) +
+    geom_line(aes(y = rej_pet_st_slope, color = "Transformed SMD", linetype = "Transformed SMD")) +
+    facet_grid(sigma2_u_cat ~ factor(delta_00)) +
+    geom_hline(yintercept = hline, linetype = "dashed") +
+    scale_x_continuous(sec.axis = sec_axis(~ . , name = "True population SMD", breaks = NULL, labels = NULL)) +
+    scale_y_continuous(limits = limits_bounds,sec.axis = sec_axis(~ . , name = "Between & within study variance", breaks = NULL, labels = NULL)) +
+    scale_color_manual(name = "Effect Size", values = c("SMD" = "#E69F00", "Transformed SMD" = "#0072B2")) +
+    scale_linetype_manual(name = "Effect Size", values=c("SMD"="solid", "Transformed SMD"="dotted")) +
+    labs(y = "Power",
+         x = "Percentage of outcomes included from original dataset",
+         caption = sprintf("Meta-analytic dataset size: %s. Primary studies sample size: %s. Bias type: %s.", df1$k_cat, df1$psss, dataset)) +
+    theme_bw()
+
+  return(viz)
+
+}
+
+# Visualize power per percentage puste
+viz_power_perc_selected_puste <- function(df, num_studies, ss){
+
+  d <- c(0, 0.2, 0.5, 0.8)
+  su <- c(0.01, 0.06, 0.11)
+  sv <- c(0.01, 0.06, 0.11)
+
+  # Select from dataframe only the observations of interest
+  df1 <- df %>%
+    filter(k == num_studies,
+           delta_00 %in% d,
+           sigma2_u %in% su,
+           sigma2_v %in% sv,
+           psss == ss) %>%
+    filter(sigma2_u == sigma2_v)
+
+  # Set the correct parameters for the plot
+  hline = 0.80
+  limits_bounds = c(0, 1)
+
+
+  viz <- df1 %>%
+    ggplot(aes(x = avg_perc_out_selected)) +
+    geom_point(aes(y = rej_pet_slope,  color = "SMD")) +
+    geom_line(aes(y = rej_pet_slope, color ="SMD", linetype = "SMD")) +
+    geom_point(aes(y = rej_pet_st_slope, color = "Transformed SMD")) +
+    geom_line(aes(y = rej_pet_st_slope, color = "Transformed SMD", linetype = "Transformed SMD")) +
+    facet_grid(sigma2_u_cat ~ factor(delta_00)) +
+    geom_hline(yintercept = hline, linetype = "dashed") +
+    scale_x_continuous(sec.axis = sec_axis(~ . , name = "True population SMD", breaks = NULL, labels = NULL)) +
+    scale_y_continuous(limits = limits_bounds,sec.axis = sec_axis(~ . , name = "Between & within study variance", breaks = NULL, labels = NULL)) +
+    scale_color_manual(name = "Effect Size", values = c("SMD" = "#E69F00", "Transformed SMD" = "#0072B2")) +
+    scale_linetype_manual(name = "Effect Size", values=c("SMD"="solid", "Transformed SMD"="dotted")) +
+    labs(y = "Power",
+         x = "Percentage of outcomes included from original dataset",
+         caption = sprintf("Meta-analytic dataset size: %s. Primary studies sample size: %s.", df1$k_cat, df1$psss)) +
+    theme_bw()
+
+  return(viz)
+
+}
+
+# Visualize power per percentage selected 2
+viz_percent_out_includded_by_bt <- function(df){
+
+  # Select from dataframe only the observations of interest
+  df1 <- df %>%
+    filter( bt != "pb_no_orb_no")
+
+
+  viz <- df1 %>%
+    ggplot(aes(x = avg_perc_out_selected)) +
+    geom_histogram(bins = 20) +
+    facet_grid(factor(delta_00) ~ factor(bt)) +
+    scale_x_continuous(sec.axis = sec_axis(~ . , name = "Bias type", breaks = NULL, labels = NULL)) +
+      labs(y = "Percentage",
+         x = "Percentage of outcomes included from original dataset",
+         # caption = sprintf("Meta-analytic dataset size: %s. Primary studies sample size: %s.", df1$k_cat, df1$psss)
+      ) +
+    theme_bw()
+
+  return(viz)
+}
+
+# Visualize power per percentage selected 3
+viz_percent_out_includdedpuste <- function(df){
+  viz <- df %>%
+    ggplot(aes(x = avg_perc_out_selected)) +
+    geom_histogram() +
+    facet_grid(factor(delta_00) ~ factor(bt)) +
+    scale_x_continuous(sec.axis = sec_axis(~ . , name = "Bias type", breaks = NULL, labels = NULL)) +
+    labs(y = "Percentage",
+         x = "Percentage of outcomes included from original dataset",
+         # caption = sprintf("Meta-analytic dataset size: %s. Primary studies sample size: %s.", df1$k_cat, df1$psss)
+    ) +
+    theme_bw()
+  return(viz)
+}
+
+# histogram_by_pss
+histogram_by_pss <- function(df_psss){
+  viz <- ggplot(df_psss,
+                aes(x = avg_ss, fill = psss_nominal)) +
+    geom_histogram() +
+    labs(y = "Count",
+         x = "Average sample size") +
+    theme_bw()
+
+  return(viz)
 }
 
