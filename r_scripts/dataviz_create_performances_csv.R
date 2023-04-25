@@ -48,7 +48,7 @@ write.csv(df, "performances_puste.csv", row.names = FALSE)
 
 
 
-# Merge performances with counts -------------
+##  Merge performances with counts -------------
 df <- read.csv("performances_all_no_counts.csv")
 counts_pb_no_orb_str <- read.csv("slurm_counts/counts_pb_no_orb_str.csv")
 counts_pb_no_orb_mod <- read.csv("slurm_counts/counts_pb_no_orb_mod.csv")
@@ -108,3 +108,78 @@ df_unbiased_complete <- df1
 performances <- rbind(df_unbiased_complete, df_biased_complete)
 
 write.csv(performances, "performances.csv", row.names = FALSE)
+
+
+
+## Consider in "performances.csv" only the pure pb and orb ------------
+df <- read.csv("performances_all.csv")
+
+df1 <- df %>%
+  filter(bt != "pb_mod_orb_str",
+         bt != "pb_str_orb_mod",
+         bt != "pb_str_orb_str",
+         bt != "pb_mod_orb_mod")
+
+write.csv(df1, "performances.csv", row.names = FALSE)
+
+
+## Add to performances.csv columns on bias type, strength of bias --------
+df1 <- read.csv("performances.csv")
+max <- dim(df1)[1]
+
+# Add colum on bias type
+for (i in 1:max){
+  if(grepl("orb_no",df1[i, 'bt'])){
+    df1$pb_orb[i] <- "pb"
+  } else if(grepl("pb_no",df1[i, 'bt'])){
+    df1$pb_orb[i] <- "orb"
+  }
+}
+
+# Add colum on strength of bias
+df1[,'mod_str'] <- NA
+
+for (j in 1:max){
+  if(grepl("mod", df1[j, 'bt'])){
+    df1$mod_str[j] <- "mod"
+  } else if(grepl("str",df1[j, 'bt'])){
+    df1$mod_str[j] <- "str"
+  } else {
+    df1$mod_str[j] <- "none"
+  }
+}
+write.csv(df1, "performances.csv", row.names = FALSE)
+
+
+## Add to performances.csv column with readable bias type ----------------
+df1 <- read.csv("performances.csv")
+
+df1[,'bt_read'] <- NA
+
+for (i in 1:dim(df1)[1]){
+  if(df1$bt[i] == "pb_no_orb_str" ){
+    df1$bt_read[i] <- "ORB Strong"
+  } else if (df1$bt[i] == "pb_no_orb_mod") {
+    df1$bt_read[i] <- "ORB Moderate"
+  } else if (df1$bt[i] == "pb_str_orb_no"){
+    df1$bt_read[i] <- "PB Strong"
+  } else if(df1$bt[i] == "pb_mod_orb_no"){
+    df1$bt_read[i] <- "PB Moderate"
+  } else if(df1$bt[i] == "pb_no_orb_no"){
+    df1$bt_read[i] <- "None"
+  }
+}
+
+write.csv(df1, "performances.csv", row.names = FALSE)
+
+## Add to performances.csv column with percentage exlcuded ----------------
+df1 <- read.csv("performances.csv")
+
+df1$avg_perc_out_excluded <- 100 - df1$avg_perc_out_selected
+
+check <- df1$avg_perc_out_excluded + df1$avg_perc_out_selected
+sum(check != 100)
+
+write.csv(df1, "performances.csv", row.names = FALSE)
+
+
