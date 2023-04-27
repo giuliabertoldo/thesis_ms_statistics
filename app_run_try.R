@@ -63,7 +63,12 @@ ui <- fluidPage(
                DT::dataTableOutput("pw_me_sp_table1")
              ))
     ),
-    tabPanel("M.PET-PEESE")
+    tabPanel("M.PET-PEESE",
+             sidebarLayout(
+               sidebarPanel(),
+               mainPanel(
+                 plotOutput("pw_pet_int_plot1")
+                           )))
   )
 )
 
@@ -115,6 +120,10 @@ server <- function(input, output, session){
 
   output$pw_me_sp_table1 <- DT::renderDataTable({
     table_rejection_rate_puste(df = df_puste, num_studies = input$k_pw_me_sp, prob_cens = input$pc_pw_me_sp)
+  })
+
+  output$pw_pet_int_plot1 <- renderPlot({
+    viz_pwr_pet_int_subset(df = df_puste)
   })
 
 }
