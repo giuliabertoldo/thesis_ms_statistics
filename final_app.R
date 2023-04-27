@@ -32,7 +32,9 @@ ui <- fluidPage(
                               selectInput("k_t1e_me", "Number of studies", c(15, 30, 70)),
                               selectInput("bt_t1e_me", "Selection Bias Type", c("None"))
                           ),
-                            mainPanel())
+                            mainPanel(
+                              "Type I error of Multilevel Egger's regression test."
+                            ))
 
              )
   )
