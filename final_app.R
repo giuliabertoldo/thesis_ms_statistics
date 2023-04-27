@@ -76,11 +76,13 @@ ui <- fluidPage(
                            )),
     tabPanel("MSE - Adj.Estimate",
              sidebarLayout(sidebarPanel(
-                              selectInput("k_rr_pet_int", "Number of studies", c(15, 30, 70)),
-                              selectInput("bt_rr_pet_int", "Selection Bias Type", c("ORB Strong", "ORB Moderate",
+                              selectInput("k_mse", "Number of studies", c(15, 30, 70)),
+                              selectInput("bt_mse", "Selection Bias Type", c("ORB Strong", "ORB Moderate",
                                                                      "PB Strong", "PB Moderate"))
                           ),
-                           mainPanel()))
+                           mainPanel(
+
+                           )))
   )
 )
 
