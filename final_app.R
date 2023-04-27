@@ -17,7 +17,10 @@ ui <- fluidPage(
              sidebarLayout(sidebarPanel(),
                             mainPanel(
                               "Primary studies sample size",
-                              tableOutput("table_ss_check")
+                              tableOutput("table_ss_check"),
+
+                              "Percentage of outcomes excluded from the original dataset",
+                              tableOutput("table_perc_out_excl")
                             ))
     )
   )
@@ -29,6 +32,9 @@ server <- function(input, output, session){
     table_psss(df = df_psss)
   })
 
+  output$table_perc_out_excl <- renderTable({
+    table_perc_out_excluded_by_bt(df = df)
+  })
 }
 
 shinyApp(ui, server)
