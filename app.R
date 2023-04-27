@@ -64,7 +64,15 @@ ui <- fluidPage(
              ))
     ),
 
-    tabPanel("M.PET-PEESE"),
+    tabPanel("M.PET-PEESE",
+            sidebarLayout(sidebarPanel(
+                            selectInput("k_pw_pet_int", "Number of studies", c(15, 30, 70)),
+                            selectInput("bt_pw_pet_int", "Selection Bias Type", c("ORB Strong", "ORB Moderate",
+                                                               "PB Strong", "PB Moderate"))
+                          ),
+                          mainPanel())
+
+    ),
 
     tabPanel("M.PET-PEESE - Selec.Pu.",
              sidebarLayout(
