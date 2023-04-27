@@ -33,7 +33,8 @@ ui <- fluidPage(
                               selectInput("bt_t1e_me", "Selection Bias Type", c("None"))
                           ),
                             mainPanel(
-                              "Type I error of Multilevel Egger's regression test."
+                              "Type I error of Multilevel Egger's regression test.",
+                              plotOutput("t1e_me_plot1")
                             ))
 
              )
@@ -64,6 +65,10 @@ server <- function(input, output, session){
 
   output$hist_perc_out_excluded_by_psss <- renderPlot({
     viz_hist_perc_excluded_by_psss(df = df)
+  })
+
+  output$t1e_me_plot1 <- renderPlot({
+    viz_rejection_rate(df = df, num_studies = input$k_t1e_me, bias_type = input$bt_t1e_me)
   })
 }
 
