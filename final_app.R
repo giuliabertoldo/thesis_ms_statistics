@@ -34,7 +34,8 @@ ui <- fluidPage(
                           ),
                             mainPanel(
                               "Type I error of Multilevel Egger's regression test.",
-                              plotOutput("t1e_me_plot1")
+                              plotOutput("t1e_me_plot1"),
+                              DT::dataTableOutput("t1e_me_table1")
                             ))
 
              )
@@ -69,6 +70,10 @@ server <- function(input, output, session){
 
   output$t1e_me_plot1 <- renderPlot({
     viz_rejection_rate(df = df, num_studies = input$k_t1e_me, bias_type = input$bt_t1e_me)
+  })
+
+  output$t1e_me_table1 <- DT::renderDataTable({
+    table_rejection_rate(df = df, num_studies = input$k_t1e_me, bias_type = input$bt_t1e_me)
   })
 }
 
