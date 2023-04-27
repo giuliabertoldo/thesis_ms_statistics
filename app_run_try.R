@@ -67,8 +67,9 @@ ui <- fluidPage(
              sidebarLayout(
                sidebarPanel(),
                mainPanel(
-                 plotOutput("pw_pet_int_plot1")
-                           )))
+                 plotOutput("pw_pet_int_plot1"),
+                 DT::dataTableOutput("pw_pet_int_table1")
+                )))
   )
 )
 
@@ -124,6 +125,10 @@ server <- function(input, output, session){
 
   output$pw_pet_int_plot1 <- renderPlot({
     viz_pwr_pet_int_subset(df = df_puste)
+  })
+
+  output$pw_pet_int_table1 <- DT::renderDataTable({
+    table_pet_int_subset(df = df_puste)
   })
 
 }
