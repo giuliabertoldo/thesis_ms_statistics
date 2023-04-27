@@ -28,7 +28,10 @@ ui <- fluidPage(
                             ))
             ),
     tabPanel("Type I error - M.Egger",
-             sidebarLayout(sidebarPanel(),
+             sidebarLayout(sidebarPanel(
+                              selectInput("k_t1e_me", "Number of studies", c(15, 30, 70)),
+                              selectInput("bt_t1e_me", "Selection Bias Type", c("None"))
+                          ),
                             mainPanel())
 
              )
