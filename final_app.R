@@ -81,7 +81,7 @@ ui <- fluidPage(
                                                                      "PB Strong", "PB Moderate"))
                           ),
                            mainPanel(
-
+                             plotOutput("mse_plot1"),
                            )))
   )
 )
@@ -142,6 +142,10 @@ server <- function(input, output, session){
 
   output$rr_pet_int_table1 <- DT::renderDataTable({
     table_rejection_rate_pet_int(df = df, num_studies = input$k_rr_pet_int, bias_type = input$bt_rr_pet_int)
+  })
+
+  output$mse_plot1 <- renderPlot({
+    viz_mse(df = df, num_studies = input$k_mse, bias_type = input$bt_mse)
   })
 
 }
