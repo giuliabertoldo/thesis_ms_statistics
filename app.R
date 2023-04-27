@@ -64,15 +64,16 @@ ui <- fluidPage(
              ))
     ),
 
-    tabPanel("M.PET-PEESE",
+    tabPanel("M.PET-PEESE: PET Int.",
             sidebarLayout(sidebarPanel(
                             selectInput("k_rr_pet_int", "Number of studies", c(15, 30, 70)),
                             selectInput("bt_rr_pet_int", "Selection Bias Type", c("ORB Strong", "ORB Moderate",
                                                                "PB Strong", "PB Moderate"))
                           ),
                           mainPanel(
-                            "Power of intercept in Multilevel PET / Multilevel Egger's regression test",
-                            plotOutput("viz_pet_int")
+                            "Rejection rate of intercept in Multilevel PET / Multilevel Egger's regression test",
+                            plotOutput("viz_pet_int"),
+                            DT::dataTableOutput("table_pet_int")
                           ))
 
     ),
@@ -160,9 +161,12 @@ server <- function(input, output, session){
   })
 
   output$viz_pet_int <- renderPlot({
-    viz_pwr_pet_int(df = df, num_studies = input$k_rr_pet_int, bias_type = input$bt_rr_pet_int)
+    viz_rr_pet_int(df = df, num_studies = input$k_rr_pet_int, bias_type = input$bt_rr_pet_int)
   })
 
+  output$table_pet_int <- DT::renderDataTable({
+    table_rr_pet_int(df = df, num_studies = input$k_rr_pet_int, bias_type = input$bt_rr_pet_int)
+  })
 }
 
 shinyApp(ui, server)

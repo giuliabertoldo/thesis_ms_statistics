@@ -771,7 +771,7 @@ df <- read.csv("performances.csv")
 num_studies = 70
 bias_type = "ORB Strong"
 
-viz_pwr_pet_int <- function(df, num_studies, bias_type){
+viz_rr_pet_int <- function(df, num_studies, bias_type){
   # Convert inputs
   if(bias_type == "ORB Strong"){
     bias_type <- "pb_no_orb_str"
@@ -806,13 +806,53 @@ viz_pwr_pet_int <- function(df, num_studies, bias_type){
     scale_y_continuous(sec.axis = sec_axis(~ . , name = "Between & within study variance", breaks = NULL, labels = NULL)) +
     scale_color_manual(name = "Effect Size", values = c("SMD" = "#E69F00", "Transformed SMD" = "#0072B2")) +
     scale_linetype_manual(name = "Effect Size", values=c("SMD"="solid", "Transformed SMD"="dotted")) +
-    labs(y = "rejection_rate",
+    labs(y = "Rejection Rate",
          x = "Population SMD",
          caption = sprintf("Meta-analytic dataset size: %s. Bias type: %s.", df1$k_cat, dataset)) +
     theme_bw()
 
   return (viz)
 }
+
+table_rr_pet_int <- function(df, num_studies, bias_type){
+  # Convert inputs
+  if(bias_type == "ORB Strong"){
+    bias_type <- "pb_no_orb_str"
+    dataset <- "ORB Strong"
+  } else if (bias_type == "ORB Moderate") {
+    bias_type <- "pb_no_orb_mod"
+    dataset <- "ORB Moderate"
+  } else if (bias_type == "PB Strong"){
+    bias_type <- "pb_str_orb_no"
+    dataset <- "PB Strong"
+  } else if(bias_type == "PB Moderate"){
+    bias_type <- "pb_mod_orb_no"
+    dataset <- "PB Moderate"
+  }
+
+  # Select from dataframe only the observations of interest
+  df1 <- df %>%
+    filter(k == num_studies,
+           bt == bias_type,
+           sigma2_u == sigma2_v)
+
+  df_out <- df1 %>%
+    select(delta_00, psss, sigma2_u_cat, rej_pet_int, rej_pet_st_int) %>%
+    transmute(populationSMD = delta_00,
+              sampleSize  = psss,
+              heterogeneity = sigma2_u_cat,
+              rrSmd = round(rej_pet_int, 2),
+              rrTranSmd = round(rej_pet_st_int, 2))
+
+  df_out <- datatable(df_out,
+                      filter = 'top', options = list(pageLength = 9, autoWidth = TRUE),
+                      colnames = c("Population SMD", "n", "Heterogeneity", "Rej.Rate SMD", "Rej.Rate Transf.SMD" ))
+
+  return(df_out)
+
+}
+
+
 viz_mse <- function(df, num_studies, bias_type){
 
   # Convert inputs
