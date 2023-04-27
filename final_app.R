@@ -9,7 +9,8 @@ df_psss <- read.csv("avg_psss_counts.csv")
 
 
 ui <- fluidPage(
-
+  titlePanel("Performance Analyzer"),
+  theme = shinythemes::shinytheme('readable')
 )
 
 server <- function(input, output){
