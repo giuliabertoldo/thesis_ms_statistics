@@ -69,7 +69,9 @@ ui <- fluidPage(
                               selectInput("bt_rr_pet_int", "Selection Bias Type", c("ORB Strong", "ORB Moderate",
                                                                      "PB Strong", "PB Moderate"))
                           ),
-                           mainPanel(),
+                           mainPanel(
+                              plotOutput("rr_pet_int_plot1")
+                           ),
                            ))
   )
 )
@@ -122,6 +124,10 @@ server <- function(input, output, session){
 
   output$pw_me_sp_table1 <- DT::renderDataTable({
     table_rejection_rate_puste(df = df_puste, num_studies = input$k_pw_me_sp, prob_cens = input$pc_pw_me_sp)
+  })
+
+  output$rr_pet_int_plot1 <- renderPlot({
+    viz_rejection_pet_intercept(df = df, num_studies = input$k_rr_pet_int, bias_type = input$bt_rr_pet_int)
   })
 
 }
