@@ -66,11 +66,14 @@ ui <- fluidPage(
 
     tabPanel("M.PET-PEESE",
             sidebarLayout(sidebarPanel(
-                            selectInput("k_pw_pet_int", "Number of studies", c(15, 30, 70)),
-                            selectInput("bt_pw_pet_int", "Selection Bias Type", c("ORB Strong", "ORB Moderate",
+                            selectInput("k_rr_pet_int", "Number of studies", c(15, 30, 70)),
+                            selectInput("bt_rr_pet_int", "Selection Bias Type", c("ORB Strong", "ORB Moderate",
                                                                "PB Strong", "PB Moderate"))
                           ),
-                          mainPanel())
+                          mainPanel(
+                            "Power of intercept in Multilevel PET / Multilevel Egger's regression test",
+                            plotOutput("viz_pet_int")
+                          ))
 
     ),
 
@@ -154,6 +157,10 @@ server <- function(input, output, session){
 
   output$mse_adj_table1 <- DT::renderDataTable({
     table_mse_subset(df = df_puste)
+  })
+
+  output$viz_pet_int <- renderPlot({
+    viz_pwr_pet_int(df = df, num_studies = input$k_rr_pet_int, bias_type = input$bt_rr_pet_int)
   })
 
 }
