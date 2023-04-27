@@ -12,8 +12,12 @@ ui <- fluidPage(
   titlePanel("Performance Analyzer"),
   theme = shinythemes::shinytheme('readable'),
 
-  tabsetPanel(tabPanel("Descriptives",
-                       "contents"))
+  tabsetPanel(
+    tabPanel("Descriptives",
+             sidebarLayout(sidebarPanel(),
+                            mainPanel())
+    )
+  )
 )
 
 server <- function(input, output){
