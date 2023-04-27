@@ -54,8 +54,14 @@ ui <- fluidPage(
 
             ),
     tabPanel("Power - M.Egger - Selec.Pu.",
-             sidebarLayout(sidebarPanel(),
-                           mainPanel(),
+             sidebarLayout(sidebarPanel(
+                              selectInput("k_pw_me_sp", "Number of studies", c(15, 30, 70)),
+                              selectInput("pc_pw_me_sp", "Probability of censoring non-significant results", c(1, 0.8, 0.6, 0.4, 0.2))
+                          ),
+                           mainPanel(
+                             plotOutput("pw_me_sp_plot1"),
+                             DT::dataTableOutput("pw_me_sp_table1")
+                           ),
                            )
                           )
   )
@@ -102,6 +108,15 @@ server <- function(input, output, session){
   output$pw_me_table1 <- DT::renderDataTable({
     table_rejection_rate(df = df, num_studies = input$k_pw_me, bias_type = input$bt_pw_me)
   })
+
+  output$pw_me_sp_plot1 <- renderPlot({
+    viz_rejection_rate_puste(df = df_puste, num_studies = input$k_pw_me_sp, prob_cens = input$pc_pw_me_sp)
+  })
+
+  output$pw_me_sp_table1 <- DT::renderDataTable({
+    table_rejection_rate_puste(df = df_puste, num_studies = input$k_pw_me_sp, prob_cens = input$pc_pw_me_sp)
+  })
+
 }
 
 shinyApp(ui, server)
