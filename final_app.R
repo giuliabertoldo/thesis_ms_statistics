@@ -52,7 +52,12 @@ ui <- fluidPage(
                            )
                            )
 
-            )
+            ),
+    tabPanel("Power - M.Egger - Selec.Pu.",
+             sidebarLayout(sidebarPanel(),
+                           mainPanel(),
+                           )
+                          )
   )
 )
 
