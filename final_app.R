@@ -48,6 +48,7 @@ ui <- fluidPage(
                            mainPanel(
                              "Power of Multilevel Egger's regression test.",
                              plotOutput("pw_me_plot1"),
+                             DT::dataTableOutput("pw_me_table1")
                            )
                            )
 
@@ -91,6 +92,10 @@ server <- function(input, output, session){
 
   output$pw_me_plot1 <- renderPlot({
     viz_rejection_rate(df = df, num_studies = input$k_pw_me, bias_type = input$bt_pw_me)
+  })
+
+  output$pw_me_table1 <- DT::renderDataTable({
+    table_rejection_rate(df = df, num_studies = input$k_pw_me, bias_type = input$bt_pw_me)
   })
 }
 
