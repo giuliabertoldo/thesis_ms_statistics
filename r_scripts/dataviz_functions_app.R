@@ -144,6 +144,7 @@ table_psss <- function(df){
 
 }
 
+
 table_perc_out_excluded_by_bt <- function(df){
 
   table_out <- df %>%
@@ -852,8 +853,7 @@ table_rr_pet_int <- function(df, num_studies, bias_type){
 
 }
 
-
-viz_mse <- function(df, num_studies, bias_type){
+viz_adj_est_rmse <- function(df, num_studies, bias_type){
 
   # Convert inputs
   if(bias_type == "ORB Strong"){
@@ -878,16 +878,16 @@ viz_mse <- function(df, num_studies, bias_type){
 
   viz <- df1 %>%
     ggplot(aes(x = delta_00)) +
-    geom_point(aes(y = mse_corrected_smd,  color = "SMD")) +
-    geom_line(aes(y = mse_corrected_smd, color ="SMD", linetype = "SMD")) +
-    geom_point(aes(y = mse_corrected_st_smd, color = "Transformed SMD")) +
-    geom_line(aes(y = mse_corrected_st_smd, color = "Transformed SMD", linetype = "Transformed SMD")) +
+    geom_point(aes(y = rmse_corrected_smd,  color = "SMD")) +
+    geom_line(aes(y = rmse_corrected_smd, color ="SMD", linetype = "SMD")) +
+    geom_point(aes(y = rmse_corrected_st_smd, color = "Transformed SMD")) +
+    geom_line(aes(y = rmse_corrected_st_smd, color = "Transformed SMD", linetype = "Transformed SMD")) +
     facet_grid(sigma2_u_cat ~ fct_rev(psss)) +
     scale_x_continuous(breaks = c(0, 0.2, 0.5, 0.8), sec.axis = sec_axis(~ . , name = "Primary Studies Sample Size", breaks = NULL, labels = NULL)) +
     scale_y_continuous(sec.axis = sec_axis(~ . , name = "Between & within study variance", breaks = NULL, labels = NULL)) +
     scale_color_manual(name = "Effect Size", values = c("SMD" = "#E69F00", "Transformed SMD" = "#0072B2")) +
     scale_linetype_manual(name = "Effect Size", values=c("SMD"="solid", "Transformed SMD"="dotted")) +
-    labs(y = "MSE",
+    labs(y = "RMSE",
          x = "Population SMD",
          caption = sprintf("Meta-analytic dataset size: %s. Bias type: %s.", df1$k_cat, dataset)) +
     theme_bw()

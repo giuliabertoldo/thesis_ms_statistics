@@ -183,3 +183,24 @@ sum(check != 100)
 write.csv(df1, "performances.csv", row.names = FALSE)
 
 
+## Add to performances.csv RMSE ---------
+df <- read.csv("performances.csv")
+
+df[, "rmse_corrected_smd"] <- NA
+df[, "rmse_corrected_st_smd"] <- NA
+
+df$rmse_corrected_smd <- sqrt(df$mse_corrected_smd)
+df$rmse_corrected_st_smd <- sqrt(df$mse_corrected_st_smd)
+
+write.csv(df, "performances.csv", row.names = FALSE)
+
+## Add to performances_puste.csv RMSE ---------
+df <- read.csv("performances_puste.csv")
+
+df[, "rmse_corrected_smd"] <- NA
+df[, "rmse_corrected_st_smd"] <- NA
+
+df$rmse_corrected_smd <- sqrt(df$mse_corrected_smd)
+df$rmse_corrected_st_smd <- sqrt(df$mse_corrected_st_smd)
+
+write.csv(df, "performances_puste.csv", row.names = FALSE)

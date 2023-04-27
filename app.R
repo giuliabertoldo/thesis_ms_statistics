@@ -78,6 +78,17 @@ ui <- fluidPage(
 
     ),
 
+    tabPanel("M.PET-PEESE: Adj. Estim.",
+             sidebarLayout(sidebarPanel(
+                             selectInput("k_adj_est", "Number of studies", c(15, 30, 70)),
+                             selectInput("bt_adj_est", "Selection Bias Type", c("ORB Strong", "ORB Moderate",
+                                                                     "PB Strong", "PB Moderate"))
+                          ),
+                           mainPanel(
+                             h5("RMSE Adjusted Estimate"),
+                             plotOutput("viz_rmse_adj_est")
+                           ))),
+
     tabPanel("M.PET-PEESE - Selec.Pu.",
              sidebarLayout(
                sidebarPanel(),
@@ -166,6 +177,10 @@ server <- function(input, output, session){
 
   output$table_pet_int <- DT::renderDataTable({
     table_rr_pet_int(df = df, num_studies = input$k_rr_pet_int, bias_type = input$bt_rr_pet_int)
+  })
+
+  output$viz_rmse_adj_est <- renderPlot({
+    viz_adj_est_rmse(df = df, num_studies = input$k_adj_est, bias_type = input$bt_adj_est)
   })
 }
 
