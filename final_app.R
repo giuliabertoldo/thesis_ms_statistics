@@ -23,7 +23,8 @@ ui <- fluidPage(
                               tableOutput("table_perc_out_excl"),
                               plotOutput("hist_perc_out_excl"),
                               tableOutput("table_perc_out_excluded_by_d"),
-                              plotOutput("viz_hist_perc_excluded_by_d")
+                              plotOutput("viz_hist_perc_excluded_by_d"),
+                              plotOutput("hist_perc_out_excluded_by_psss")
                             ))
     )
   )
@@ -49,6 +50,10 @@ server <- function(input, output, session){
 
   output$viz_hist_perc_excluded_by_d <- renderPlot({
     viz_hist_perc_excluded_by_d(df = df)
+  })
+
+  output$hist_perc_out_excluded_by_psss <- renderPlot({
+    viz_hist_perc_excluded_by_psss(df = df)
   })
 }
 
