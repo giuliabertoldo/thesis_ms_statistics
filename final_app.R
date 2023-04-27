@@ -22,7 +22,8 @@ ui <- fluidPage(
                               "Percentage of outcomes excluded from the original dataset",
                               tableOutput("table_perc_out_excl"),
                               plotOutput("hist_perc_out_excl"),
-                              tableOutput("table_perc_out_excluded_by_d")
+                              tableOutput("table_perc_out_excluded_by_d"),
+                              plotOutput("viz_hist_perc_excluded_by_d")
                             ))
     )
   )
@@ -44,6 +45,10 @@ server <- function(input, output, session){
 
   output$table_perc_out_excluded_by_d <- renderTable({
     table_perc_out_excluded_by_bt_delta(df = df)
+  })
+
+  output$viz_hist_perc_excluded_by_d <- renderPlot({
+    viz_hist_perc_excluded_by_d(df = df)
   })
 }
 
