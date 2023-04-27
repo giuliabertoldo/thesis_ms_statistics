@@ -26,9 +26,12 @@ ui <- fluidPage(
                               plotOutput("viz_hist_perc_excluded_by_d"),
                               plotOutput("hist_perc_out_excluded_by_psss")
                             ))
-    ),
-    tabPanel("Type I error - M.Egger"
-    )
+            ),
+    tabPanel("Type I error - M.Egger",
+             sidebarLayout(sidebarPanel(),
+                            mainPanel())
+
+             )
   )
 )
 
