@@ -67,7 +67,7 @@ ui <- fluidPage(
              sidebarLayout(
                sidebarPanel(),
                mainPanel(
-                 h5("Power Multilevel PET intercept: Conditions with at least 80% in Multilevel Egger's regression test"),
+                 h4("Power Multilevel PET intercept: Conditions with at least 80% in Multilevel Egger's regression test"),
                  p("Conditions descriptions:"),
                  p("- Selection mechanims from Pustejovsky & Rodgers (2018)"),
                  p("- Probability of censoring nonsignificant results: 1"),
@@ -75,7 +75,14 @@ ui <- fluidPage(
                  p("- Within and between study variance: small"),
                  p("- Population SMD of 0.5 and all primary studies sample sizes"),
                  p("- Population SMD of 0.8 and small primary study sample size"),
-                 DT::dataTableOutput("pw_pet_int_table1")
+                 DT::dataTableOutput("pw_pet_int_table1"),
+
+                 h4("MSE adjusted estimate: Conditions with at least 80% in PET intercept"),
+                 p("Conditions description:"),
+                 p("- Population SMD of 0.5 and primary study sample size medium or large"),
+                 p("- Population SMD of 0.8 and small primary study sample size"),
+                 DT::dataTableOutput("mse_adj_table1")
+
                 )))
   )
 )
@@ -132,6 +139,10 @@ server <- function(input, output, session){
 
   output$pw_pet_int_table1 <- DT::renderDataTable({
     table_pet_int_subset(df = df_puste)
+  })
+
+  output$mse_adj_table1 <- DT::renderDataTable({
+    table_mse_subset(df = df_puste)
   })
 
 }
