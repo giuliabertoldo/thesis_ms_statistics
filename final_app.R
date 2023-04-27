@@ -15,12 +15,19 @@ ui <- fluidPage(
   tabsetPanel(
     tabPanel("Descriptives",
              sidebarLayout(sidebarPanel(),
-                            mainPanel())
+                            mainPanel(
+                              "Primary studies sample size",
+                              tableOutput("table_ss_check")
+                            ))
     )
   )
 )
 
-server <- function(input, output){
+server <- function(input, output, session){
+
+  output$table_ss_check <- renderTable({
+    table_psss(df = df_psss)
+  })
 
 }
 
