@@ -86,7 +86,8 @@ ui <- fluidPage(
                           ),
                            mainPanel(
                              h5("RMSE Adjusted Estimate"),
-                             plotOutput("viz_rmse_adj_est")
+                             plotOutput("viz_rmse_adj_est"),
+                             DT::dataTableOutput("table_rmse_adj_est")
                            ))),
 
     tabPanel("M.PET-PEESE - Selec.Pu.",
@@ -181,6 +182,10 @@ server <- function(input, output, session){
 
   output$viz_rmse_adj_est <- renderPlot({
     viz_adj_est_rmse(df = df, num_studies = input$k_adj_est, bias_type = input$bt_adj_est)
+  })
+
+  output$table_rmse_adj_est <- DT::renderDataTable({
+    table_adj_est_rmse(df = df, num_studies = input$k_adj_est, bias_type = input$bt_adj_est)
   })
 }
 

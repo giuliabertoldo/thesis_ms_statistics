@@ -895,3 +895,42 @@ viz_adj_est_rmse <- function(df, num_studies, bias_type){
   return (viz)
 }
 
+df <- read.csv("performances.csv")
+num_studies = 15
+bias_type = "ORB Strong"
+table_adj_est_rmse <- function(df, num_studies, bias_type){
+  # Convert inputs
+  if(bias_type == "ORB Strong"){
+    bias_type <- "pb_no_orb_str"
+    dataset <- "ORB Strong"
+  } else if (bias_type == "ORB Moderate") {
+    bias_type <- "pb_no_orb_mod"
+    dataset <- "ORB Moderate"
+  } else if (bias_type == "PB Strong"){
+    bias_type <- "pb_str_orb_no"
+    dataset <- "PB Strong"
+  } else if(bias_type == "PB Moderate"){
+    bias_type <- "pb_mod_orb_no"
+    dataset <- "PB Moderate"
+  }
+
+  # Select from dataframe only the observations of interest
+  df1 <- df %>%
+    filter(k == num_studies,
+           bt == bias_type,
+           sigma2_u == sigma2_v)
+
+  df_out <- df1 %>%
+    select(delta_00, psss, sigma2_u_cat, rmse_corrected_smd, rmse_corrected_st_smd) %>%
+    transmute(populationSMD = delta_00,
+              sampleSize  = psss,
+              heterogeneity = sigma2_u_cat,
+              rmseSmd = round(rmse_corrected_smd, 3),
+              rmseTranSmd = round(rmse_corrected_st_smd, 3))
+
+  df_out <- datatable(df_out,
+                      filter = 'top', options = list(pageLength = 9, autoWidth = TRUE),
+                      colnames = c("Population SMD", "n", "Heterogeneity", "RMSE SMD", "RMSE Transf.SMD" ))
+
+  return(df_out)
+}
