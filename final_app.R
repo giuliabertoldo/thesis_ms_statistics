@@ -6,3 +6,14 @@ source("r_scripts/dataviz_functions_app.R")
 df <- read.csv("performances.csv")
 df_puste <- read.csv("performances_puste.csv")
 df_psss <- read.csv("avg_psss_counts.csv")
+
+
+ui <- fluidPage(
+
+)
+
+server <- function(input, output){
+
+}
+
+shinyApp(ui, server)
