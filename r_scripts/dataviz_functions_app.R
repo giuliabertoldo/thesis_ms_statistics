@@ -3,7 +3,6 @@ library(ggplot2)
 library(kableExtra)
 library(DT)
 
-# Extract all performance data to be visualized
 df_viz <- function(num_studies, delta_00, psss, sigma2_u, sigma2_v, bias_type){
   df = data.frame()
 
@@ -67,7 +66,6 @@ df_viz <- function(num_studies, delta_00, psss, sigma2_u, sigma2_v, bias_type){
   return(df)
 }
 
-# Extract all performance data to be visualized: Puste selection
 df_viz_puste <- function(num_studies, delta_00, psss, sigma2_u, sigma2_v, bias_type){
   df = data.frame()
 
@@ -130,8 +128,6 @@ df_viz_puste <- function(num_studies, delta_00, psss, sigma2_u, sigma2_v, bias_t
 
   return(df)
 }
-
-# Descriptives ------------
 
 table_psss <- function(df){
   table_out <- df %>%
@@ -725,7 +721,6 @@ viz_mse <- function(df, num_studies, bias_type){
 
   return (viz)
 }
-
 
 viz_pwr_pet_int_subset <- function(df){
   # Select from dataframe only the observations of interest
