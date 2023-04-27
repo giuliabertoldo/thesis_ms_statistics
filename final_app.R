@@ -38,7 +38,10 @@ ui <- fluidPage(
                               DT::dataTableOutput("t1e_me_table1")
                             ))
 
-             )
+             ),
+    tabPanel("Power - M.Egger"
+
+            )
   )
 )
 
