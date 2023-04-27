@@ -39,7 +39,14 @@ ui <- fluidPage(
                             ))
 
              ),
-    tabPanel("Power - M.Egger"
+    tabPanel("Power - M.Egger",
+             sidebarLayout(sidebarPanel(
+                              selectInput("k_pw_me", "Number of studies", c(15, 30, 70)),
+                              selectInput("bt_pw_me", "Selection Bias Type", c("ORB Strong", "ORB Moderate",
+                                                                "PB Strong", "PB Moderate"))
+                          ),
+                           mainPanel()
+                           )
 
             )
   )
