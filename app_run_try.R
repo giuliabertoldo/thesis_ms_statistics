@@ -62,7 +62,8 @@ ui <- fluidPage(
                plotOutput("pw_me_sp_plot1"),
                DT::dataTableOutput("pw_me_sp_table1")
              ))
-    )
+    ),
+    tabPanel("M.PET-PEESE")
   )
 )
 
