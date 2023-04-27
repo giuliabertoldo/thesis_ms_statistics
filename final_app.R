@@ -61,9 +61,16 @@ ui <- fluidPage(
                            mainPanel(
                              plotOutput("pw_me_sp_plot1"),
                              DT::dataTableOutput("pw_me_sp_table1")
-                           ),
-                           )
-                          )
+                           ))
+                          ),
+    tabPanel("RejectionRate - PET intercept",
+             sidebarLayout(sidebarPanel(
+                              selectInput("k_rr_pet_int", "Number of studies", c(15, 30, 70)),
+                              selectInput("bt_rr_pet_int", "Selection Bias Type", c("ORB Strong", "ORB Moderate",
+                                                                     "PB Strong", "PB Moderate"))
+                          ),
+                           mainPanel(),
+                           ))
   )
 )
 
