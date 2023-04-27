@@ -63,7 +63,10 @@ ui <- fluidPage(
                DT::dataTableOutput("pw_me_sp_table1")
              ))
     ),
-    tabPanel("M.PET-PEESE",
+
+    tabPanel("M.PET-PEESE"),
+
+    tabPanel("M.PET-PEESE - Selec.Pu.",
              sidebarLayout(
                sidebarPanel(),
                mainPanel(
