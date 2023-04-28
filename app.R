@@ -38,6 +38,12 @@ ui <- fluidPage(
              ),
              mainPanel(
                h4("Type I error of Multilevel Egger's regression test."),
+               h4("Conditions with less than 1% non-covergence."),
+               plotOutput("t1e_me_plot2"),
+               DT::dataTableOutput("t1e_me_table2"),
+
+               h4("Type I error of Multilevel Egger's regression test."),
+               h4("All conditions"),
                plotOutput("t1e_me_plot1"),
                DT::dataTableOutput("t1e_me_table1")
              ))
@@ -106,10 +112,22 @@ ui <- fluidPage(
                                                                      "PB Strong", "PB Moderate"))
                           ),
                            mainPanel(
-                             h5("RMSE Adjusted Estimate"),
+
+                             h4("RMSE Adjusted Estimate"),
+                             h4("Conditions with less than 1% non-covergence."),
+                             plotOutput("viz_rmse_adj_est2"),
+                             DT::dataTableOutput("table_rmse_adj_est2"),
+                             h4("Bias Adjusted Estimate"),
+                             h4("Conditions with less than 1% non-covergence."),
+                             plotOutput("viz_bias_adj_est2"),
+                             DT::dataTableOutput("table_bias_adj_est2"),
+
+                             h4("RMSE Adjusted Estimate"),
+                             h4("All conditions"),
                              plotOutput("viz_rmse_adj_est"),
                              DT::dataTableOutput("table_rmse_adj_est"),
-                             h5("Bias Adjusted Estimate"),
+                             h4("Bias Adjusted Estimate"),
+                             h4("All conditions"),
                              plotOutput("viz_bias_adj_est"),
                              DT::dataTableOutput("table_bias_adj_est")
                            ))),
@@ -172,6 +190,14 @@ server <- function(input, output, session){
     table_rejection_rate(df = df, num_studies = input$k_t1e_me, bias_type = input$bt_t1e_me)
   })
 
+  output$t1e_me_plot2 <- renderPlot({
+    viz_rejection_rate(df = df_sub, num_studies = input$k_t1e_me, bias_type = input$bt_t1e_me)
+  })
+
+  output$t1e_me_table2 <- DT::renderDataTable({
+    table_rejection_rate(df = df_sub, num_studies = input$k_t1e_me, bias_type = input$bt_t1e_me)
+  })
+
   output$pw_me_plot1 <- renderPlot({
     viz_rejection_rate(df = df, num_studies = input$k_pw_me, bias_type = input$bt_pw_me)
   })
@@ -225,8 +251,16 @@ server <- function(input, output, session){
     viz_adj_est_rmse(df = df, num_studies = input$k_adj_est, bias_type = input$bt_adj_est)
   })
 
+  output$viz_rmse_adj_est2 <- renderPlot({
+    viz_adj_est_rmse(df = df_sub, num_studies = input$k_adj_est, bias_type = input$bt_adj_est)
+  })
+
   output$table_rmse_adj_est <- DT::renderDataTable({
     table_adj_est_rmse(df = df, num_studies = input$k_adj_est, bias_type = input$bt_adj_est)
+  })
+
+  output$table_rmse_adj_est2 <- DT::renderDataTable({
+    table_adj_est_rmse(df = df_sub, num_studies = input$k_adj_est, bias_type = input$bt_adj_est)
   })
 
   output$viz_bias_adj_est <- renderPlot({
@@ -235,6 +269,14 @@ server <- function(input, output, session){
 
   output$table_bias_adj_est <- DT::renderDataTable({
     table_adj_est_bias(df = df, num_studies = input$k_adj_est, bias_type = input$bt_adj_est)
+  })
+
+  output$viz_bias_adj_est2 <- renderPlot({
+    viz_adj_est_bias(df = df_sub, num_studies = input$k_adj_est, bias_type = input$bt_adj_est)
+  })
+
+  output$table_bias_adj_est2 <- DT::renderDataTable({
+    table_adj_est_bias(df = df_sub, num_studies = input$k_adj_est, bias_type = input$bt_adj_est)
   })
 
   output$conv_table1 <- DT::renderDataTable({
