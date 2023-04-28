@@ -14,9 +14,9 @@ z_score <- function(df, col){
 save_pets_results <- function(bt, k, d, su, sv, p){
   temp0 <- sprintf("%s", bt)
   temp1 <- sprintf("k_%d",k)
-  temp2 <- sprintf("d%f_su%f_sv%f_%s", d, su, sv, p)
+  temp2 <- sprintf("d%0.2f_su%0.2f_sv%0.2f_%s", d, su, sv, p)
   file_path <- file.path("data",temp0, temp1, temp2, "pets_results.Rdata")
-
+  
   load(file_path)
 
   # Convert to dataframe
