@@ -9,11 +9,18 @@ df_perf <- read.csv("performances.csv")
 
 
 # Identify conditions to remove
+# df1 <- df_conv %>%
+#   filter(pet_smd_perc_non_conv >= 1,
+#            pet_tr_smd_perc_non_conv >= 1,
+#            peese_smd_perc_non_conv >= 1,
+#            peese_tr_smd_perc_non_conv >= 1)
+
 df1 <- df_conv %>%
-  filter(pet_smd_perc_non_conv >= 1 &
-           pet_tr_smd_perc_non_conv >= 1 &
-           peese_smd_perc_non_conv >= 1 &
+  filter(pet_smd_perc_non_conv >= 1 |
+           pet_tr_smd_perc_non_conv >= 1 |
+           peese_smd_perc_non_conv >= 1 |
            peese_tr_smd_perc_non_conv >= 1)
+
 
 
 # Create id

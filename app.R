@@ -71,17 +71,6 @@ ui <- fluidPage(
              )
 
     ),
-    tabPanel("Power - M.Egger - Selec.Pu.",
-             sidebarLayout(sidebarPanel(
-               selectInput("k_pw_me_sp", "Number of studies", c(15, 30, 70)),
-               selectInput("pc_pw_me_sp", "Probability of censoring non-significant results", c(1, 0.8, 0.6, 0.4, 0.2))
-             ),
-             mainPanel(
-               h4("Power of Multilevel Egger's regression test using the selection mechanism in Pustejovsky & Rodgers."),
-               plotOutput("pw_me_sp_plot1"),
-               DT::dataTableOutput("pw_me_sp_table1")
-             ))
-    ),
 
     tabPanel("M.PET-PEESE: PET Int.",
             sidebarLayout(sidebarPanel(
@@ -130,29 +119,41 @@ ui <- fluidPage(
                              h4("All conditions"),
                              plotOutput("viz_bias_adj_est"),
                              DT::dataTableOutput("table_bias_adj_est")
-                           ))),
-
-    tabPanel("M.PET-PEESE - Selec.Pu.",
-             sidebarLayout(
-               sidebarPanel(),
-               mainPanel(
-                 h4("Power Multilevel PET intercept: Conditions with at least 80% in Multilevel Egger's regression test"),
-                 p("Conditions descriptions:"),
-                 p("- Selection mechanims from Pustejovsky & Rodgers (2018)"),
-                 p("- Probability of censoring nonsignificant results: 1"),
-                 p("- Number of studies in meta-analytic dataset: 70"),
-                 p("- Within and between study variance: small"),
-                 p("- Population SMD of 0.5 and all primary studies sample sizes"),
-                 p("- Population SMD of 0.8 and small primary study sample size"),
-                 DT::dataTableOutput("pw_pet_int_table1"),
-
-                 h4("MSE adjusted estimate: Conditions with at least 80% in PET intercept"),
-                 p("Conditions description:"),
-                 p("- Population SMD of 0.5 and primary study sample size medium or large"),
-                 p("- Population SMD of 0.8 and small primary study sample size"),
-                 DT::dataTableOutput("mse_adj_table1")
-
-                )))
+                           )))
+    # ,
+    # tabPanel("Power - M.Egger - Selec.Pu.",
+    #          sidebarLayout(sidebarPanel(
+    #            selectInput("k_pw_me_sp", "Number of studies", c(15, 30, 70)),
+    #            selectInput("pc_pw_me_sp", "Probability of censoring non-significant results", c(1, 0.8, 0.6, 0.4, 0.2))
+    #          ),
+    #          mainPanel(
+    #            h4("Power of Multilevel Egger's regression test using the selection mechanism in Pustejovsky & Rodgers."),
+    #            plotOutput("pw_me_sp_plot1"),
+    #            DT::dataTableOutput("pw_me_sp_table1")
+    #          ))
+    # ),
+    #
+    # tabPanel("M.PET-PEESE - Selec.Pu.",
+    #          sidebarLayout(
+    #            sidebarPanel(),
+    #            mainPanel(
+    #              h4("Power Multilevel PET intercept: Conditions with at least 80% in Multilevel Egger's regression test"),
+    #              p("Conditions descriptions:"),
+    #              p("- Selection mechanims from Pustejovsky & Rodgers (2018)"),
+    #              p("- Probability of censoring nonsignificant results: 1"),
+    #              p("- Number of studies in meta-analytic dataset: 70"),
+    #              p("- Within and between study variance: small"),
+    #              p("- Population SMD of 0.5 and all primary studies sample sizes"),
+    #              p("- Population SMD of 0.8 and small primary study sample size"),
+    #              DT::dataTableOutput("pw_pet_int_table1"),
+    #
+    #              h4("MSE adjusted estimate: Conditions with at least 80% in PET intercept"),
+    #              p("Conditions description:"),
+    #              p("- Population SMD of 0.5 and primary study sample size medium or large"),
+    #              p("- Population SMD of 0.8 and small primary study sample size"),
+    #              DT::dataTableOutput("mse_adj_table1")
+    #
+    #             )))
   )
 )
 
