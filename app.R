@@ -7,6 +7,7 @@ df <- read.csv("performances.csv")
 df_puste <- read.csv("performances_puste.csv")
 df_psss <- read.csv("avg_psss_counts.csv")
 df_conv <- read.csv("convergence.csv")
+df_sub <- read.csv("performances_sub.csv")
 
 ui <- fluidPage(
   titlePanel("Performance Analyzer"),
@@ -36,7 +37,7 @@ ui <- fluidPage(
                selectInput("bt_t1e_me", "Selection Bias Type", c("None"))
              ),
              mainPanel(
-               "Type I error of Multilevel Egger's regression test.",
+               h4("Type I error of Multilevel Egger's regression test."),
                plotOutput("t1e_me_plot1"),
                DT::dataTableOutput("t1e_me_table1")
              ))
@@ -49,7 +50,15 @@ ui <- fluidPage(
                                                                 "PB Strong", "PB Moderate"))
              ),
              mainPanel(
-               "Power of Multilevel Egger's regression test.",
+
+               h4("Power of Multilevel Egger's regression test."),
+               h4("Conditions with less than 1% non-covergence."),
+               plotOutput("pw_me_plot2"),
+               DT::dataTableOutput("pw_me_table2"),
+
+
+               h4("Power of Multilevel Egger's regression test."),
+               h4("All conditions"),
                plotOutput("pw_me_plot1"),
                DT::dataTableOutput("pw_me_table1")
              )
@@ -62,6 +71,7 @@ ui <- fluidPage(
                selectInput("pc_pw_me_sp", "Probability of censoring non-significant results", c(1, 0.8, 0.6, 0.4, 0.2))
              ),
              mainPanel(
+               h4("Power of Multilevel Egger's regression test using the selection mechanism in Pustejovsky & Rodgers."),
                plotOutput("pw_me_sp_plot1"),
                DT::dataTableOutput("pw_me_sp_table1")
              ))
@@ -158,9 +168,18 @@ server <- function(input, output, session){
     viz_rejection_rate(df = df, num_studies = input$k_pw_me, bias_type = input$bt_pw_me)
   })
 
+  output$pw_me_plot2 <- renderPlot({
+    viz_rejection_rate(df = df_sub, num_studies = input$k_pw_me, bias_type = input$bt_pw_me)
+  })
+
   output$pw_me_table1 <- DT::renderDataTable({
     table_rejection_rate(df = df, num_studies = input$k_pw_me, bias_type = input$bt_pw_me)
   })
+
+  output$pw_me_table2 <- DT::renderDataTable({
+    table_rejection_rate(df = df_sub, num_studies = input$k_pw_me, bias_type = input$bt_pw_me)
+  })
+
 
   output$pw_me_sp_plot1 <- renderPlot({
     viz_rejection_rate_puste(df = df_puste, num_studies = input$k_pw_me_sp, prob_cens = input$pc_pw_me_sp)
