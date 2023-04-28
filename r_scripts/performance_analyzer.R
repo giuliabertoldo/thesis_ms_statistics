@@ -1,5 +1,5 @@
-source('r_scripts/biased_metas_gen_with_pets.R')
-# debugSource('r_scripts/biased_metas_gen_with_pets.R')
+# source('r_scripts/biased_metas_gen_with_pets.R')
+debugSource('r_scripts/biased_metas_gen_with_pets.R')
 
 source('r_scripts/metas_gen_with_pets.R')
 # debugSource('r_scripts/metas_gen_with_pets.R')

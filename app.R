@@ -84,7 +84,15 @@ ui <- fluidPage(
                                                                "PB Strong", "PB Moderate"))
                           ),
                           mainPanel(
-                            "Rejection rate of intercept in Multilevel PET / Multilevel Egger's regression test",
+
+                            h4("Rejection rate of intercept in Multilevel PET / Multilevel Egger's regression test"),
+                            h4("Conditions with less than 1% non-covergence."),
+                            plotOutput("viz_pet_int2"),
+                            DT::dataTableOutput("table_pet_int2"),
+
+
+                            h4("Rejection rate of intercept in Multilevel PET / Multilevel Egger's regression test"),
+                            h4("All conditions"),
                             plotOutput("viz_pet_int"),
                             DT::dataTableOutput("table_pet_int")
                           ))
@@ -201,8 +209,16 @@ server <- function(input, output, session){
     viz_rr_pet_int(df = df, num_studies = input$k_rr_pet_int, bias_type = input$bt_rr_pet_int)
   })
 
+  output$viz_pet_int2 <- renderPlot({
+    viz_rr_pet_int(df = df_sub, num_studies = input$k_rr_pet_int, bias_type = input$bt_rr_pet_int)
+  })
+
   output$table_pet_int <- DT::renderDataTable({
     table_rr_pet_int(df = df, num_studies = input$k_rr_pet_int, bias_type = input$bt_rr_pet_int)
+  })
+
+  output$table_pet_int2 <- DT::renderDataTable({
+    table_rr_pet_int(df = df_sub, num_studies = input$k_rr_pet_int, bias_type = input$bt_rr_pet_int)
   })
 
   output$viz_rmse_adj_est <- renderPlot({
