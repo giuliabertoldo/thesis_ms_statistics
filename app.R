@@ -6,7 +6,7 @@ source("r_scripts/dataviz_functions_app.R")
 df <- read.csv("performances.csv")
 df_puste <- read.csv("performances_puste.csv")
 df_psss <- read.csv("avg_psss_counts.csv")
-
+df_conv <- read.csv("convergence.csv")
 
 ui <- fluidPage(
   titlePanel("Performance Analyzer"),
@@ -14,19 +14,22 @@ ui <- fluidPage(
 
   tabsetPanel(
     tabPanel("Descriptives",
-             sidebarLayout(sidebarPanel(),
-                           mainPanel(
-                             "Primary studies sample size",
-                             tableOutput("table_ss_check"),
 
-                             "Percentage of outcomes excluded from the original dataset",
-                             tableOutput("table_perc_out_excl"),
-                             plotOutput("hist_perc_out_excl"),
-                             tableOutput("table_perc_out_excluded_by_d"),
-                             plotOutput("viz_hist_perc_excluded_by_d"),
-                             plotOutput("hist_perc_out_excluded_by_psss")
-                           ))
+             h4("Primary studies sample size"),
+             DT::dataTableOutput("table_ss_check"),
+
+             h4("Percentage of outcomes excluded from the original dataset"),
+             DT::dataTableOutput("table_perc_out_excl"),
+             plotOutput("hist_perc_out_excl"),
+             DT::dataTableOutput("table_perc_out_excluded_by_d"),
+             plotOutput("viz_hist_perc_excluded_by_d"),
+             plotOutput("hist_perc_out_excluded_by_psss"),
+
+             h4("Percentage of non-convergence of the four models by condition."),
+             DT::dataTableOutput("conv_table1")
+
     ),
+
     tabPanel("Type I error - M.Egger",
              sidebarLayout(sidebarPanel(
                selectInput("k_t1e_me", "Number of studies", c(15, 30, 70)),
@@ -119,11 +122,11 @@ ui <- fluidPage(
 
 server <- function(input, output, session){
 
-  output$table_ss_check <- renderTable({
+  output$table_ss_check <- DT::renderDataTable({
     table_psss(df = df_psss)
   })
 
-  output$table_perc_out_excl <- renderTable({
+  output$table_perc_out_excl <- DT::renderDataTable({
     table_perc_out_excluded_by_bt(df = df)
   })
 
@@ -131,7 +134,7 @@ server <- function(input, output, session){
     viz_hist_perc_excluded(df = df)
   })
 
-  output$table_perc_out_excluded_by_d <- renderTable({
+  output$table_perc_out_excluded_by_d <- DT::renderDataTable({
     table_perc_out_excluded_by_bt_delta(df = df)
   })
 
@@ -197,6 +200,10 @@ server <- function(input, output, session){
 
   output$table_bias_adj_est <- DT::renderDataTable({
     table_adj_est_bias(df = df, num_studies = input$k_adj_est, bias_type = input$bt_adj_est)
+  })
+
+  output$conv_table1 <- DT::renderDataTable({
+    table_perc_non_conv(df = df_conv)
   })
 }
 

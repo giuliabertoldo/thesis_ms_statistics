@@ -2,7 +2,7 @@ library(tidyverse)
 library(ggplot2)
 library(kableExtra)
 library(DT)
-
+library(stringr)
 df_viz <- function(num_studies, delta_00, psss, sigma2_u, sigma2_v, bias_type){
   df = data.frame()
 
@@ -768,7 +768,6 @@ table_mse_subset<- function(df){
   return(df_out)
 }
 
-
 viz_rr_pet_int <- function(df, num_studies, bias_type){
   # Convert inputs
   if(bias_type == "ORB Strong"){
@@ -1009,3 +1008,63 @@ table_adj_est_bias <- function(df, num_studies, bias_type){
   return(df_out)
 
 }
+
+
+table_perc_non_conv <- function(df){
+
+  # Add readable bias_type
+  df[, 'bt_read'] <- NA
+
+  for (i in 1:dim(df)[1]){
+    if(df$bt[i] == "pb_no_orb_no"){
+      df$bt_read[i] <- "None"
+    } else if(df$bt[i] == "pb_no_orb_str"){
+      df$bt_read[i] <- "ORB Strong"
+    } else if(df$bt[i] == "pb_no_orb_mod"){
+      df$bt_read[i] <- "ORB Moderate"
+    } else if(df$bt[i] == "pb_str_orb_no"){
+      df$bt_read[i] <- "PB Strong"
+    } else if(df$bt[i] == "pb_mod_orb_no"){
+      df$bt_read[i] <- "PB Moderate"
+    }
+  }
+
+  df[, 'su_read'] <- NA
+  df[, 'sv_read'] <- NA
+  for(i in 1:dim(df)[1]){
+    if(df$su[i] == 0.01){
+      df$su_read[i] <- "small"
+      df$sv_read[i] <- "small"
+    } else if(df$su[i] == 0.06){
+      df$su_read[i] <- "medium"
+      df$sv_read[i] <- "medium"
+    } else if(df$su[i] == 0.11){
+      df$su_read[i] <- "large"
+      df$sv_read[i] <- "medium"
+    }
+  }
+
+  # Filter df out to keep only su == sv
+  df1 <- df %>%
+    filter(su == sv) %>%
+    select(bt_read, k , d, su_read, sv_read, p,
+           pet_smd_perc_non_conv, pet_tr_smd_perc_non_conv,
+           peese_smd_perc_non_conv, peese_tr_smd_perc_non_conv)
+
+
+
+  df_out <- datatable(df1,
+                      filter = 'top', options = list(pageLength = 9, autoWidth = TRUE),
+                      colnames = c("Bias type", "k", "Pop. SMD", "Between-study var.", "Within-study var.", "Primary studies n", "M.Egger SMD", "M.Egger Tr.SMD", "M.PEESE SMD", "M.PEESE Tr.SMD" ))
+
+  return(df_out)
+
+
+}
+
+
+# CHECK
+df <- read.csv("convergence.csv")
+
+hist(df$corrected_smd_perc_z3)
+hist(df$corrected_tr_smd_smd_perc_z3)
