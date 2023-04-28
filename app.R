@@ -89,7 +89,8 @@ ui <- fluidPage(
                              plotOutput("viz_rmse_adj_est"),
                              DT::dataTableOutput("table_rmse_adj_est"),
                              h5("Bias Adjusted Estimate"),
-                             plotOutput("viz_bias_adj_est")
+                             plotOutput("viz_bias_adj_est"),
+                             DT::dataTableOutput("table_bias_adj_est")
                            ))),
 
     tabPanel("M.PET-PEESE - Selec.Pu.",
@@ -192,6 +193,10 @@ server <- function(input, output, session){
 
   output$viz_bias_adj_est <- renderPlot({
     viz_adj_est_bias(df = df, num_studies = input$k_adj_est, bias_type = input$bt_adj_est)
+  })
+
+  output$table_bias_adj_est <- DT::renderDataTable({
+    table_adj_est_bias(df = df, num_studies = input$k_adj_est, bias_type = input$bt_adj_est)
   })
 }
 

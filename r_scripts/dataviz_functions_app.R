@@ -768,9 +768,6 @@ table_mse_subset<- function(df){
   return(df_out)
 }
 
-df <- read.csv("performances.csv")
-num_studies = 70
-bias_type = "ORB Strong"
 
 viz_rr_pet_int <- function(df, num_studies, bias_type){
   # Convert inputs
@@ -972,4 +969,43 @@ viz_adj_est_bias <- function(df, num_studies, bias_type){
     theme_bw()
 
   return (viz)
+}
+
+table_adj_est_bias <- function(df, num_studies, bias_type){
+
+  # Convert inputs
+  if(bias_type == "ORB Strong"){
+    bias_type <- "pb_no_orb_str"
+    dataset <- "ORB Strong"
+  } else if (bias_type == "ORB Moderate") {
+    bias_type <- "pb_no_orb_mod"
+    dataset <- "ORB Moderate"
+  } else if (bias_type == "PB Strong"){
+    bias_type <- "pb_str_orb_no"
+    dataset <- "PB Strong"
+  } else if(bias_type == "PB Moderate"){
+    bias_type <- "pb_mod_orb_no"
+    dataset <- "PB Moderate"
+  }
+
+  # Select from dataframe only the observations of interest
+  df1 <- df %>%
+    filter(k == num_studies,
+           bt == bias_type,
+           sigma2_u == sigma2_v)
+
+  df_out <- df1 %>%
+    select(delta_00, psss, sigma2_u_cat, bias_corrected_smd, bias_corrected_st_smd) %>%
+    transmute(populationSMD = delta_00,
+              sampleSize  = psss,
+              heterogeneity = sigma2_u_cat,
+              biasSmd = round(bias_corrected_smd, 3),
+              biasTranSmd = round(bias_corrected_st_smd, 3))
+
+  df_out <- datatable(df_out,
+                      filter = 'top', options = list(pageLength = 9, autoWidth = TRUE),
+                      colnames = c("Population SMD", "n", "Heterogeneity", "Bias SMD", "Bias Transf.SMD" ))
+
+  return(df_out)
+
 }
