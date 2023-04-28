@@ -1,11 +1,11 @@
 # Convert pets_results to dataframe
 
-# Z score 
+# Z score
 z_score <- function(df, col){
   mean_col <- mean(df[, col], na.rm = T)
   sd <- sd(df[, col], na.rm = T)
   z_col_name <- sprintf("z_%s", col)
-  df[, z_col_name] <- NA 
+  df[, z_col_name] <- NA
   df[, z_col_name] <- (df[, col] - mean_col) / sd
   return(df)
 }
@@ -14,29 +14,29 @@ z_score <- function(df, col){
 save_pets_results <- function(bt, k, d, su, sv, p){
   temp0 <- sprintf("%s", bt)
   temp1 <- sprintf("k_%d",k)
-  temp2 <- sprintf("d%0.2f_su%0.2f_sv%0.2f_%s", d, su, sv, p)
+  temp2 <- sprintf("d%f_su%f_sv%f_%s", d, su, sv, p)
   file_path <- file.path("data",temp0, temp1, temp2, "pets_results.Rdata")
-  
+
   load(file_path)
-  
+
   # Convert to dataframe
   df <- as.data.frame(do.call(rbind, pets_results))
-  
-  # Add columns with z scores 
+
+  # Add columns with z scores
   df <- z_score(df, "pet_int")
   df <- z_score(df, "pet_st_int")
   df <- z_score(df, "pet_slope")
   df <- z_score(df, "pet_st_slope")
- 
+
   df <- z_score(df, "peese_int")
   df <- z_score(df, "peese_st_int")
   df <- z_score(df, "peese_slope")
   df <- z_score(df, "peese_st_slope")
-  
+
   df <- z_score(df, "corrected_smd")
   df <- z_score(df, "corrected_st_smd")
-  
-  # Save in: 
+
+  # Save in:
   save_path_bt <- file.path("pet_results", sprintf("%s", bt))
   if (!file.exists(save_path_bt)){
     dir.create(save_path_bt)
