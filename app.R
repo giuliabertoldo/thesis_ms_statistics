@@ -8,6 +8,7 @@ df_puste <- read.csv("performances_puste.csv")
 df_psss <- read.csv("avg_psss_counts.csv")
 df_conv <- read.csv("convergence.csv")
 df_sub <- read.csv("performances_sub.csv")
+df_est_check <- read.csv("estimates_check.csv")
 
 ui <- fluidPage(
   titlePanel("Performance Analyzer"),
@@ -22,12 +23,43 @@ ui <- fluidPage(
              h4("Percentage of outcomes excluded from the original dataset"),
              DT::dataTableOutput("table_perc_out_excl"),
              plotOutput("hist_perc_out_excl"),
-             DT::dataTableOutput("table_perc_out_excluded_by_d"),
+
+             h4("Percentage of outcomes excluded from the original dataset by population SMD"),
              plotOutput("viz_hist_perc_excluded_by_d"),
+             DT::dataTableOutput("table_perc_out_excluded_by_d"),
+
+
+             h4("Percentage of outcomes excluded from the original dataset by primary study sample size"),
              plotOutput("hist_perc_out_excluded_by_psss"),
 
              h4("Percentage of non-convergence of the four models by condition."),
-             DT::dataTableOutput("conv_table1")
+             DT::dataTableOutput("conv_table1"),
+
+             # h4("Estimates size: Standard deviation of the distribution of estimates"),
+             # DT::dataTableOutput("table_est_sd"),
+             #
+             # h4("Estimates size: Maximum of the distribution of estimates magnitude"),
+             # DT::dataTableOutput("table_est_max")
+
+    ),
+
+    tabPanel("Estimates Histogram",
+             sidebarLayout(sidebarPanel(
+
+               selectInput("k_viz_est", "Number of studies", c(15, 30, 70)),
+               selectInput("bt_viz_est", "Selection Bias Type", c("None","ORB Strong", "ORB Moderate",
+                                                                  "PB Strong", "PB Moderate")),
+               selectInput("d_viz_est", "True SMD", c(0, 0.2, 0.5, 0.8)),
+               selectInput("su_sv_viz_est", "Within & Between study variance", c("Small", "Medium", "Large")),
+               selectInput("p_viz_est", "Primary studies sample size", c("Small", "Medium", "Large"))
+             ),
+             mainPanel(
+               h4("Estimates from Multilevel Egger's regression test: SMD vs. Transformed SMD"),
+               plotOutput("viz_estimates_megger"),
+               h4("Estimates from Multilevel PEESE: SMD vs. Transformed SMD"),
+               plotOutput("viz_estimates_peese")
+
+             ))
 
     ),
 
@@ -283,6 +315,23 @@ server <- function(input, output, session){
   output$conv_table1 <- DT::renderDataTable({
     table_perc_non_conv(df = df_conv)
   })
+
+  # output$table_est_sd <- DT::renderDataTable({
+  #   table_estimates_check_sd(df = df_est_check)
+  # })
+  #
+  # output$table_est_max <- DT::renderDataTable({
+  #   table_estimates_check_max(df = df_est_check)
+  # })
+
+  output$viz_estimates_megger <- renderPlot({
+    viz_hist_estimates_megger(bt = input$bt_viz_est, k = input$k_viz_est, d = input$d_viz_est, su_sv = input$su_sv_viz_est, p = input$p_viz_est)
+  })
+
+  output$viz_estimates_peese <- renderPlot({
+    viz_hist_estimates_peese(bt = input$bt_viz_est, k = input$k_viz_est, d = input$d_viz_est, su_sv = input$su_sv_viz_est, p = input$p_viz_est)
+  })
+
 }
 
 shinyApp(ui, server)

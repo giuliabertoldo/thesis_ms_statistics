@@ -38,10 +38,9 @@ for(bt in bias_type){
 
             file_path <- file.path("pet_results",temp0, temp1, temp2)
 
-            df <- read.csv(file_path)
 
             df_out[i, "index"] <- i
-            
+
             df_out[i, "bt"] <- bt
 
             df_out[i, "k"] <- k
@@ -53,103 +52,83 @@ for(bt in bias_type){
             df_out[i, "sv"] <- sv
 
             df_out[i, "p"] <- p
-            
+
             df_out[i, "id"] <- sprintf("%s_k_%g_d%0.02f_su%0.02f_sv%0.02f_%s", bt, k, d, su, sv, p)
 
-            # SD
-            
-            df_out[i,"pet_int_sd"] <-  sd(df$pet_int, na.rm = T)
-            df_out[i,"pet_slope_sd"] <-  sd(df$pet_slope, na.rm = T)
-            
-            df_out[i,"pet_st_int_sd"] <-  sd(df$pet_st_int, na.rm = T)
-            df_out[i,"pet_st_slope_sd"] <-  sd(df$pet_st_slope, na.rm = T)
-            
-            df_out[i,"pet_st_conv_int_sd"] <-  convert_h_to_d(h = df_out[i,"pet_st_int_sd"], mean(df$avg_n_e, na.rm = T), mean(df$avg_n_c, na.rm = T))
-            df_out[i,"pet_st_conv_slope_sd"] <-  convert_h_to_d(h = df_out[i,"pet_st_slope_sd"], mean(df$avg_n_e, na.rm = T), mean(df$avg_n_c, na.rm = T))
-            
-            df_out[i,"peese_int_sd"] <-  sd(df$peese_int, na.rm = T)
-            df_out[i,"peese_slope_sd"] <-  sd(df$peese_slope, na.rm = T)
-            
-            df_out[i,"peese_st_int_sd"] <-  sd(df$peese_st_int, na.rm = T)
-            df_out[i,"peese_st_slope_sd"] <-  sd(df$peese_st_slope, na.rm = T)
-            df_out[i,"peese_st_conv_int_sd"] <-  convert_h_to_d(h = df_out[i,"peese_st_int_sd"], mean(df$avg_n_e, na.rm = T), mean(df$avg_n_c, na.rm = T))
-            df_out[i,"peese_st_conv_slope_sd"] <-  convert_h_to_d(h = df_out[i,"peese_st_slope_sd"], mean(df$avg_n_e, na.rm = T), mean(df$avg_n_c, na.rm = T))
-            
-            
-            # MEAN
+
             df_out[i,"pet_int_avg"] <-  mean(df$pet_int, na.rm = T)
             df_out[i,"pet_slope_avg"] <-  mean(df$pet_slope, na.rm = T)
 
             df_out[i,"pet_st_int_avg"] <-  mean(df$pet_st_int, na.rm = T)
             df_out[i,"pet_st_slope_avg"] <-  mean(df$pet_st_slope, na.rm = T)
-            
+
             df_out[i,"pet_st_conv_int_avg"] <-  convert_h_to_d(h = df_out[i,"pet_st_int_avg"], mean(df$avg_n_e, na.rm = T), mean(df$avg_n_c, na.rm = T))
             df_out[i,"pet_st_conv_slope_avg"] <-  convert_h_to_d(h = df_out[i,"pet_st_slope_avg"], mean(df$avg_n_e, na.rm = T), mean(df$avg_n_c, na.rm = T))
-            
+
             df_out[i,"peese_int_avg"] <-  mean(df$peese_int, na.rm = T)
             df_out[i,"peese_slope_avg"] <-  mean(df$peese_slope, na.rm = T)
-            
+
             df_out[i,"peese_st_int_avg"] <-  mean(df$peese_st_int, na.rm = T)
             df_out[i,"peese_st_slope_avg"] <-  mean(df$peese_st_slope, na.rm = T)
             df_out[i,"peese_st_conv_int_avg"] <-  convert_h_to_d(h = df_out[i,"peese_st_int_avg"], mean(df$avg_n_e, na.rm = T), mean(df$avg_n_c, na.rm = T))
             df_out[i,"peese_st_conv_slope_avg"] <-  convert_h_to_d(h = df_out[i,"peese_st_slope_avg"], mean(df$avg_n_e, na.rm = T), mean(df$avg_n_c, na.rm = T))
-            
-            
+
+
             df_out[i,"pet_int_max"] <-  max(df$pet_int, na.rm = T)
             df_out[i,"pet_slope_max"] <-  max(df$pet_slope, na.rm = T)
-            
+
             df_out[i,"pet_st_int_max"] <-  max(df$pet_st_int, na.rm = T)
             df_out[i,"pet_st_slope_max"] <-  max(df$pet_st_slope, na.rm = T)
-            
+
             df_out[i,"pet_st_conv_int_max"] <-  convert_h_to_d(h = df_out[i,"pet_st_int_max"], mean(df$avg_n_e, na.rm = T), mean(df$avg_n_c, na.rm = T))
             df_out[i,"pet_st_conv_slope_max"] <-  convert_h_to_d(h = df_out[i,"pet_st_slope_max"], mean(df$avg_n_e, na.rm = T), mean(df$avg_n_c, na.rm = T))
-            
+
             df_out[i,"peese_int_max"] <-  max(df$peese_int, na.rm = T)
             df_out[i,"peese_slope_max"] <-  max(df$peese_slope, na.rm = T)
-            
+
             df_out[i,"peese_st_int_max"] <-  max(df$peese_st_int, na.rm = T)
             df_out[i,"peese_st_slope_max"] <-  max(df$peese_st_slope, na.rm = T)
             df_out[i,"peese_st_conv_int_max"] <-  convert_h_to_d(h = df_out[i,"peese_st_int_max"], mean(df$avg_n_e, na.rm = T), mean(df$avg_n_c, na.rm = T))
             df_out[i,"peese_st_conv_slope_max"] <-  convert_h_to_d(h = df_out[i,"peese_st_slope_max"], mean(df$avg_n_e, na.rm = T), mean(df$avg_n_c, na.rm = T))
-            
-            
-            # ABSOLUTE VALUE 
-            
+
+
+            # ABSOLUTE VALUE
+
             df_out[i,"abs_pet_int_avg"] <-  mean(abs(df$pet_int), na.rm = T)
             df_out[i,"abs_pet_slope_avg"] <-  mean(abs(df$pet_slope), na.rm = T)
-            
+
             df_out[i,"abs_pet_st_int_avg"] <-  mean(abs(df$pet_st_int), na.rm = T)
             df_out[i,"abs_pet_st_slope_avg"] <-  mean(abs(df$pet_st_slope), na.rm = T)
-            
+
             df_out[i,"abs_pet_st_conv_int_avg"] <-  convert_h_to_d(h = df_out[i,"abs_pet_st_int_avg"] , mean(df$avg_n_e, na.rm = T), mean(df$avg_n_c, na.rm = T))
             df_out[i,"abs_pet_st_conv_slope_avg"] <-  convert_h_to_d(h = df_out[i,"abs_pet_st_slope_avg"], mean(df$avg_n_e, na.rm = T), mean(df$avg_n_c, na.rm = T))
-            
+
             df_out[i,"abs_peese_int_avg"] <-  mean(abs(df$peese_int), na.rm = T)
             df_out[i,"abs_peese_slope_avg"] <-  mean(abs(df$peese_slope), na.rm = T)
-            
+
             df_out[i,"abs_peese_st_int_avg"] <-  mean(abs(df$peese_st_int), na.rm = T)
             df_out[i,"abs_peese_st_slope_avg"] <-  mean(abs(df$peese_st_slope), na.rm = T)
             df_out[i,"abs_peese_st_conv_int_avg"] <-  convert_h_to_d(h = df_out[i,"abs_peese_st_int_avg"] , mean(df$avg_n_e, na.rm = T), mean(df$avg_n_c, na.rm = T))
             df_out[i,"abs_peese_st_conv_slope_avg"] <-  convert_h_to_d(h = df_out[i,"abs_peese_st_slope_avg"], mean(df$avg_n_e, na.rm = T), mean(df$avg_n_c, na.rm = T))
-            
-            
+
+
             df_out[i,"abs_pet_int_max"] <-  max(abs(df$pet_int), na.rm = T)
             df_out[i,"abs_pet_slope_max"] <-  max(abs(df$pet_slope), na.rm = T)
-            
+
             df_out[i,"abs_pet_st_int_max"] <-  max(abs(df$pet_st_int), na.rm = T)
             df_out[i,"abs_pet_st_slope_max"] <-  max(abs(df$pet_st_slope), na.rm = T)
-            
+
             df_out[i,"abs_pet_st_conv_int_max"] <-  convert_h_to_d(h = df_out[i,"abs_pet_st_int_max"], mean(df$avg_n_e, na.rm = T), mean(df$avg_n_c, na.rm = T))
             df_out[i,"abs_pet_st_conv_slope_max"] <-  convert_h_to_d(h = df_out[i,"abs_pet_st_slope_max"], mean(df$avg_n_e, na.rm = T), mean(df$avg_n_c, na.rm = T))
-            
+
             df_out[i,"abs_peese_int_max"] <-  max(abs(df$peese_int), na.rm = T)
             df_out[i,"abs_peese_slope_max"] <-  max(abs(df$peese_slope), na.rm = T)
-            
+
             df_out[i,"abs_peese_st_int_max"] <-  max(abs(df$peese_st_int), na.rm = T)
             df_out[i,"abs_peese_st_slope_max"] <-  max(abs(df$peese_st_slope), na.rm = T)
             df_out[i,"abs_peese_st_conv_int_max"] <-  convert_h_to_d(h = df_out[i,"abs_peese_st_int_max"], mean(df$avg_n_e, na.rm = T), mean(df$avg_n_c, na.rm = T))
             df_out[i,"abs_peese_st_conv_slope_max"] <-  convert_h_to_d(h = df_out[i,"abs_peese_st_slope_max"], mean(df$avg_n_e, na.rm = T), mean(df$avg_n_c, na.rm = T))
-            
+
           }
         }
       }
@@ -160,3 +139,7 @@ for(bt in bias_type){
 write.csv(df_out, "estimates_check.csv", row.names = F)
 end.time <- Sys.time()
 (time.taken <- end.time - start.time)
+
+
+
+

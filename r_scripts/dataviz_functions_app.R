@@ -3,6 +3,7 @@ library(ggplot2)
 library(kableExtra)
 library(DT)
 library(stringr)
+library(ggpubr)
 df_viz <- function(num_studies, delta_00, psss, sigma2_u, sigma2_v, bias_type){
   df = data.frame()
 
@@ -143,7 +144,6 @@ table_psss <- function(df){
   return(table_out)
 
 }
-
 
 table_perc_out_excluded_by_bt <- function(df){
 
@@ -1009,7 +1009,6 @@ table_adj_est_bias <- function(df, num_studies, bias_type){
 
 }
 
-
 table_perc_non_conv <- function(df){
 
   # Add readable bias_type
@@ -1062,9 +1061,267 @@ table_perc_non_conv <- function(df){
 
 }
 
+table_estimates_check_sd <- function(df){
 
-# CHECK
-df <- read.csv("convergence.csv")
+  # Add readable bias_type
+  df[, 'bt_read'] <- NA
 
-hist(df$corrected_smd_perc_z3)
-hist(df$corrected_tr_smd_smd_perc_z3)
+  for (i in 1:dim(df)[1]){
+    if(df$bt[i] == "pb_no_orb_no"){
+      df$bt_read[i] <- "None"
+    } else if(df$bt[i] == "pb_no_orb_str"){
+      df$bt_read[i] <- "ORB Strong"
+    } else if(df$bt[i] == "pb_no_orb_mod"){
+      df$bt_read[i] <- "ORB Moderate"
+    } else if(df$bt[i] == "pb_str_orb_no"){
+      df$bt_read[i] <- "PB Strong"
+    } else if(df$bt[i] == "pb_mod_orb_no"){
+      df$bt_read[i] <- "PB Moderate"
+    }
+  }
+
+  df[, 'su_read'] <- NA
+  df[, 'sv_read'] <- NA
+  for(i in 1:dim(df)[1]){
+    if(df$su[i] == 0.01){
+      df$su_read[i] <- "small"
+      df$sv_read[i] <- "small"
+    } else if(df$su[i] == 0.06){
+      df$su_read[i] <- "medium"
+      df$sv_read[i] <- "medium"
+    } else if(df$su[i] == 0.11){
+      df$su_read[i] <- "large"
+      df$sv_read[i] <- "medium"
+    }
+  }
+
+  # Filter df out to keep only su == sv
+  df1 <- df %>%
+    filter(su == sv) %>%
+    select(bt_read, k , d, su_read, sv_read, p,
+           pet_int_sd, pet_slope_sd, pet_st_int_sd, pet_st_slope_sd,
+           peese_int_sd, peese_slope_sd, peese_st_int_sd, peese_st_slope_sd) %>%
+    mutate(across(7:14, round, 2))
+
+  df_out <- datatable(df1,
+                      filter = 'top', options = list(pageLength = 9, autoWidth = TRUE),
+                      colnames = c("Bias type", "k", "Pop. SMD", "Between-study var.", "Within-study var.", "Primary studies n", "M.Egger SMD Int.", "M.Egger SMD Slo.", "M.Egger Tr.SMD Int.", "M.Egger Tr.SMD Slo.", "M.PEESE SMD Int.", "M.PEESE SMD Slo.", "M.PEESE Tr.SMD Int.", "M.PEESE Tr.SMD Slo." ))
+
+  return(df_out)
+}
+
+table_estimates_check_max <- function(df){
+
+  # Add readable bias_type
+  df[, 'bt_read'] <- NA
+
+  for (i in 1:dim(df)[1]){
+    if(df$bt[i] == "pb_no_orb_no"){
+      df$bt_read[i] <- "None"
+    } else if(df$bt[i] == "pb_no_orb_str"){
+      df$bt_read[i] <- "ORB Strong"
+    } else if(df$bt[i] == "pb_no_orb_mod"){
+      df$bt_read[i] <- "ORB Moderate"
+    } else if(df$bt[i] == "pb_str_orb_no"){
+      df$bt_read[i] <- "PB Strong"
+    } else if(df$bt[i] == "pb_mod_orb_no"){
+      df$bt_read[i] <- "PB Moderate"
+    }
+  }
+
+  df[, 'su_read'] <- NA
+  df[, 'sv_read'] <- NA
+  for(i in 1:dim(df)[1]){
+    if(df$su[i] == 0.01){
+      df$su_read[i] <- "small"
+      df$sv_read[i] <- "small"
+    } else if(df$su[i] == 0.06){
+      df$su_read[i] <- "medium"
+      df$sv_read[i] <- "medium"
+    } else if(df$su[i] == 0.11){
+      df$su_read[i] <- "large"
+      df$sv_read[i] <- "medium"
+    }
+  }
+
+  # Filter df out to keep only su == sv
+  df1 <- df %>%
+    filter(su == sv) %>%
+    select(bt_read, k , d, su_read, sv_read, p,
+           abs_pet_int_max, abs_pet_slope_max, abs_pet_st_int_max, abs_pet_st_slope_max,
+           abs_peese_int_max, abs_peese_slope_max, abs_peese_st_int_max, abs_peese_st_slope_max) %>%
+    mutate(across(7:14, round, 2))
+
+  df_out <- datatable(df1,
+                      filter = 'top', options = list(pageLength = 9, autoWidth = TRUE),
+                      colnames = c("Bias type", "k", "Pop. SMD", "Between-study var.", "Within-study var.", "Primary studies n", "M.Egger SMD Int.", "M.Egger SMD Slo.", "M.Egger Tr.SMD Int.", "M.Egger Tr.SMD Slo.", "M.PEESE SMD Int.", "M.PEESE SMD Slo.", "M.PEESE Tr.SMD Int.", "M.PEESE Tr.SMD Slo." ))
+
+  return(df_out)
+}
+
+
+bt = "ORB Strong"
+k = 15
+d = 0
+su_sv ="Small"
+p = "small"
+
+viz_hist_estimates_megger <- function(bt, k, d, su_sv, p){
+
+  k <- as.numeric(k)
+
+  d <- as.numeric(d)
+
+  # Convert input
+  if(bt == "None"){
+    bt = "pb_no_orb_no"
+  } else if(bt =="ORB Strong"){
+    bt = "pb_no_orb_str"
+  } else if(bt == "ORB Moderate"){
+    bt = "pb_no_orb_mod"
+  } else if(bt == "PB Strong"){
+    bt = "pb_str_orb_no"
+  } else if(bt == "PB Moderate"){
+    bt = "pb_mod_orb_no"
+  }
+
+  if(su_sv == "Small"){
+    su_sv = 0.01
+  } else if(su_sv == "Medium"){
+    su_sv = 0.06
+  } else if(su_sv == "Large"){
+    su_sv = 0.11
+  }
+
+  su_sv <- as.numeric(su_sv)
+
+  if(p == "Small"){
+    p = "small"
+  } else if(p == "Medium"){
+    p = "medium"
+  } else if(p == "Large"){
+    p = "large"
+  }
+
+  temp0 <- sprintf("%s", bt)
+  temp1 <- sprintf("k_%g",k)
+  temp2 <- sprintf("pet_results_d%g_su%g_sv%g_%s.csv", d, su_sv, su_sv, p)
+  path <- file.path("pet_results",temp0, temp1, temp2)
+
+  df <- read.csv(path)
+
+  megger_int_smd <- ggplot(df) +
+    geom_histogram(aes(x=pet_int)) +
+    labs(y = "Count",
+         x = "Intercept, SMD") +
+    theme_bw()
+
+  megger_slope_smd <- ggplot(df) +
+    geom_histogram(aes(x=pet_slope)) +
+    labs(y = "Count",
+         x = "Slope, SMD") +
+    theme_bw()
+
+  megger_int_tr_smd <- ggplot(df) +
+    geom_histogram(aes(x=pet_st_int)) +
+    labs(y = "Count",
+         x = "Intercept, Transformed SMD ") +
+    theme_bw()
+
+  megger_slope_tr_smd <- ggplot(df) +
+    geom_histogram(aes(x=pet_st_slope)) +
+    labs(y = "Count",
+         x = "Slope, Transformed SMD") +
+    theme_bw()
+
+
+
+  figure <- ggarrange(megger_int_smd, megger_slope_smd,
+                      megger_int_tr_smd, megger_slope_tr_smd,
+                      labels = c("A", "B", "C", "D"),
+                      ncol = 2, nrow = 2)
+
+  return(figure)
+
+}
+
+viz_hist_estimates_peese<- function(bt, k, d, su_sv, p){
+
+  k <- as.numeric(k)
+
+  d <- as.numeric(d)
+
+  # Convert input
+  if(bt == "None"){
+    bt = "pb_no_orb_no"
+  } else if(bt =="ORB Strong"){
+    bt = "pb_no_orb_str"
+  } else if(bt == "ORB Moderate"){
+    bt = "pb_no_orb_mod"
+  } else if(bt == "PB Strong"){
+    bt = "pb_str_orb_no"
+  } else if(bt == "PB Moderate"){
+    bt = "pb_mod_orb_no"
+  }
+
+  if(su_sv == "Small"){
+    su_sv = 0.01
+  } else if(su_sv == "Medium"){
+    su_sv = 0.06
+  } else if(su_sv == "Large"){
+    su_sv = 0.11
+  }
+
+  su_sv <- as.numeric(su_sv)
+
+  if(p == "Small"){
+    p = "small"
+  } else if(p == "Medium"){
+    p = "medium"
+  } else if(p == "Large"){
+    p = "large"
+  }
+
+  temp0 <- sprintf("%s", bt)
+  temp1 <- sprintf("k_%g",k)
+  temp2 <- sprintf("pet_results_d%g_su%s_sv%s_%s.csv", d, su_sv, su_sv, p)
+  path <- file.path("pet_results",temp0, temp1, temp2)
+
+  df <- read.csv(path)
+
+  peese_int_smd <- ggplot(df) +
+    geom_histogram(aes(x=peese_int)) +
+    labs(y = "Count",
+         x = "Intercept, SMD") +
+    theme_bw()
+
+   peese_slope_smd <- ggplot(df) +
+    geom_histogram(aes(x=peese_slope)) +
+    labs(y = "Count",
+         x = "Slope, SMD") +
+    theme_bw()
+
+  peese_int_tr_smd <- ggplot(df) +
+    geom_histogram(aes(x=peese_st_int)) +
+    labs(y = "Count",
+         x = "Intercept, Transformed SMD ") +
+    theme_bw()
+
+  peese_slope_tr_smd <- ggplot(df) +
+    geom_histogram(aes(x=peese_st_slope)) +
+    labs(y = "Count",
+         x = "Slope, Transformed SMD") +
+    theme_bw()
+
+
+
+  figure <- ggarrange(peese_int_smd, peese_slope_smd,
+                      peese_int_tr_smd, peese_slope_tr_smd,
+                      labels = c("A", "B", "C", "D"),
+                      ncol = 2, nrow = 2)
+
+  return(figure)
+
+}
+
+
