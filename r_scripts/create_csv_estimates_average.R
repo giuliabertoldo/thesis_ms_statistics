@@ -56,7 +56,27 @@ for(bt in bias_type){
             
             df_out[i, "id"] <- sprintf("%s_k_%g_d%0.02f_su%0.02f_sv%0.02f_%s", bt, k, d, su, sv, p)
 
-
+            # SD
+            
+            df_out[i,"pet_int_sd"] <-  sd(df$pet_int, na.rm = T)
+            df_out[i,"pet_slope_sd"] <-  sd(df$pet_slope, na.rm = T)
+            
+            df_out[i,"pet_st_int_sd"] <-  sd(df$pet_st_int, na.rm = T)
+            df_out[i,"pet_st_slope_sd"] <-  sd(df$pet_st_slope, na.rm = T)
+            
+            df_out[i,"pet_st_conv_int_sd"] <-  convert_h_to_d(h = df_out[i,"pet_st_int_sd"], mean(df$avg_n_e, na.rm = T), mean(df$avg_n_c, na.rm = T))
+            df_out[i,"pet_st_conv_slope_sd"] <-  convert_h_to_d(h = df_out[i,"pet_st_slope_sd"], mean(df$avg_n_e, na.rm = T), mean(df$avg_n_c, na.rm = T))
+            
+            df_out[i,"peese_int_sd"] <-  sd(df$peese_int, na.rm = T)
+            df_out[i,"peese_slope_sd"] <-  sd(df$peese_slope, na.rm = T)
+            
+            df_out[i,"peese_st_int_sd"] <-  sd(df$peese_st_int, na.rm = T)
+            df_out[i,"peese_st_slope_sd"] <-  sd(df$peese_st_slope, na.rm = T)
+            df_out[i,"peese_st_conv_int_sd"] <-  convert_h_to_d(h = df_out[i,"peese_st_int_sd"], mean(df$avg_n_e, na.rm = T), mean(df$avg_n_c, na.rm = T))
+            df_out[i,"peese_st_conv_slope_sd"] <-  convert_h_to_d(h = df_out[i,"peese_st_slope_sd"], mean(df$avg_n_e, na.rm = T), mean(df$avg_n_c, na.rm = T))
+            
+            
+            # MEAN
             df_out[i,"pet_int_avg"] <-  mean(df$pet_int, na.rm = T)
             df_out[i,"pet_slope_avg"] <-  mean(df$pet_slope, na.rm = T)
 
