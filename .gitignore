@@ -19,5 +19,5 @@ dumper
 /slurm_final/mixed_conditions
 /slurm_test
 /conditions_timing
-/data_analysis_csv_old
+/csv_old
 .Rproj.user
