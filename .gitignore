@@ -18,5 +18,5 @@ dumper
 /slurm_counts/mixed_conditions
 /slurm_final/mixed_conditions
 /slurm_test
-conditions.xlsx
+conditions_files.xlsx
 .Rproj.user
