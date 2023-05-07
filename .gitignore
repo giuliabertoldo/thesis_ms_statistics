@@ -12,4 +12,11 @@ dumper
 /cheat_sheets
 /pet_results
 /r_scripts/puste
+/r_scripts/mixed_conditions
+/conditions/mixed_conditions
+/conditions/try
+/slurm_counts/mixed_conditions
+/slurm_final/mixed_conditions
+/slurm_test
+conditions.xlsx
 .Rproj.user
