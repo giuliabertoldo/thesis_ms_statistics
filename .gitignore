@@ -20,4 +20,5 @@ dumper
 /slurm_test
 /conditions_timing
 /csv_old
+/conditions/try_slurm
 .Rproj.user
