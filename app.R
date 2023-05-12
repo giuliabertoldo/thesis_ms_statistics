@@ -10,7 +10,7 @@ df_sub <- read.csv("performances_sub.csv")
 df_est_check <- read.csv("estimates_check.csv")
 
 ui <- fluidPage(
-  titlePanel("Performance Analyzer"),
+  titlePanel("Publication Bias in Meta-analysis of Dependent Standardized Mean Differences"),
   theme = shinythemes::shinytheme('readable'),
 
   tabsetPanel(
