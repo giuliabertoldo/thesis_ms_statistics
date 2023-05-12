@@ -1381,3 +1381,6 @@ table_descriptives <- function(df, bias_type, num_studies, d, su_sv, p){
   return(df2)
 }
 
+table_avg_num_out_stud <- function(df){
+
+}

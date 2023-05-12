@@ -14,36 +14,11 @@ ui <- fluidPage(
   theme = shinythemes::shinytheme('readable'),
 
   tabsetPanel(
+
     tabPanel("Descriptives",
-
-             h4("Primary studies sample size"),
-             DT::dataTableOutput("table_ss_check"),
-
-             h4("Percentage of outcomes excluded from the original dataset"),
-             DT::dataTableOutput("table_perc_out_excl"),
-             plotOutput("hist_perc_out_excl"),
-
-             h4("Percentage of outcomes excluded from the original dataset by population SMD"),
-             plotOutput("viz_hist_perc_excluded_by_d"),
-             DT::dataTableOutput("table_perc_out_excluded_by_d"),
-
-
-             h4("Percentage of outcomes excluded from the original dataset by primary study sample size"),
-             plotOutput("hist_perc_out_excluded_by_psss"),
-
-             h4("Percentage of non-convergence of the four models by condition."),
-             DT::dataTableOutput("conv_table1"),
-
-             # h4("Estimates size: Standard deviation of the distribution of estimates"),
-             # DT::dataTableOutput("table_est_sd"),
-             #
-             # h4("Estimates size: Maximum of the distribution of estimates magnitude"),
-             # DT::dataTableOutput("table_est_max")
-
-    ),
-
-    tabPanel("Condition Descriptives",
              sidebarLayout(sidebarPanel(
+
+               h4("Select condition:"),
 
                selectInput("k_viz_est", "Number of studies", c(15, 30, 70)),
                selectInput("bt_viz_est", "Selection Bias Type", c("None","ORB Strong", "ORB Moderate",
@@ -66,8 +41,37 @@ ui <- fluidPage(
 
     ),
 
-    tabPanel("Type I error - M.Egger",
+    tabPanel("Non-convergence",
+
+             # h4("Primary studies sample size"),
+             # DT::dataTableOutput("table_ss_check"),
+
+             # h4("Percentage of outcomes excluded from the original dataset"),
+             # DT::dataTableOutput("table_perc_out_excl"),
+             # plotOutput("hist_perc_out_excl"),
+
+             # h4("Percentage of outcomes excluded from the original dataset by population SMD"),
+             # plotOutput("viz_hist_perc_excluded_by_d"),
+             # DT::dataTableOutput("table_perc_out_excluded_by_d"),
+
+
+             # h4("Percentage of outcomes excluded from the original dataset by primary study sample size"),
+             # plotOutput("hist_perc_out_excluded_by_psss"),
+
+             h4("Percentage of non-convergence of the four models by condition."),
+             DT::dataTableOutput("conv_table1")
+
+             # h4("Estimates size: Standard deviation of the distribution of estimates"),
+             # DT::dataTableOutput("table_est_sd"),
+             #
+             # h4("Estimates size: Maximum of the distribution of estimates magnitude"),
+             # DT::dataTableOutput("table_est_max")
+
+    ),
+
+    tabPanel("M.Egger: Type I",
              sidebarLayout(sidebarPanel(
+               h4("Select condition:"),
                selectInput("k_t1e_me", "Number of studies", c(15, 30, 70)),
                selectInput("bt_t1e_me", "Selection Bias Type", c("None"))
              ),
@@ -84,8 +88,9 @@ ui <- fluidPage(
              ))
 
     ),
-    tabPanel("Power - M.Egger",
+    tabPanel("M.Egger: Power",
              sidebarLayout(sidebarPanel(
+               h4("Select condition:"),
                selectInput("k_pw_me", "Number of studies", c(15, 30, 70)),
                selectInput("bt_pw_me", "Selection Bias Type", c("ORB Strong", "ORB Moderate",
                                                                 "PB Strong", "PB Moderate"))
@@ -107,8 +112,9 @@ ui <- fluidPage(
 
     ),
 
-    tabPanel("M.PET-PEESE: PET Int.",
+    tabPanel("M.PET-PEESE: Power / Type I",
             sidebarLayout(sidebarPanel(
+                            h4("Select condition:"),
                             selectInput("k_rr_pet_int", "Number of studies", c(15, 30, 70)),
                             selectInput("bt_rr_pet_int", "Selection Bias Type", c("ORB Strong", "ORB Moderate",
                                                                "PB Strong", "PB Moderate"))
@@ -129,8 +135,9 @@ ui <- fluidPage(
 
     ),
 
-    tabPanel("M.PET-PEESE: Adj. Estim.",
+    tabPanel("M.PET-PEESE: Bias / RMSE",
              sidebarLayout(sidebarPanel(
+                            h4("Select condition:"),
                              selectInput("k_adj_est", "Number of studies", c(15, 30, 70)),
                              selectInput("bt_adj_est", "Selection Bias Type", c("ORB Strong", "ORB Moderate",
                                                                      "PB Strong", "PB Moderate"))
@@ -194,29 +201,29 @@ ui <- fluidPage(
 
 server <- function(input, output, session){
 
-  output$table_ss_check <- DT::renderDataTable({
-    table_psss(df = df_psss)
-  })
+  # output$table_ss_check <- DT::renderDataTable({
+  #   table_psss(df = df_psss)
+  # })
 
-  output$table_perc_out_excl <- DT::renderDataTable({
-    table_perc_out_excluded_by_bt(df = df)
-  })
+  # output$table_perc_out_excl <- DT::renderDataTable({
+  #   table_perc_out_excluded_by_bt(df = df)
+  # })
 
-  output$hist_perc_out_excl <- renderPlot({
-    viz_hist_perc_excluded(df = df)
-  })
+  # output$hist_perc_out_excl <- renderPlot({
+  #   viz_hist_perc_excluded(df = df)
+  # })
 
-  output$table_perc_out_excluded_by_d <- DT::renderDataTable({
-    table_perc_out_excluded_by_bt_delta(df = df)
-  })
+  # output$table_perc_out_excluded_by_d <- DT::renderDataTable({
+  #   table_perc_out_excluded_by_bt_delta(df = df)
+  # })
 
-  output$viz_hist_perc_excluded_by_d <- renderPlot({
-    viz_hist_perc_excluded_by_d(df = df)
-  })
+  # output$viz_hist_perc_excluded_by_d <- renderPlot({
+  #   viz_hist_perc_excluded_by_d(df = df)
+  # })
 
-  output$hist_perc_out_excluded_by_psss <- renderPlot({
-    viz_hist_perc_excluded_by_psss(df = df)
-  })
+  # output$hist_perc_out_excluded_by_psss <- renderPlot({
+  #   viz_hist_perc_excluded_by_psss(df = df)
+  # })
 
   output$t1e_me_plot1 <- renderPlot({
     viz_rejection_rate(df = df, num_studies = input$k_t1e_me, bias_type = input$bt_t1e_me)
@@ -338,6 +345,7 @@ server <- function(input, output, session){
   output$descriptives_table <- renderTable({
     table_descriptives(df = df, bias_type = input$bt_viz_est, num_studies = input$k_viz_est, d = input$d_viz_est, su_sv = input$su_sv_viz_est, p = input$p_viz_est)
   })
+
 
 }
 
