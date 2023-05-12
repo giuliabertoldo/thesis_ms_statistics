@@ -58,8 +58,12 @@ ui <- fluidPage(
              # h4("Percentage of outcomes excluded from the original dataset by primary study sample size"),
              # plotOutput("hist_perc_out_excluded_by_psss"),
 
-             h4("Percentage of non-convergence of the four models by condition."),
+             br(),
+             h4("Percentage of non-convergence of the four models by condition"),
+             br(),
              DT::dataTableOutput("conv_table1")
+
+
 
              # h4("Estimates size: Standard deviation of the distribution of estimates"),
              # DT::dataTableOutput("table_est_sd"),
@@ -76,14 +80,18 @@ ui <- fluidPage(
                selectInput("bt_t1e_me", "Selection Bias Type", c("None"))
              ),
              mainPanel(
-               h4("Type I error of Multilevel Egger's regression test."),
-               h4("Conditions with less than 1% non-covergence."),
+               br(),
+               h4("Type I error of Multilevel Egger's regression test"),
+               h5("Conditions with less than 1% non-covergence"),
                plotOutput("t1e_me_plot2"),
+               br(),
                DT::dataTableOutput("t1e_me_table2"),
+               br(),
 
-               h4("Type I error of Multilevel Egger's regression test."),
-               h4("All conditions"),
+               h4("Type I error of Multilevel Egger's regression test"),
+               h5("All conditions"),
                plotOutput("t1e_me_plot1"),
+               br(),
                DT::dataTableOutput("t1e_me_table1")
              ))
 
@@ -96,16 +104,19 @@ ui <- fluidPage(
                                                                 "PB Strong", "PB Moderate"))
              ),
              mainPanel(
-
-               h4("Power of Multilevel Egger's regression test."),
-               h4("Conditions with less than 1% non-covergence."),
+              br(),
+               h4("Power of Multilevel Egger's regression test"),
+               h5("Conditions with less than 1% non-covergence"),
                plotOutput("pw_me_plot2"),
+              br(),
                DT::dataTableOutput("pw_me_table2"),
+              br(),
 
 
-               h4("Power of Multilevel Egger's regression test."),
-               h4("All conditions"),
+               h4("Power of Multilevel Egger's regression test"),
+               h5("All conditions"),
                plotOutput("pw_me_plot1"),
+              br(),
                DT::dataTableOutput("pw_me_table1")
              )
              )
@@ -120,16 +131,19 @@ ui <- fluidPage(
                                                                "PB Strong", "PB Moderate"))
                           ),
                           mainPanel(
-
+                            br(),
                             h4("Rejection rate of intercept in Multilevel PET / Multilevel Egger's regression test"),
-                            h4("Conditions with less than 1% non-covergence."),
+                            h5("Conditions with less than 1% non-covergence"),
                             plotOutput("viz_pet_int2"),
+                            br(),
                             DT::dataTableOutput("table_pet_int2"),
+                            br(),
 
 
                             h4("Rejection rate of intercept in Multilevel PET / Multilevel Egger's regression test"),
-                            h4("All conditions"),
+                            h5("All conditions"),
                             plotOutput("viz_pet_int"),
+                            br(),
                             DT::dataTableOutput("table_pet_int")
                           ))
 
@@ -143,23 +157,30 @@ ui <- fluidPage(
                                                                      "PB Strong", "PB Moderate"))
                           ),
                            mainPanel(
-
+                             br(),
                              h4("RMSE Adjusted Estimate"),
-                             h4("Conditions with less than 1% non-covergence."),
+                             h5("Conditions with less than 1% non-covergence."),
                              plotOutput("viz_rmse_adj_est2"),
+                             br(),
                              DT::dataTableOutput("table_rmse_adj_est2"),
+                             br(),
                              h4("Bias Adjusted Estimate"),
-                             h4("Conditions with less than 1% non-covergence."),
+                             h5("Conditions with less than 1% non-covergence."),
                              plotOutput("viz_bias_adj_est2"),
+                             br(),
                              DT::dataTableOutput("table_bias_adj_est2"),
+                             br(),
 
                              h4("RMSE Adjusted Estimate"),
-                             h4("All conditions"),
+                             h5("All conditions"),
                              plotOutput("viz_rmse_adj_est"),
+                             br(),
                              DT::dataTableOutput("table_rmse_adj_est"),
+                             br(),
                              h4("Bias Adjusted Estimate"),
-                             h4("All conditions"),
+                             h5("All conditions"),
                              plotOutput("viz_bias_adj_est"),
+                             br(),
                              DT::dataTableOutput("table_bias_adj_est")
                            )))
     # ,
