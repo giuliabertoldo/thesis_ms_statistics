@@ -1325,3 +1325,59 @@ viz_hist_estimates_peese<- function(bt, k, d, su_sv, p){
 }
 
 
+table_descriptives <- function(df, bias_type, num_studies, d, su_sv, p){
+
+  num_studies <- as.numeric(num_studies)
+
+  d <- as.numeric(d)
+
+  # Convert input
+  if(bias_type == "None"){
+    bias_type = "pb_no_orb_no"
+  } else if(bias_type =="ORB Strong"){
+    bias_type = "pb_no_orb_str"
+  } else if(bias_type == "ORB Moderate"){
+    bias_type = "pb_no_orb_mod"
+  } else if(bias_type == "PB Strong"){
+    bias_type = "pb_str_orb_no"
+  } else if(bias_type == "PB Moderate"){
+    bias_type = "pb_mod_orb_no"
+  }
+
+  if(su_sv == "Small"){
+    su_sv = 0.01
+  } else if(su_sv == "Medium"){
+    su_sv = 0.06
+  } else if(su_sv == "Large"){
+    su_sv = 0.11
+  }
+
+  su_sv <- as.numeric(su_sv)
+
+  if(p == "Small"){
+    p = "small"
+  } else if(p == "Medium"){
+    p = "medium"
+  } else if(p == "Large"){
+    p = "large"
+  }
+
+  df2 <- df %>%
+    filter(bt == bias_type,
+           k == num_studies,
+           delta_00 == d,
+           sigma2_u == su_sv,
+           sigma2_v == su_sv,
+           psss == p) %>%
+    select(avg_num_study_selected,
+           avg_num_out_selected,
+           avg_perc_out_excluded) %>%
+    transmute(avgNumberStudies = round(avg_num_study_selected),
+              avgNumberOutcomes = round(avg_num_out_selected),
+              avgPercentExcluded = round(avg_perc_out_excluded))
+
+
+
+  return(df2)
+}
+

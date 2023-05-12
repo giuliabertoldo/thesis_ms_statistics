@@ -42,7 +42,7 @@ ui <- fluidPage(
 
     ),
 
-    tabPanel("Estimates Histogram",
+    tabPanel("Condition Descriptives",
              sidebarLayout(sidebarPanel(
 
                selectInput("k_viz_est", "Number of studies", c(15, 30, 70)),
@@ -53,8 +53,12 @@ ui <- fluidPage(
                selectInput("p_viz_est", "Primary studies sample size", c("Small", "Medium", "Large"))
              ),
              mainPanel(
-               h4("Estimates from Multilevel Egger's regression test: SMD vs. Transformed SMD"),
+               h4("Descriptives"),
+               tableOutput("descriptives_table"),
+               br(),
+               h4("Estimates from Multilevel Egger's Regression Test: SMD vs. Transformed SMD"),
                plotOutput("viz_estimates_megger"),
+               br(),
                h4("Estimates from Multilevel PEESE: SMD vs. Transformed SMD"),
                plotOutput("viz_estimates_peese")
 
@@ -329,6 +333,10 @@ server <- function(input, output, session){
 
   output$viz_estimates_peese <- renderPlot({
     viz_hist_estimates_peese(bt = input$bt_viz_est, k = input$k_viz_est, d = input$d_viz_est, su_sv = input$su_sv_viz_est, p = input$p_viz_est)
+  })
+
+  output$descriptives_table <- renderTable({
+    table_descriptives(df = df, bias_type = input$bt_viz_est, num_studies = input$k_viz_est, d = input$d_viz_est, su_sv = input$su_sv_viz_est, p = input$p_viz_est)
   })
 
 }
