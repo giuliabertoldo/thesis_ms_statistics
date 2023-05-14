@@ -40,3 +40,11 @@ ggsave(file="figures/fig_3_5.png", plot=fig_3_5, width=10, height=8)
 fig_3_6 <- viz_adj_est_rmse(df = df_sub, num_studies = 70, bias_type = "ORB Strong")
 fig_3_6
 ggsave(file="figures/fig_3_6.png", plot=fig_3_6, width=10, height=8)
+
+fig_3_7 <- viz_compare_pet_peese_estimate(df = df_sub, num_studies = 70, bias_type = "ORB Strong", smd_stsmd = "SMD")
+fig_3_7
+ggsave(file="figures/fig_3_7.png", plot=fig_3_7, width=10, height=8)
+
+fig_3_8 <- viz_compare_pet_peese_estimate(df = df_sub, num_studies = 70, bias_type = "ORB Strong", smd_stsmd = "Transformed SMD")
+fig_3_8
+ggsave(file="figures/fig_3_8.png", plot=fig_3_8, width=10, height=8)

@@ -1381,7 +1381,6 @@ table_descriptives <- function(df, bias_type, num_studies, d, su_sv, p){
   return(df2)
 }
 
-
 viz_compare_pet_peese_estimate <- function(df, num_studies, bias_type, smd_stsmd){
 
   # Convert inputs

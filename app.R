@@ -201,10 +201,10 @@ ui <- fluidPage(
                              selectInput("k_pet_peese", "Number of studies", c(15, 30, 70)),
                              selectInput("bt_pet_peese", "Selection Bias Type", c("ORB Strong", "ORB Moderate",
                                                                                 "PB Strong", "PB Moderate")),
-                             selectInput("model_smd_smdtr", "Model", c("SMD", "Transformed SMD"))
+                             selectInput("model_smd_smdtr", "Effect Size", c("SMD", "Transformed SMD"))
                           ),
                            mainPanel(
-                             h4("Bias intercept: PET vs. PEESE"),
+                             h4("Bias intercept: Multilevel PET vs. Multilevel PEESE"),
                              h5("Conditions with less than 1% non-covergence."),
                              plotOutput("pet_peese_viz"),
                              br(),
