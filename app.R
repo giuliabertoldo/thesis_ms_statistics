@@ -182,7 +182,32 @@ ui <- fluidPage(
                              plotOutput("viz_rmse_adj_est"),
                              br(),
                              DT::dataTableOutput("table_rmse_adj_est")
-                           )))
+                           ))),
+    tabPanel("Comparison M.PET vs. M.PEESE",
+             sidebarLayout(sidebarPanel(
+                             h4("Select condition:"),
+                             selectInput("k_pet_peese", "Number of studies", c(15, 30, 70)),
+                             selectInput("bt_pet_peese", "Selection Bias Type", c("ORB Strong", "ORB Moderate",
+                                                                                "PB Strong", "PB Moderate")),
+                             selectInput("model_smd_smdtr", "Model", c("SMD", "Transformed SMD"))
+                          ),
+                           mainPanel(
+                             h4("Bias intercept: PET vs. PEESE"),
+                             h5("Conditions with less than 1% non-covergence."),
+                             plotOutput("pet_peese_viz"),
+                             br(),
+                             DT::dataTableOutput("pet_peese_table"),
+                             br(),
+                             h4("Bias intercept: PET vs. PEESE"),
+                             h5("All conditions"),
+                             plotOutput("pet_peese_viz_all"),
+                             br(),
+                             DT::dataTableOutput("pet_peese_table_all"),
+                             br()
+
+                           ))
+
+    )
     # ,
     # tabPanel("Power - M.Egger - Selec.Pu.",
     #          sidebarLayout(sidebarPanel(
@@ -365,6 +390,22 @@ server <- function(input, output, session){
 
   output$descriptives_table <- renderTable({
     table_descriptives(df = df, bias_type = input$bt_viz_est, num_studies = input$k_viz_est, d = input$d_viz_est, su_sv = input$su_sv_viz_est, p = input$p_viz_est)
+  })
+
+  output$pet_peese_viz <- renderPlot({
+    viz_compare_pet_peese_estimate(df = df_sub, num_studies = input$k_pet_peese, bias_type = input$bt_pet_peese, smd_stsmd = input$model_smd_smdtr)
+  })
+
+  output$pet_peese_table <- DT::renderDataTable({
+    table_compare_pet_peese_estimate(df = df_sub, num_studies = input$k_pet_peese, bias_type = input$bt_pet_peese, smd_stsmd = input$model_smd_smdtr)
+  })
+
+  output$pet_peese_viz_all <- renderPlot({
+    viz_compare_pet_peese_estimate(df = df, num_studies = input$k_pet_peese, bias_type = input$bt_pet_peese, smd_stsmd = input$model_smd_smdtr)
+  })
+
+  output$pet_peese_table_all <- DT::renderDataTable({
+    table_compare_pet_peese_estimate(df = df, num_studies = input$k_pet_peese, bias_type = input$bt_pet_peese, smd_stsmd = input$model_smd_smdtr)
   })
 
 
