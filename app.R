@@ -149,7 +149,7 @@ ui <- fluidPage(
 
     ),
 
-    tabPanel("M.PET-PEESE: Bias / RMSE",
+    tabPanel("M.PET-PEESE: Bias",
              sidebarLayout(sidebarPanel(
                             h4("Select condition:"),
                              selectInput("k_adj_est", "Number of studies", c(15, 30, 70)),
@@ -164,26 +164,38 @@ ui <- fluidPage(
                              br(),
                              DT::dataTableOutput("table_bias_adj_est2"),
                              br(),
-                             h4("RMSE Adjusted Estimate"),
-                             h5("Conditions with less than 1% non-covergence."),
-                             plotOutput("viz_rmse_adj_est2"),
-                             br(),
-                             DT::dataTableOutput("table_rmse_adj_est2"),
-                             br(),
 
                              h4("Bias Adjusted Estimate"),
                              h5("All conditions"),
                              plotOutput("viz_bias_adj_est"),
                              br(),
-                             DT::dataTableOutput("table_bias_adj_est"),
-                             br(),
-                             h4("RMSE Adjusted Estimate"),
-                             h5("All conditions"),
-                             plotOutput("viz_rmse_adj_est"),
-                             br(),
-                             DT::dataTableOutput("table_rmse_adj_est")
+                             DT::dataTableOutput("table_bias_adj_est")
                            ))),
-    tabPanel("Comparison M.PET vs. M.PEESE",
+
+    tabPanel("M.PET-PEESE: RMSE",
+             sidebarLayout(sidebarPanel(
+               h4("Select condition:"),
+               selectInput("k_adj_est_rmse", "Number of studies", c(15, 30, 70)),
+               selectInput("bt_adj_est_rmse", "Selection Bias Type", c("ORB Strong", "ORB Moderate",
+                                                                  "PB Strong", "PB Moderate"))
+             ),
+             mainPanel(
+               br(),
+               h4("RMSE Adjusted Estimate"),
+               h5("Conditions with less than 1% non-covergence."),
+               plotOutput("viz_rmse_adj_est2"),
+               br(),
+               DT::dataTableOutput("table_rmse_adj_est2"),
+               br(),
+
+               h4("RMSE Adjusted Estimate"),
+               h5("All conditions"),
+               plotOutput("viz_rmse_adj_est"),
+               br(),
+               DT::dataTableOutput("table_rmse_adj_est")
+             ))),
+
+    tabPanel("Comparison M.PET vs. M.PEESE: Bias",
              sidebarLayout(sidebarPanel(
                              h4("Select condition:"),
                              selectInput("k_pet_peese", "Number of studies", c(15, 30, 70)),
@@ -337,19 +349,19 @@ server <- function(input, output, session){
   })
 
   output$viz_rmse_adj_est <- renderPlot({
-    viz_adj_est_rmse(df = df, num_studies = input$k_adj_est, bias_type = input$bt_adj_est)
+    viz_adj_est_rmse(df = df, num_studies = input$k_adj_est_rmse, bias_type = input$bt_adj_est_rmse)
   })
 
   output$viz_rmse_adj_est2 <- renderPlot({
-    viz_adj_est_rmse(df = df_sub, num_studies = input$k_adj_est, bias_type = input$bt_adj_est)
+    viz_adj_est_rmse(df = df_sub, num_studies = input$k_adj_est_rmse, bias_type = input$bt_adj_est_rmse)
   })
 
   output$table_rmse_adj_est <- DT::renderDataTable({
-    table_adj_est_rmse(df = df, num_studies = input$k_adj_est, bias_type = input$bt_adj_est)
+    table_adj_est_rmse(df = df, num_studies = input$k_adj_est_rmse, bias_type = input$bt_adj_est_rmse)
   })
 
   output$table_rmse_adj_est2 <- DT::renderDataTable({
-    table_adj_est_rmse(df = df_sub, num_studies = input$k_adj_est, bias_type = input$bt_adj_est)
+    table_adj_est_rmse(df = df_sub, num_studies = input$k_adj_est_rmse, bias_type = input$bt_adj_est_rmse)
   })
 
   output$viz_bias_adj_est <- renderPlot({
