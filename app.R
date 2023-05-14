@@ -123,7 +123,7 @@ ui <- fluidPage(
 
     ),
 
-    tabPanel("M.PET-PEESE: Power / Type I",
+    tabPanel("M.PET-PEESE: Type I / Power",
             sidebarLayout(sidebarPanel(
                             h4("Select condition:"),
                             selectInput("k_rr_pet_int", "Number of studies", c(15, 30, 70)),
@@ -158,30 +158,30 @@ ui <- fluidPage(
                           ),
                            mainPanel(
                              br(),
-                             h4("RMSE Adjusted Estimate"),
-                             h5("Conditions with less than 1% non-covergence."),
-                             plotOutput("viz_rmse_adj_est2"),
-                             br(),
-                             DT::dataTableOutput("table_rmse_adj_est2"),
-                             br(),
                              h4("Bias Adjusted Estimate"),
                              h5("Conditions with less than 1% non-covergence."),
                              plotOutput("viz_bias_adj_est2"),
                              br(),
                              DT::dataTableOutput("table_bias_adj_est2"),
                              br(),
-
                              h4("RMSE Adjusted Estimate"),
-                             h5("All conditions"),
-                             plotOutput("viz_rmse_adj_est"),
+                             h5("Conditions with less than 1% non-covergence."),
+                             plotOutput("viz_rmse_adj_est2"),
                              br(),
-                             DT::dataTableOutput("table_rmse_adj_est"),
+                             DT::dataTableOutput("table_rmse_adj_est2"),
                              br(),
+
                              h4("Bias Adjusted Estimate"),
                              h5("All conditions"),
                              plotOutput("viz_bias_adj_est"),
                              br(),
-                             DT::dataTableOutput("table_bias_adj_est")
+                             DT::dataTableOutput("table_bias_adj_est"),
+                             br(),
+                             h4("RMSE Adjusted Estimate"),
+                             h5("All conditions"),
+                             plotOutput("viz_rmse_adj_est"),
+                             br(),
+                             DT::dataTableOutput("table_rmse_adj_est")
                            )))
     # ,
     # tabPanel("Power - M.Egger - Selec.Pu.",
