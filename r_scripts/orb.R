@@ -43,16 +43,6 @@ orb <- function(df, bias_type){
     }
   }
 
-  ## Make sure that there are k studies
-  # for (j in 1:k){
-  #   if (sum(df[df['study_id']==j, 'included'])== 0) {
-  #     # Find the outcome with the highest probability of inclusion
-  #     max_prob_incl <- max(df[df['study_id']==j, 'prob_incl'])
-  #     # Convert the dummy variable "included" from zero to 1
-  #     df[df['prob_incl']== max_prob_incl, 'included'] <- 1
-  #   }
-  # }
-
   ## Create final biased dataset with only included studies
   df_biased <- df[df[,'included']==1,]
 
