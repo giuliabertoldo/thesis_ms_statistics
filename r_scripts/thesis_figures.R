@@ -48,3 +48,36 @@ ggsave(file="figures/fig_3_7.png", plot=fig_3_7, width=10, height=8)
 fig_3_8 <- viz_compare_pet_peese_estimate(df = df_sub, num_studies = 70, bias_type = "ORB Strong", smd_stsmd = "Transformed SMD")
 fig_3_8
 ggsave(file="figures/fig_3_8.png", plot=fig_3_8, width=10, height=8)
+
+# Appendix A
+## Moderate bias
+krom_mod <- function(p){
+  p_inclusion <- exp(-2*p^1.5)
+  return(p_inclusion)
+}
+
+## Strong bias
+krom_strong <- function(p){
+  p_inclusion <- exp(-4*p^1.5)
+  return(p_inclusion)
+}
+
+# Build dataframe
+## P-values
+p_val <- seq(from = 0, to = 1, by = 0.01)
+## Probability of inclusions for the two methods in the two conditions (moderate, strong)
+p_incl_krom_mod <- krom_mod(p_val)
+p_incl_krom_strong <- krom_strong(p_val)
+## Create dataframe
+df <- as.data.frame(cbind(p_val, p_incl_krom_mod, p_incl_krom_strong))
+
+fig_appendix_a <- ggplot(data = df, aes(x = p_val)) +
+  geom_line(aes(y = p_incl_krom_mod, color = "Moderate bias")) +
+  geom_line(aes(y = p_incl_krom_strong, color = "Strong bias")) +
+  labs(y = "Probability of inclusion",
+       x = "P-value",
+       color = "Bias degree") +
+  theme_bw()
+
+fig_appendix_a
+ggsave(file="figures/fig_appendix_a.png", plot=fig_appendix_a, width=6, height=3)
