@@ -1381,6 +1381,31 @@ table_descriptives <- function(df, bias_type, num_studies, d, su_sv, p){
   return(df2)
 }
 
+
+overall_table_descriptives <- function(df){
+
+  # Select from dataframe only the observations of interest
+  df1 <- df %>%
+    filter(sigma2_u == sigma2_v)
+
+  df_out <- df1 %>%
+    select(bt_read, delta_00, psss, sigma2_u_cat, avg_num_study_selected, avg_num_out_selected, avg_perc_out_excluded) %>%
+    transmute(biasType = bt_read,
+              populationSMD = delta_00,
+              sampleSize  = psss,
+              heterogeneity = sigma2_u_cat,
+              avgNumberStudies = round(avg_num_study_selected),
+              avgNumberOutcomes = round(avg_num_out_selected),
+              avgPercentExcluded = round(avg_perc_out_excluded))
+
+    df_out <- datatable(df_out,
+                        filter = 'top', options = list(pageLength = 9, autoWidth = TRUE))
+
+
+  return(df_out)
+
+}
+
 viz_compare_pet_peese_estimate <- function(df, num_studies, bias_type, smd_stsmd){
 
   # Convert inputs

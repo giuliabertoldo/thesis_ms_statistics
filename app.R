@@ -35,7 +35,10 @@ ui <- fluidPage(
                plotOutput("viz_estimates_megger"),
                br(),
                h4("Estimates from Multilevel PEESE: SMD vs. Transformed SMD"),
-               plotOutput("viz_estimates_peese")
+               plotOutput("viz_estimates_peese"),
+               br(),
+               h4("Effective number of outcomes and number of studies for all conditions"),
+               DT::dataTableOutput("overall_table_descr")
 
              ))
 
@@ -43,33 +46,10 @@ ui <- fluidPage(
 
     tabPanel("Non-convergence",
 
-             # h4("Primary studies sample size"),
-             # DT::dataTableOutput("table_ss_check"),
-
-             # h4("Percentage of outcomes excluded from the original dataset"),
-             # DT::dataTableOutput("table_perc_out_excl"),
-             # plotOutput("hist_perc_out_excl"),
-
-             # h4("Percentage of outcomes excluded from the original dataset by population SMD"),
-             # plotOutput("viz_hist_perc_excluded_by_d"),
-             # DT::dataTableOutput("table_perc_out_excluded_by_d"),
-
-
-             # h4("Percentage of outcomes excluded from the original dataset by primary study sample size"),
-             # plotOutput("hist_perc_out_excluded_by_psss"),
-
              br(),
              h4("Percentage of non-convergence of the four models by condition"),
              br(),
              DT::dataTableOutput("conv_table1")
-
-
-
-             # h4("Estimates size: Standard deviation of the distribution of estimates"),
-             # DT::dataTableOutput("table_est_sd"),
-             #
-             # h4("Estimates size: Maximum of the distribution of estimates magnitude"),
-             # DT::dataTableOutput("table_est_max")
 
     ),
 
@@ -220,68 +200,10 @@ ui <- fluidPage(
                            ))
 
     )
-    # ,
-    # tabPanel("Power - M.Egger - Selec.Pu.",
-    #          sidebarLayout(sidebarPanel(
-    #            selectInput("k_pw_me_sp", "Number of studies", c(15, 30, 70)),
-    #            selectInput("pc_pw_me_sp", "Probability of censoring non-significant results", c(1, 0.8, 0.6, 0.4, 0.2))
-    #          ),
-    #          mainPanel(
-    #            h4("Power of Multilevel Egger's regression test using the selection mechanism in Pustejovsky & Rodgers."),
-    #            plotOutput("pw_me_sp_plot1"),
-    #            DT::dataTableOutput("pw_me_sp_table1")
-    #          ))
-    # ),
-    #
-    # tabPanel("M.PET-PEESE - Selec.Pu.",
-    #          sidebarLayout(
-    #            sidebarPanel(),
-    #            mainPanel(
-    #              h4("Power Multilevel PET intercept: Conditions with at least 80% in Multilevel Egger's regression test"),
-    #              p("Conditions descriptions:"),
-    #              p("- Selection mechanims from Pustejovsky & Rodgers (2018)"),
-    #              p("- Probability of censoring nonsignificant results: 1"),
-    #              p("- Number of studies in meta-analytic dataset: 70"),
-    #              p("- Within and between study variance: small"),
-    #              p("- Population SMD of 0.5 and all primary studies sample sizes"),
-    #              p("- Population SMD of 0.8 and small primary study sample size"),
-    #              DT::dataTableOutput("pw_pet_int_table1"),
-    #
-    #              h4("MSE adjusted estimate: Conditions with at least 80% in PET intercept"),
-    #              p("Conditions description:"),
-    #              p("- Population SMD of 0.5 and primary study sample size medium or large"),
-    #              p("- Population SMD of 0.8 and small primary study sample size"),
-    #              DT::dataTableOutput("mse_adj_table1")
-    #
-    #             )))
   )
 )
 
 server <- function(input, output, session){
-
-  # output$table_ss_check <- DT::renderDataTable({
-  #   table_psss(df = df_psss)
-  # })
-
-  # output$table_perc_out_excl <- DT::renderDataTable({
-  #   table_perc_out_excluded_by_bt(df = df)
-  # })
-
-  # output$hist_perc_out_excl <- renderPlot({
-  #   viz_hist_perc_excluded(df = df)
-  # })
-
-  # output$table_perc_out_excluded_by_d <- DT::renderDataTable({
-  #   table_perc_out_excluded_by_bt_delta(df = df)
-  # })
-
-  # output$viz_hist_perc_excluded_by_d <- renderPlot({
-  #   viz_hist_perc_excluded_by_d(df = df)
-  # })
-
-  # output$hist_perc_out_excluded_by_psss <- renderPlot({
-  #   viz_hist_perc_excluded_by_psss(df = df)
-  # })
 
   output$t1e_me_plot1 <- renderPlot({
     viz_rejection_rate(df = df, num_studies = input$k_t1e_me, bias_type = input$bt_t1e_me)
@@ -384,14 +306,6 @@ server <- function(input, output, session){
     table_perc_non_conv(df = df_conv)
   })
 
-  # output$table_est_sd <- DT::renderDataTable({
-  #   table_estimates_check_sd(df = df_est_check)
-  # })
-  #
-  # output$table_est_max <- DT::renderDataTable({
-  #   table_estimates_check_max(df = df_est_check)
-  # })
-
   output$viz_estimates_megger <- renderPlot({
     viz_hist_estimates_megger(bt = input$bt_viz_est, k = input$k_viz_est, d = input$d_viz_est, su_sv = input$su_sv_viz_est, p = input$p_viz_est)
   })
@@ -418,6 +332,10 @@ server <- function(input, output, session){
 
   output$pet_peese_table_all <- DT::renderDataTable({
     table_compare_pet_peese_estimate(df = df, num_studies = input$k_pet_peese, bias_type = input$bt_pet_peese, smd_stsmd = input$model_smd_smdtr)
+  })
+
+  output$overall_table_descr <- DT::renderDataTable({
+    overall_table_descriptives(df = df)
   })
 
 
