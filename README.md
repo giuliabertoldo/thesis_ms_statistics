@@ -1,5 +1,5 @@
 # Publication Bias in Meta-analysis of Dependent Standardized Mean Differences 
-## Evaluation of Three-level Models to Detect and Correct Selection Biases
+## Evaluation of Three-level Techniques to Detect and Correct Selection Biases
 
 The repository contains the code used for the thesis presented in fulfillment of the requirements for the degree of Master of Science in Statistics and Data Science (KU Leuven), Academic Year 2022-2023.
 
